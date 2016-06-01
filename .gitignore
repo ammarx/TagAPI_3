@@ -1,7 +1,6 @@
 dist/
-build/
+build/classes/tagapi_3/*.class
 logs/
-*.class
 MANIFEST
 latest.log
 
