@@ -1,9 +1,9 @@
-*.class
 dist/
-MANIFEST
-latest.log
 build/
 logs/
+*.class
+MANIFEST
+latest.log
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
