@@ -34,7 +34,7 @@ public class Local {
     List versions_json_path_list = new ArrayList(); //gets the path of all json files
     List versions_list = new ArrayList();           //just gets the versions available on the system
     List version_url_list = new ArrayList();        //gets url of all the libraries
-    List version_path_list = new ArrayList();       //%new added... This is for direct paths
+    //List version_path_list = new ArrayList();       //%new added... This is for direct paths
     
     List objects_hash = new ArrayList();            //gets objects hash
     List objects_KEY = new ArrayList();             //gets objects keys
@@ -158,7 +158,7 @@ public class Local {
 
     }
     
-    
+    /* EXP CODE! 
     public void readJson_libraries_downloads_artifact_path(String path) {
 
         JSONParser readMCJSONFiles = new JSONParser();
@@ -183,7 +183,8 @@ public class Local {
         }
 
     }
-
+    */
+    
     //edit this function to add more operating systems
     public void readJson_libraries_downloads_classifiers_natives_X(String path, String natives_OS) {
 
