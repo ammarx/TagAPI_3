@@ -71,8 +71,8 @@ public class TagAPI_3 {
         System.out.print("\n\n");
       
         local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        //new added
+        //local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        //Code removed as this would cause more issues..
         
         
         for (int i = 0; i < local.version_url_list.size(); i++) {
