@@ -78,11 +78,25 @@ public class TagAPI_3 {
       
         local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
         local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        //above this we have added fix for the paths
-        
+        local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        ///************************************************************
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
-            network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+            //problem with this is there is no path in 1.0
+            //use names instead of the paths
+            if (local.version_path_list.isEmpty()) {
+                //this means we can now try to solve the issue using name eg:
+                //"name": "net.java.jinput:jinput-platform:2.0.5"
+                //System.out.println(local.version_name_list.get(i));
+                System.out.println(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+ 
+            } else if (!local.version_path_list.isEmpty()){
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+
+            }
+            
         }
         
         System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)) );
@@ -103,8 +117,11 @@ public class TagAPI_3 {
             
             System.out.println("DOWNLOADING...");
             network.downloadAssetsObjects(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString());
-
+            utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
+            //generate virtual folder as well.
+            
         }
+        
         
         System.out.println("DOWNLOADING MINECRAFT JAR");
         network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse);
