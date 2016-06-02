@@ -82,6 +82,7 @@ public class TagAPI_3 {
         ///************************************************************
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
+            /*
             //problem with this is there is no path in 1.0
             //use names instead of the paths
             if (local.version_path_list.isEmpty()) {
@@ -96,7 +97,16 @@ public class TagAPI_3 {
                 network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
 
             }
-            
+            */
+            try{
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+
+            } catch (Exception ex){
+                System.out.println("Due to: " + ex + " " + local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+ 
+            }
         }
         
         System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)) );
@@ -159,6 +169,7 @@ public class TagAPI_3 {
         String Username = UsernameToUse;
         String MinecraftJar = utils.getMineCraft_Versions_X_X_jar(OperatingSystemToUse, VersionToUse);
         String VersionType = "ammarbless"; 
+        String GameAssets = utils.getMineCraftAssetsVirtualLegacyLocation(OperatingSystemToUse);
         System.out.println("NativesPath: " + NativesDir);
         
         for (int i = 0; i < local.version_path_list.size(); i++) {
@@ -171,7 +182,7 @@ public class TagAPI_3 {
         System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
         
-        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, "4db1fbf430f344498dea7663e108a1d2", "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType);
+        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, "4db1fbf430f344498dea7663e108a1d2", "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets);
         System.out.println("HalfArgument: " + HalfArgument);
         System.out.println("Minecraft.jar: " + MinecraftJar);
         
@@ -180,7 +191,7 @@ public class TagAPI_3 {
         System.out.println("game directory: " + gameDirectory);
         System.out.println("assets root directory: " + AssetsRoot);
         System.out.println("assets Index Id: " + assetsIdexId);
-        
+        System.out.println("assets legacy directory: " + GameAssets);
         System.out.println(local.generateRunnableArguments(NativesDir, FullLibraryArgument, mainClass, HalfArgument));
         
         try{
