@@ -25,7 +25,9 @@ public class Utils {
         if (OS.equals("Linux")) {
             return (System.getProperty("user.home") + "/.minecraft");
         }
-
+        if (OS.equals("Mac")) {
+            return (System.getProperty("user.home") + "/.minecraft");
+        }
         return "N/A";
     }
 
@@ -37,7 +39,9 @@ public class Utils {
         if (OS.equals("Linux")) {
             return (getMineCraftLocation("Linux") + "/versions");
         }
-
+        if (OS.equals("Mac")) {
+            return (getMineCraftLocation("Mac") + "/versions");
+        }
         return "N/A";
     }
 
@@ -48,6 +52,9 @@ public class Utils {
         }
         if (OS.equals("Linux")) {
             return (getMineCraftLocation("Linux") + "/libraries");
+        }
+        if (OS.equals("Mac")) {
+            return (getMineCraftLocation("Mac") + "/libraries");
         }
 
         return "N/A";
@@ -61,6 +68,9 @@ public class Utils {
         if (OS.equals("Linux")) {
             return (getMineCraftLocation("Linux") + "/version_manifest.json");
         }
+        if (OS.equals("Mac")) {
+            return (getMineCraftLocation("Mac") + "/version_manifest.json");
+        }
 
         return "N/A";
     }
@@ -72,6 +82,10 @@ public class Utils {
         }
         if (OS.equals("Linux")) {
             return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/" + VersionNumber + ".json");
+
+        }
+        if (OS.equals("Mac")) {
+            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/" + VersionNumber + ".json");
 
         }
 
@@ -91,6 +105,12 @@ public class Utils {
             return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/" + VersionNumber + ".json");
 
         }
+        if (OS.equals("Mac")) {
+            //the commented line is not required
+            //File dir = new File(getMineCraftVersionsLocation("Linux") + "/" + VersionNumber); dir.mkdirs();
+            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/" + VersionNumber + ".json");
+
+        }
 
         return "N/A";
     }
@@ -108,6 +128,12 @@ public class Utils {
             return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/" + VersionNumber + ".jar");
 
         }
+        if (OS.equals("Mac")) {
+            //the commented line is not required
+            //File dir = new File(getMineCraftVersionsLocation("Linux") + "/" + VersionNumber); dir.mkdirs();
+            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/" + VersionNumber + ".jar");
+
+        }
 
         return "N/A";
     }
@@ -119,6 +145,10 @@ public class Utils {
         }
         if (OS.equals("Linux")) {
             return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/natives");
+
+        }
+        if (OS.equals("Mac")) {
+            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/natives");
 
         }
 
@@ -133,6 +163,9 @@ public class Utils {
         if (OS.equals("Linux")) {
             return (getMineCraftAssetsIndexesLocation("Linux") + "/" + VersionNumber + ".json");
         }
+        if (OS.equals("Mac")) {
+            return (getMineCraftAssetsIndexesLocation("Mac") + "/" + VersionNumber + ".json");
+        }
 
         return "N/A";
     }
@@ -145,6 +178,9 @@ public class Utils {
         if (OS.equals("Linux")) {
             return (getMineCraftAssetsLocation("Linux") + "/indexes");
         }
+        if (OS.equals("Mac")) {
+            return (getMineCraftAssetsLocation("Mac") + "/indexes");
+        }
 
         return "N/A";
     }
@@ -152,10 +188,12 @@ public class Utils {
     public String getMineCraftAssetsLocation(String OS) {
         if (OS.equals("Windows")) {
             return (getMineCraftLocation("Windows") + "/assets");
-
         }
         if (OS.equals("Linux")) {
             return (getMineCraftLocation("Linux") + "/assets");
+        }
+        if (OS.equals("Mac")) {
+            return (getMineCraftLocation("Mac") + "/assets");
         }
 
         return "N/A";
@@ -168,6 +206,9 @@ public class Utils {
         }
         if (OS.equals("Linux")) {
             return (getMineCraftAssetsLocation("Linux") + "/objects");
+        }
+        if (OS.equals("Mac")) {
+            return (getMineCraftAssetsLocation("Mac") + "/objects");
         }
 
         return "N/A";
@@ -182,6 +223,10 @@ public class Utils {
 
         }
         if (OS.equals("Linux")) {
+            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
+
+        }
+        if (OS.equals("Mac")) {
             return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
 
         }
@@ -201,6 +246,10 @@ public class Utils {
             return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
 
         }
+        if (OS.equals("Mac")) {
+            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
+
+        }
 
         return "N/A";
     }
@@ -210,6 +259,9 @@ public class Utils {
             return (";");
         }
         if (OS.equals("Linux")) {
+            return (":");
+        }
+        if (OS.equals("Mac")) {
             return (":");
         }
 
