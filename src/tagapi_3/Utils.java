@@ -5,11 +5,14 @@
  */
 package tagapi_3;
 
+import com.sun.media.sound.ModelDestination;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -174,4 +177,25 @@ public class Utils {
         }
     }
 
+    public String getMineCraftAssetsVirtualLocation(String OS) {
+        return (getMineCraftAssetsLocation(OS) + "/virtual");
+    }
+
+    public String getMineCraftAssetsVirtualLegacyLocation(String OS) {
+        return (getMineCraftAssetsVirtualLocation(OS) + "/legacy");
+    }
+
+    public void copyToVirtual(String OS, String folder, String _hash, String virtualfolder) {
+        try {
+            Utils utils = new Utils();
+            File source = new File(utils.getMineCraftAssetsObjectsLocation(OS) + "/" + folder + "/" + _hash);
+            File dest = new File(utils.getMineCraftAssetsVirtualLegacyLocation(OS) + "/" + virtualfolder.replaceFirst("minecraft/", ""));
+            //Files.copy(source.toPath(), dest.toPath());
+            FileUtils.copyFile(source, dest);
+
+        } catch (Exception ex) {
+            System.out.println("File Exists! " + ex.getMessage());
+        }
+
+    }
 }
