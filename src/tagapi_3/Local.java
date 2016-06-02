@@ -34,12 +34,13 @@ public class Local {
     List versions_json_path_list = new ArrayList(); //gets the path of all json files
     List versions_list = new ArrayList();           //just gets the versions available on the system
     List version_url_list = new ArrayList();        //gets url of all the libraries
-    //List version_path_list = new ArrayList();       //%new added... This is for direct paths
+    List version_path_list = new ArrayList();       //%new added... This is for direct paths
     
     List objects_hash = new ArrayList();            //gets objects hash
     List objects_KEY = new ArrayList();             //gets objects keys
 
     List version_url_list_natives = new ArrayList();    //gets url of all the natives
+    List version_path_list_natives = new ArrayList();    //%gets url of all the natives
 
     List libraries_path = new ArrayList();          //gets path to all the libraries
     //List natives_path = new ArrayList();            //_NOT NEEDED_ gets path to all the natives
@@ -158,7 +159,7 @@ public class Local {
 
     }
     
-    /* EXP CODE! 
+    //EXP CODE! 
     public void readJson_libraries_downloads_artifact_path(String path) {
 
         JSONParser readMCJSONFiles = new JSONParser();
@@ -173,8 +174,8 @@ public class Local {
                 if (downloads.get("artifact") != null) {
                     JSONObject artifact = (JSONObject) downloads.get("artifact");
                     if (artifact.get("path") != null) {
-                        String url = (String) artifact.get("path");
-                        version_path_list.add(url);
+                        String _path = (String) artifact.get("path");
+                        version_path_list.add(_path);
                     }
                 }
             }
@@ -183,7 +184,6 @@ public class Local {
         }
 
     }
-    */
     
     //edit this function to add more operating systems
     public void readJson_libraries_downloads_classifiers_natives_X(String path, String natives_OS) {
@@ -216,6 +216,38 @@ public class Local {
         }
     }
 
+    
+    public void readJson_libraries_downloads_classifiers_natives_Y(String path, String natives_OS) {
+
+        try {
+            if (natives_OS.equals("Linux")) {
+                natives_OS = natives_OS.replace("Linux", "natives-linux");
+            } else if (natives_OS.equals("Windows")) {
+                natives_OS = natives_OS.replace("Windows", "natives-windows");
+            } else if (natives_OS.equals("Mac")) {
+                natives_OS = natives_OS.replace("Mac", "natives-osx");
+            } else {
+                System.out.print("N/A");
+                //I DON'T KNOW THIS OS!
+            }
+            String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
+            //System.out.println(content);
+            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+            engine.eval(new FileReader("script.js"));
+
+            Invocable invocable = (Invocable) engine;
+
+            Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesY", content, natives_OS);
+
+            for (String retval : result.toString().split("\n")) {
+                version_path_list_natives.add(retval);
+            }
+        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    
     public void readJson_objects_KEY(String path) {
 
         //ammars old code | THIS DOES WORK!
