@@ -20,7 +20,6 @@ public class Utils {
     public String getMineCraftLocation(String OS) {
         if (OS.equals("Windows")) {
             return (System.getenv("APPDATA") + "/.minecraft");
-
         }
         if (OS.equals("Linux")) {
             return (System.getProperty("user.home") + "/.minecraft");
@@ -32,226 +31,68 @@ public class Utils {
     }
 
     public String getMineCraftVersionsLocation(String OS) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftLocation("Windows") + "/versions");
+        return (getMineCraftLocation(OS) + "/versions");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftLocation("Linux") + "/versions");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftLocation("Mac") + "/versions");
-        }
-        return "N/A";
     }
 
     public String getMineCraftLibrariesLocation(String OS) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftLocation("Windows") + "/libraries");
+        return (getMineCraftLocation(OS) + "/libraries");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftLocation("Linux") + "/libraries");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftLocation("Mac") + "/libraries");
-        }
-
-        return "N/A";
     }
 
     public String getMineCraft_Version_Manifest_json(String OS) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftLocation("Windows") + "/version_manifest.json");
+        return (getMineCraftLocation(OS) + "/version_manifest.json");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftLocation("Linux") + "/version_manifest.json");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftLocation("Mac") + "/version_manifest.json");
-        }
-
-        return "N/A";
     }
 
     public String getMineCraft_Version_Json(String OS, String VersionNumber) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftVersionsLocation("Windows") + "/" + VersionNumber + "/" + VersionNumber + ".json");
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".json");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/" + VersionNumber + ".json");
-
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/" + VersionNumber + ".json");
-
-        }
-
-        return "N/A";
     }
 
     public String getMineCraft_Versions_X_X_json(String OS, String VersionNumber) {
-        if (OS.equals("Windows")) {
-            //the commented line is not required
-            //File dir = new File(getMineCraftVersionsLocation("Windows") + "/" + VersionNumber); dir.mkdirs();
-            return (getMineCraftVersionsLocation("Windows") + "/" + VersionNumber + "/" + VersionNumber + ".json");
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".json");
 
-        }
-        if (OS.equals("Linux")) {
-            //the commented line is not required
-            //File dir = new File(getMineCraftVersionsLocation("Linux") + "/" + VersionNumber); dir.mkdirs();
-            return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/" + VersionNumber + ".json");
-
-        }
-        if (OS.equals("Mac")) {
-            //the commented line is not required
-            //File dir = new File(getMineCraftVersionsLocation("Linux") + "/" + VersionNumber); dir.mkdirs();
-            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/" + VersionNumber + ".json");
-
-        }
-
-        return "N/A";
     }
 
     public String getMineCraft_Versions_X_X_jar(String OS, String VersionNumber) {
-        if (OS.equals("Windows")) {
-            //the commented line is not required
-            //File dir = new File(getMineCraftVersionsLocation("Windows") + "/" + VersionNumber); dir.mkdirs();
-            return (getMineCraftVersionsLocation("Windows") + "/" + VersionNumber + "/" + VersionNumber + ".jar");
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar");
 
-        }
-        if (OS.equals("Linux")) {
-            //the commented line is not required
-            //File dir = new File(getMineCraftVersionsLocation("Linux") + "/" + VersionNumber); dir.mkdirs();
-            return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/" + VersionNumber + ".jar");
-
-        }
-        if (OS.equals("Mac")) {
-            //the commented line is not required
-            //File dir = new File(getMineCraftVersionsLocation("Linux") + "/" + VersionNumber); dir.mkdirs();
-            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/" + VersionNumber + ".jar");
-
-        }
-
-        return "N/A";
     }
 
     public String getMineCraft_Versions_X_Natives(String OS, String VersionNumber) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftVersionsLocation("Windows") + "/" + VersionNumber + "/natives");
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftVersionsLocation("Linux") + "/" + VersionNumber + "/natives");
-
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftVersionsLocation("Mac") + "/" + VersionNumber + "/natives");
-
-        }
-
-        return "N/A";
     }
 
     public String getMineCraftAssetsIndexes_X_json(String OS, String VersionNumber) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftAssetsIndexesLocation("Windows") + "/" + VersionNumber + ".json");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftAssetsIndexesLocation("Linux") + "/" + VersionNumber + ".json");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftAssetsIndexesLocation("Mac") + "/" + VersionNumber + ".json");
-        }
-
-        return "N/A";
+        return (getMineCraftAssetsIndexesLocation(OS) + "/" + VersionNumber + ".json");
     }
 
     public String getMineCraftAssetsIndexesLocation(String OS) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftAssetsLocation("Windows") + "/indexes");
+        return (getMineCraftAssetsLocation(OS) + "/indexes");
 
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftAssetsLocation("Linux") + "/indexes");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftAssetsLocation("Mac") + "/indexes");
-        }
-
-        return "N/A";
     }
 
     public String getMineCraftAssetsLocation(String OS) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftLocation("Windows") + "/assets");
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftLocation("Linux") + "/assets");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftLocation("Mac") + "/assets");
-        }
+        return (getMineCraftLocation(OS) + "/assets");
 
-        return "N/A";
     }
 
     public String getMineCraftAssetsObjectsLocation(String OS) {
-        if (OS.equals("Windows")) {
-            return (getMineCraftAssetsLocation("Windows") + "/objects");
-
-        }
-        if (OS.equals("Linux")) {
-            return (getMineCraftAssetsLocation("Linux") + "/objects");
-        }
-        if (OS.equals("Mac")) {
-            return (getMineCraftAssetsLocation("Mac") + "/objects");
-        }
-
-        return "N/A";
+        return (getMineCraftAssetsLocation(OS) + "/objects");
     }
 
-    //CHANGE THIS FUNCTION!...
     public String setMineCraft_Versions_X_NativesLocation(String OS, String _path) {
-        //Network network = new Network();
         Utils utils = new Utils();
-        if (OS.equals("Windows")) {
-            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
+        return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
 
-        }
-        if (OS.equals("Linux")) {
-            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
-
-        }
-        if (OS.equals("Mac")) {
-            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
-
-        }
-
-        return "N/A";
     }
 
-    //CHANGE THIS FUNCTION!...
     public String setMineCraft_librariesLocation(String OS, String _path) {
-        //Network network = new Network();
         Utils utils = new Utils();
-        if (OS.equals("Windows")) {
-            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
-
-        }
-        if (OS.equals("Linux")) {
-            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
-
-        }
-        if (OS.equals("Mac")) {
-            return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
-
-        }
-
-        return "N/A";
+        return (utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
     }
 
     public String getArgsDiv(String OS) {
@@ -272,7 +113,7 @@ public class Utils {
     public String getSHA_1(String _path) {
 
         try {
-            
+
             MessageDigest md = MessageDigest.getInstance("SHA1");
             FileInputStream fis = new FileInputStream(_path);
             byte[] dataBytes = new byte[1024];
