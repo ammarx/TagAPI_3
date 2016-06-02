@@ -17,15 +17,18 @@ public class Network {
 
     //this function needs to change in order to make it dynamic
     //all web urls come here...
-    public final String https_libraries_minecraft_net = "https://libraries.minecraft.net";
+    //public final String https_libraries_minecraft_net = "https://libraries.minecraft.net";
+    //lets kill the libraries url as that is not needed.
+    
+    
     public final String http_resources_download_minecraft_net = "http://resources.download.minecraft.net"; 
     public final String https_s3_amazonaws_com_Minecraft_Download_versions = "https://s3.amazonaws.com/Minecraft.Download/versions";
     
-    public void downloadLibraries(String OS ,String _url) {
+    public void downloadLibraries(String OS ,String _url, String _path) {
         try {
             Utils utils = new Utils();
             URL url = new URL(_url);
-            File file = new File(_url.replace(https_libraries_minecraft_net, utils.getMineCraftLibrariesLocation(OS)));
+            File file = new File(utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
             if (file.exists()){
                 //do not download..
                 System.out.println("File Exists!");
@@ -37,17 +40,19 @@ public class Network {
         }
     }
     
-    //edit this
+    //edit this!!!!!!!!!!!!!!!!!!!!!!!!
     public void downloadAssetsObjects(String OS, String folder, String _hash){
         //resources.download.minecraft.net/4b/4b90ff3a9b1486642bc0f15da0045d83a91df82e
         try {
             Utils utils = new Utils();
             URL url = new URL(http_resources_download_minecraft_net + "/" + folder + "/" + _hash);
             File file = new File(utils.getMineCraftAssetsObjectsLocation(OS) + "/" +  folder + "/" +  _hash);
-            if (file.exists()){
+            if (file.exists() && utils.getSHA_1(file.toString()).equals(_hash)){
                 //do not download..
                 System.out.println("File Exists!");
+                System.out.println("Hash Verified!");
             } else {
+                System.out.println("Calculated Hash:" + utils.getSHA_1(file.toString()));
                 FileUtils.copyURLToFile(url, file);
             }
         } catch (Exception e) {
