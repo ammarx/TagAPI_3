@@ -40,7 +40,6 @@ public class Network {
         }
     }
     
-    //edit this!!!!!!!!!!!!!!!!!!!!!!!!
     public void downloadAssetsObjects(String OS, String folder, String _hash){
         //resources.download.minecraft.net/4b/4b90ff3a9b1486642bc0f15da0045d83a91df82e
         try {
@@ -52,7 +51,7 @@ public class Network {
                 System.out.println("File Exists!");
                 System.out.println("Hash Verified!");
             } else {
-                System.out.println("Calculated Hash:" + utils.getSHA_1(file.toString()));
+                //System.out.println("Calculated Hash:" + utils.getSHA_1(file.toString()));
                 FileUtils.copyURLToFile(url, file);
             }
         } catch (Exception e) {
