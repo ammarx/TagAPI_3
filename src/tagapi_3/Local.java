@@ -35,7 +35,8 @@ public class Local {
     List versions_list = new ArrayList();           //just gets the versions available on the system
     List version_url_list = new ArrayList();        //gets url of all the libraries
     List version_path_list = new ArrayList();       //%new added... This is for direct paths
-    
+    List version_name_list = new ArrayList();       //%new added... This is for direct names
+
     List objects_hash = new ArrayList();            //gets objects hash
     List objects_KEY = new ArrayList();             //gets objects keys
 
@@ -48,8 +49,8 @@ public class Local {
     List version_manifest_versions_id = new ArrayList();
     List version_manifest_versions_type = new ArrayList();
     List version_manifest_versions_url = new ArrayList();
-    
-    public void readJson_versions_id(String path){
+
+    public void readJson_versions_id(String path) {
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object object = readMCJSONFiles.parse(new FileReader(path));
@@ -66,7 +67,7 @@ public class Local {
         }
     }
 
-    public void readJson_versions_type(String path){
+    public void readJson_versions_type(String path) {
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object object = readMCJSONFiles.parse(new FileReader(path));
@@ -83,7 +84,7 @@ public class Local {
         }
     }
 
-    public void readJson_versions_url(String path){
+    public void readJson_versions_url(String path) {
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object object = readMCJSONFiles.parse(new FileReader(path));
@@ -94,6 +95,22 @@ public class Local {
                 JSONObject versions_ = (JSONObject) iterator.next();
                 version_manifest_versions_url.add(versions_.get("url"));
                 //System.out.println(versions_.get("id"));
+            }
+        } catch (IOException | ParseException e) {
+            //System.out.print(e);
+        }
+    }
+
+    public void readJson_libraries_name(String path) {
+        JSONParser readMCJSONFiles = new JSONParser();
+        try {
+            Object object = readMCJSONFiles.parse(new FileReader(path));
+            JSONObject jsonObject = (JSONObject) object;
+            JSONArray versions = (JSONArray) jsonObject.get("libraries");
+            Iterator<JSONObject> iterator = versions.iterator();
+            while (iterator.hasNext()) {
+                JSONObject name_ = (JSONObject) iterator.next();
+                version_name_list.add(name_.get("name"));
             }
         } catch (IOException | ParseException e) {
             //System.out.print(e);
@@ -124,7 +141,7 @@ public class Local {
         }
 
     }
-    
+
     //EXP CODE! 
     public void readJson_libraries_downloads_artifact_path(String path) {
 
@@ -150,7 +167,7 @@ public class Local {
         }
 
     }
-    
+
     //edit this function to add more operating systems
     public void readJson_libraries_downloads_classifiers_natives_X(String path, String natives_OS) {
 
@@ -182,7 +199,6 @@ public class Local {
         }
     }
 
-    
     public void readJson_libraries_downloads_classifiers_natives_Y(String path, String natives_OS) {
 
         try {
@@ -213,7 +229,6 @@ public class Local {
         }
     }
 
-    
     public void readJson_objects_KEY(String path) {
 
         //ammars old code | THIS DOES WORK!
@@ -235,8 +250,6 @@ public class Local {
         } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
             System.out.println(ex.getMessage());
         }*/
-        
-        
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object jsonfile;
@@ -322,7 +335,7 @@ public class Local {
         }
         return "N/A";
     }
-    
+
     public String readJson_assetIndex_id(String path) {
         try {
             FileReader reader = new FileReader(path);
@@ -355,7 +368,7 @@ public class Local {
             System.out.print(e);
         }
     }
-   
+
     public void generateVersionList(String path) {
         File root = new File(path);
         String fileName = ".json";
@@ -374,7 +387,7 @@ public class Local {
             System.out.print(e);
         }
     }
-    
+
     public String readJson_minecraftArguments(String path) {
         try {
             FileReader reader = new FileReader(path);
@@ -387,9 +400,9 @@ public class Local {
         }
         return "N/A";
     }
-    
-    public String readJson_assets(String path){
-         try {
+
+    public String readJson_assets(String path) {
+        try {
             FileReader reader = new FileReader(path);
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
@@ -400,9 +413,9 @@ public class Local {
         }
         return "N/A";
     }
-    
-    public String readJson_id(String path){
-         try {
+
+    public String readJson_id(String path) {
+        try {
             FileReader reader = new FileReader(path);
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
@@ -413,9 +426,9 @@ public class Local {
         }
         return "N/A";
     }
-    
-    public String readJson_mainClass(String path){
-         try {
+
+    public String readJson_mainClass(String path) {
+        try {
             FileReader reader = new FileReader(path);
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
@@ -426,9 +439,9 @@ public class Local {
         }
         return "N/A";
     }
-    
-    public String generateMinecraftArguments(String OS, String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type){
-        
+
+    public String generateMinecraftArguments(String OS, String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type) {
+
         Local local = new Local();
         Utils utils = new Utils();
         String cmdArgs = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OS, version_name));
@@ -445,11 +458,11 @@ public class Local {
         return cmdArgs;
     }
 
-    public String generateLibrariesArguments(String OS){
+    public String generateLibrariesArguments(String OS) {
         String cp = "";
         Utils utils = new Utils();
-        for (int i=0; i<libraries_path.size(); i++){
-            if(i == libraries_path.size()-1){
+        for (int i = 0; i < libraries_path.size(); i++) {
+            if (i == libraries_path.size() - 1) {
                 cp = cp + libraries_path.get(i).toString();
             } else {
                 cp = cp + libraries_path.get(i).toString() + utils.getArgsDiv(OS);
@@ -457,9 +470,39 @@ public class Local {
         }
         return cp;
     }
-    
-    public String generateRunnableArguments(String NativesDir, String FullLibraryArgument, String mainClass, String HalfArgument){
+
+    public String generateRunnableArguments(String NativesDir, String FullLibraryArgument, String mainClass, String HalfArgument) {
         return ("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=" + NativesDir + " -cp " + FullLibraryArgument + " " + mainClass + " " + HalfArgument);
-        
+
+    }
+
+    public String generateLibrariesPath( String _OS, String _name) {
+        try {
+            Utils utils = new Utils();
+            String fileName = _name;
+            String[] colonSplit = fileName.split("\\:", 3);
+            String[] folderSplit = colonSplit[0].split("\\.");
+            
+            String compileSplit = "";
+            
+            String compileFolder = "";
+            
+            for(int i=0; i<folderSplit.length;i++){
+                compileFolder += folderSplit[i] + "/";
+            }
+            compileSplit = compileFolder + "/" + colonSplit[1] + "/" + colonSplit[2] + "/" + colonSplit[1] + "-" + colonSplit[2] + ".jar";
+            compileSplit = compileSplit.replace("//", "/"); 
+            /*
+                Downloading: https://libraries.minecraft.net/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar
+                org/ow2/asm/asm-all/4.1/asm-all-4.1.jar
+                
+            */
+            //compileSplit = utils.getMineCraftLibrariesLocation(_OS) + "/" + compileSplit;
+            return(compileSplit);
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return "N/A";
     }
 }
