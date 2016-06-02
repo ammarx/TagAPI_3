@@ -1,5 +1,8 @@
 dist/
-build/classes/tagapi_3/*.class
+build/classes/tagapi_3/Local.class
+build/classes/tagapi_3/Network.class
+build/classes/tagapi_3/TagAPI_3.class
+build/classes/tagapi_3/Utils.class
 logs/
 MANIFEST
 latest.log
