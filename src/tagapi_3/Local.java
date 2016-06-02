@@ -440,7 +440,7 @@ public class Local {
         return "N/A";
     }
 
-    public String generateMinecraftArguments(String OS, String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type) {
+    public String generateMinecraftArguments(String OS, String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type, String game_assets) {
 
         Local local = new Local();
         Utils utils = new Utils();
@@ -455,6 +455,7 @@ public class Local {
         cmdArgs = cmdArgs.replace("${user_properties}", user_properties);
         cmdArgs = cmdArgs.replace("${user_type}", user_type);
         cmdArgs = cmdArgs.replace("${version_type}", version_type);
+        cmdArgs = cmdArgs.replace("${game_assets}", game_assets);
         return cmdArgs;
     }
 
