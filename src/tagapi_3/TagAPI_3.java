@@ -38,6 +38,12 @@ public class TagAPI_3 {
         local.readJson_versions_id(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         local.readJson_versions_url(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
+        
+        
+        
+        //incase the url is empty.. we have to assume that the user has old path system.
+        //check for inheritance here...
+        
         for (int i = 0; i<local.version_manifest_versions_id.size(); i++){
             System.out.println(local.version_manifest_versions_id.get(i));
             System.out.println(local.version_manifest_versions_type.get(i));
@@ -71,13 +77,12 @@ public class TagAPI_3 {
         System.out.print("\n\n");
       
         local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        //local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        //Code removed as this would cause more issues..
-        
+        local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        //above this we have added fix for the paths
         
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
-            network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString());
+            network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
         }
         
         System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)) );
@@ -104,21 +109,26 @@ public class TagAPI_3 {
         System.out.println("DOWNLOADING MINECRAFT JAR");
         network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse);
 
+        
+        //would have tp edit this line as we also need natives paths!
         System.out.println("Getting NATIVES URL");
         local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
+        System.out.println("Getting NATIVES PATH");
+        local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
+        
+        
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
             System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
-            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString());
+            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString());
             //extract them here..
             System.out.println("Extracting...");
             System.out.println(local.version_url_list_natives.get(i).toString()); 
             System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
             
-            local.jarExtract(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            local.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
             
         }
         
-        //above has been converted to generic code
         System.out.println("\n\n");
         
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -134,8 +144,8 @@ public class TagAPI_3 {
         String VersionType = "ammarbless"; 
         System.out.println("NativesPath: " + NativesDir);
         
-        for (int i = 0; i < local.version_url_list.size(); i++) {
-            local.libraries_path.add(utils.setMineCraft_librariesLocation(OperatingSystemToUse, local.version_url_list.get(i).toString()));
+        for (int i = 0; i < local.version_path_list.size(); i++) {
+            local.libraries_path.add(utils.setMineCraft_librariesLocation(OperatingSystemToUse, local.version_path_list.get(i).toString()));
             System.out.println(local.libraries_path.get(i));
         }
 
