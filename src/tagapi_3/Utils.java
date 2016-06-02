@@ -5,11 +5,9 @@
  */
 package tagapi_3;
 
-import com.sun.media.sound.ModelDestination;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.io.FileUtils;
