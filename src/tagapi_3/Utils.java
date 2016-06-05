@@ -27,7 +27,7 @@ public class Utils {
             return (System.getProperty("user.home") + "/.minecraft");
         }
         if (OS.equals("Mac")) {
-            return (System.getProperty("user.home") + "/.minecraft");
+            return (System.getProperty("user.home") + "/Library/Application Support/minecraft");
         }
         return "N/A";
     }
