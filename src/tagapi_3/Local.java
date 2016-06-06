@@ -556,4 +556,17 @@ public class Local {
         }
         return "N/A";
     }
+    
+    public String readJson_jar(String path) {
+        try {
+            FileReader reader = new FileReader(path);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+            return (String) (jsonObject.get("jar"));
+
+        } catch (IOException | ParseException e) {
+            System.out.print(e);
+        }
+        return "N/A";
+    }
 }
