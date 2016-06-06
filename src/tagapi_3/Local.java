@@ -506,4 +506,14 @@ public class Local {
         }
         return "N/A";
     }
+    
+    public Boolean checkIfVanillaMC(String version){
+        for(int i=0;i<version_manifest_versions_id.size();i++){
+            if (version_manifest_versions_id.get(i).equals(version)) {
+                return true;
+            }
+        }
+        //if nothing.. return false
+        return false;
+    }
 }
