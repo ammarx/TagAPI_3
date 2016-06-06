@@ -17,10 +17,7 @@ public class Network {
 
     //this function needs to change in order to make it dynamic
     //all web urls come here...
-    //public final String https_libraries_minecraft_net = "https://libraries.minecraft.net";
-    //lets kill the libraries url as that is not needed.
-    
-    
+    public final String https_libraries_minecraft_net = "https://libraries.minecraft.net";
     public final String http_resources_download_minecraft_net = "http://resources.download.minecraft.net"; 
     public final String https_s3_amazonaws_com_Minecraft_Download_versions = "https://s3.amazonaws.com/Minecraft.Download/versions";
     
