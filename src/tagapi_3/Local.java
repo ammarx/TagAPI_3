@@ -34,6 +34,9 @@ public class Local {
     List versions_json_path_list = new ArrayList(); //gets the path of all json files
     List versions_list = new ArrayList();           //just gets the versions available on the system
     List version_url_list = new ArrayList();        //gets url of all the libraries
+    List HALF_URL_version_url_list = new ArrayList();// this is the half url. it needs to be fixed first in order to be used
+    
+    
     List version_path_list = new ArrayList();       //%new added... This is for direct paths
     List version_name_list = new ArrayList();       //%new added... This is for direct names
 
@@ -477,43 +480,80 @@ public class Local {
 
     }
 
-    public String generateLibrariesPath( String _OS, String _name) {
+    public String generateLibrariesPath(String _OS, String _name) {
         try {
             Utils utils = new Utils();
             String fileName = _name;
             String[] colonSplit = fileName.split("\\:", 3);
             String[] folderSplit = colonSplit[0].split("\\.");
-            
+
             String compileSplit = "";
-            
+
             String compileFolder = "";
-            
-            for(int i=0; i<folderSplit.length;i++){
+
+            for (int i = 0; i < folderSplit.length; i++) {
                 compileFolder += folderSplit[i] + "/";
             }
             compileSplit = compileFolder + "/" + colonSplit[1] + "/" + colonSplit[2] + "/" + colonSplit[1] + "-" + colonSplit[2] + ".jar";
-            compileSplit = compileSplit.replace("//", "/"); 
+            compileSplit = compileSplit.replace("//", "/");
             /*
                 Downloading: https://libraries.minecraft.net/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar
                 org/ow2/asm/asm-all/4.1/asm-all-4.1.jar
                 
-            */
+             */
             //compileSplit = utils.getMineCraftLibrariesLocation(_OS) + "/" + compileSplit;
-            return(compileSplit);
-            
+            return (compileSplit);
+
         } catch (Exception e) {
             System.out.println(e);
         }
         return "N/A";
     }
-    
-    public Boolean checkIfVanillaMC(String version){
-        for(int i=0;i<version_manifest_versions_id.size();i++){
+
+    public Boolean checkIfVanillaMC(String version) {
+        for (int i = 0; i < version_manifest_versions_id.size(); i++) {
             if (version_manifest_versions_id.get(i).equals(version)) {
                 return true;
             }
         }
         //if nothing.. return false
         return false;
+    }
+
+    public void MOD_readJson_libraries_name_PLUS_url(String path) {
+        JSONParser readMCJSONFiles = new JSONParser();
+        try {
+            Network network = new Network();
+            Object object = readMCJSONFiles.parse(new FileReader(path));
+            JSONObject jsonObject = (JSONObject) object;
+            JSONArray versions = (JSONArray) jsonObject.get("libraries");
+            Iterator<JSONObject> iterator = versions.iterator();
+            while (iterator.hasNext()) {
+                JSONObject name_ = (JSONObject) iterator.next();
+                version_name_list.add(name_.get("name"));
+                if (name_.get("url") == null) {
+                    System.out.println("Can't resolve: url Attempting to fix!");
+                    HALF_URL_version_url_list.add(network.https_libraries_minecraft_net);
+                } else {
+                    HALF_URL_version_url_list.add(name_.get("url"));
+
+                }
+            }
+        } catch (IOException | ParseException e) {
+            //System.out.print(e);
+        }
+    }
+    
+    public String readJson_inheritsFrom(String path) {
+        try {
+            FileReader reader = new FileReader(path);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+            return (String) (jsonObject.get("inheritsFrom"));
+
+        } catch (IOException | ParseException e) {
+            System.out.print(e);
+        }
+        return "N/A";
     }
 }
