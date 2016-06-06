@@ -39,6 +39,14 @@ public class TagAPI_3 {
         local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         local.readJson_versions_url(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         
+        //check if it is vanilla or not
+        if(local.checkIfVanillaMC(VersionToUse).equals(true)){
+            System.out.println("Vanilla Minecraft found!");
+        } else {
+            System.out.println("Modded Minecraft found!");
+            //we would have to use another way to deal with this!
+            return;
+        }
         
         
         //incase the url is empty.. we have to assume that the user has old path system.
