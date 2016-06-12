@@ -71,6 +71,12 @@ public class Utils {
 
         return (getMineCraftAssetsIndexesLocation(OS) + "/" + VersionNumber + ".json");
     }
+    
+    public String getMineCraft_X_json(String OS, String Username){
+        
+        return (getMineCraftLocation(OS) + "/" + Username + ".json");
+        
+    }
 
     public String getMineCraftAssetsIndexesLocation(String OS) {
         return (getMineCraftAssetsLocation(OS) + "/indexes");
