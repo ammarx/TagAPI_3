@@ -27,7 +27,7 @@ public class Network {
         try {
             Utils utils = new Utils();
             URL url = new URL(https_api_mojang_com_users_profiles_minecraft + "/" + _username);
-            File file = new File(utils.getMineCraftLocation(OS) + "/" + _username + ".profile");
+            File file = new File(utils.getMineCraftLocation(OS) + "/" + _username + ".json");
             if (file.exists()){
                 //do not download..
                 System.out.println("File Exists!");
