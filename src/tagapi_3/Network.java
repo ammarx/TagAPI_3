@@ -20,6 +20,24 @@ public class Network {
     public final String https_libraries_minecraft_net = "https://libraries.minecraft.net";
     public final String http_resources_download_minecraft_net = "http://resources.download.minecraft.net"; 
     public final String https_s3_amazonaws_com_Minecraft_Download_versions = "https://s3.amazonaws.com/Minecraft.Download/versions";
+    public final String https_api_mojang_com_users_profiles_minecraft = "https://api.mojang.com/users/profiles/minecraft";
+    
+    
+    public void downloadProfile(String OS, String _username) {
+        try {
+            Utils utils = new Utils();
+            URL url = new URL(https_api_mojang_com_users_profiles_minecraft + "/" + _username);
+            File file = new File(utils.getMineCraftLocation(OS) + "/" + _username + ".profile");
+            if (file.exists()){
+                //do not download..
+                System.out.println("File Exists!");
+            } else {
+                FileUtils.copyURLToFile(url, file);
+            }
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+    }
     
     public void downloadLibraries(String OS ,String _url, String _path) {
         try {
