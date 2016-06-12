@@ -31,6 +31,9 @@ public class TagAPI_3 {
         Utils utils = new Utils();
         Local local = new Local();
         Network network = new Network();
+        //get profile
+        System.out.println("Getting profile details");
+        network.downloadProfile(OperatingSystemToUse, UsernameToUse);
         network.downloadVersionManifest(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
 
         //get list of all 
@@ -168,6 +171,8 @@ public class TagAPI_3 {
         String gameDirectory = utils.getMineCraftLocation(OperatingSystemToUse);
         String AssetsRoot = utils.getMineCraftAssetsLocation(OperatingSystemToUse);
         String versionName = local.readJson_id(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
+        String authuuid = local.readJson_id(utils.getMineCraft_X_json(OperatingSystemToUse, UsernameToUse));
+        
         String Username = UsernameToUse;
         String MinecraftJar = utils.getMineCraft_Versions_X_X_jar(OperatingSystemToUse, VersionToUse);
         String VersionType = "ammarbless";
@@ -184,7 +189,7 @@ public class TagAPI_3 {
         System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
-        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, "4db1fbf430f344498dea7663e108a1d2", "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets);
+        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets);
         System.out.println("HalfArgument: " + HalfArgument);
         System.out.println("Minecraft.jar: " + MinecraftJar);
 
@@ -406,6 +411,8 @@ public class TagAPI_3 {
             versionName = MOD_id;
         }
         
+        
+        String authuuid = local.readJson_id(utils.getMineCraft_X_json(OperatingSystemToUse, UsernameToUse));
         String Username = UsernameToUse;
         String MinecraftJar;
         if (MOD_jar.isEmpty()){
@@ -430,7 +437,7 @@ public class TagAPI_3 {
         System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
-        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, "4db1fbf430f344498dea7663e108a1d2", "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets);
+        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets);
         System.out.println("HalfArgument: " + HalfArgument);
         System.out.println("Minecraft.jar: " + MinecraftJar);
 
