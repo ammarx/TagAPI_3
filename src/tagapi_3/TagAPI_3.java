@@ -44,7 +44,7 @@ public class TagAPI_3 {
         //declaration for mods
         String MOD_inheritsFrom = null;
         String MOD_jar = null;
-        String MOD_assets;
+        String MOD_assets = null;
         String MOD_minecraftArguments;
         String MOD_mainClass = null;
         String MOD_id = null;
@@ -95,7 +95,6 @@ public class TagAPI_3 {
         }
 
         if (MOD_inheritsFrom == null) {
-            //VersionToUse = VersionToUse;
             System.out.println("Using: " + VersionToUse);
 
         } else {
@@ -143,22 +142,6 @@ public class TagAPI_3 {
         ///************************************************************
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
-            /*
-            //problem with this is there is no path in 1.0
-            //use names instead of the paths
-            if (local.version_path_list.isEmpty()) {
-                //this means we can now try to solve the issue using name eg:
-                //"name": "net.java.jinput:jinput-platform:2.0.5"
-                //System.out.println(local.version_name_list.get(i));
-                System.out.println(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
-                local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
- 
-            } else if (!local.version_path_list.isEmpty()){
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
-
-            }
-             */
             try {
                 network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
 
@@ -233,13 +216,12 @@ public class TagAPI_3 {
 
         String NativesDir = utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse);
         String assetsIdexId;
-        assetsIdexId = local.readJson_assets(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-        //error on this line! FIX IT!
-        /*if (MOD_assets.isEmpty()){
-           
+        if (MOD_assets == null){
+            assetsIdexId = local.readJson_assets(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
+        
         } else {
             assetsIdexId = MOD_assets;
-        }*/
+        }
 
         String gameDirectory = utils.getMineCraftLocation(OperatingSystemToUse);
         String AssetsRoot = utils.getMineCraftAssetsLocation(OperatingSystemToUse);
