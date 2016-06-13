@@ -71,11 +71,11 @@ public class Utils {
 
         return (getMineCraftAssetsIndexesLocation(OS) + "/" + VersionNumber + ".json");
     }
-    
-    public String getMineCraft_X_json(String OS, String Username){
-        
+
+    public String getMineCraft_X_json(String OS, String Username) {
+
         return (getMineCraftLocation(OS) + "/" + Username + ".json");
-        
+
     }
 
     public String getMineCraftAssetsIndexesLocation(String OS) {
@@ -155,7 +155,9 @@ public class Utils {
             _jarFile = utils.setMineCraft_Versions_X_NativesLocation(OS, _jarFile);
             //_jarFile = _jarFile.replace("https://libraries.minecraft.net", "/home/ammar/NetBeansProjects/TagAPI_3/testx/libraries");
             File dir = new File(destDir);
-            dir.mkdirs();
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
             File jarFile = new File(_jarFile);
 
@@ -168,13 +170,16 @@ public class Utils {
                     f.mkdirs();
                     continue;
                 }
-                java.io.InputStream is = jar.getInputStream(file); // get the input stream
-                java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
-                while (is.available() > 0) {  // write contents of 'is' to 'fos'
-                    fos.write(is.read());
+                if (!f.exists()) {
+                    java.io.InputStream is = jar.getInputStream(file); // get the input stream
+                    java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
+                    while (is.available() > 0) {  // write contents of 'is' to 'fos'
+                        fos.write(is.read());
+                    }
+                    fos.close();
+                    is.close();
+
                 }
-                fos.close();
-                is.close();
             }
         } catch (Exception e) {
             System.out.println(e);
