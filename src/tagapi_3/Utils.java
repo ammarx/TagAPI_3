@@ -16,7 +16,7 @@ import org.apache.commons.io.FileUtils;
  *
  * @author ammar
  */
-public class Utils {
+class Utils {
 
     //String versions_linux = getMineCraftLocation("Linux") + "/versions";
     public String getMineCraftLocation(String OS) {
