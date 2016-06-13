@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -207,4 +208,21 @@ class Utils {
         }
 
     }
+
+    public String getOS() {
+        String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+        
+        if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
+            return ("Mac");
+        } else if (OS.indexOf("win") >= 0) {
+            return ("Windows");
+        } else if (OS.indexOf("nux") >= 0) {
+            return ("Linux");
+        } else {
+            //bring support to other OS.
+            //we will assume that the OS is based on linux.
+            return ("Linux");
+        }
+    }
+
 }
