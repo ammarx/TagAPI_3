@@ -246,6 +246,7 @@ public class TagAPI_3 {
          
 
         String VersionType = "ammarbless";
+        String AuthSession = "OFFLINE";
         String GameAssets = utils.getMineCraftAssetsVirtualLegacyLocation(OperatingSystemToUse);
         System.out.println("NativesPath: " + NativesDir);
 
@@ -259,7 +260,7 @@ public class TagAPI_3 {
         System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
-        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets);
+        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets, AuthSession);
         System.out.println("HalfArgument: " + HalfArgument);
         System.out.println("Minecraft.jar: " + MinecraftJar);
 
