@@ -9,7 +9,7 @@ package tagapi_3;
  *
  * @author ammar
  */
-public class TagAPI_3 {
+class TagAPI_3 {
 
     /**
      * @param args the command line arguments
