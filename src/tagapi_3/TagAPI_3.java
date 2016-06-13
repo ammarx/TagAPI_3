@@ -19,18 +19,20 @@ class TagAPI_3 {
         // TODO code application logic here
         //*** Remove this as this is required for it to work fully...
         //its just here to save time.
-
-        String VersionToUse = args[0];
-        String OperatingSystemToUse = args[1];
-        String UsernameToUse = args[2];
+        Utils utils = new Utils();
+        Local local = new Local();
+        Network network = new Network();
+        
+        String UsernameToUse = args[0];
+        String VersionToUse = args[1];
+        String OperatingSystemToUse = utils.getOS();
+        System.out.println("OS: " + OperatingSystemToUse);
 
         //Example:
         //String VersionToUse = "1.8.9";
         //String OperatingSystemToUse = "Linux";
         //String UsernameToUse = "Ammar_Ahmad";
-        Utils utils = new Utils();
-        Local local = new Local();
-        Network network = new Network();
+       
         //get profile
         System.out.println("Getting profile details");
         network.downloadProfile(OperatingSystemToUse, UsernameToUse);
