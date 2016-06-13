@@ -29,7 +29,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author ammar
  */
-public class Local {
+class Local {
 
     List versions_json_path_list = new ArrayList(); //gets the path of all json files
     List versions_list = new ArrayList();           //just gets the versions available on the system
