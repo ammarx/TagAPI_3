@@ -13,7 +13,7 @@ import org.apache.commons.io.FileUtils;
  *
  * @author ammar
  */
-public class Network {
+class Network {
 
     //this function needs to change in order to make it dynamic
     //all web urls come here...
