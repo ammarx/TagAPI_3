@@ -121,6 +121,8 @@ public class API_Interface {
         local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
         System.out.println("Getting NATIVES PATH");
         local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
+        System.out.println("Getting NATIVES NAME");
+        local.readJson_libraries_downloads_classifiers_natives_Z(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
         //
         //
         //ERROR HERE!
@@ -131,6 +133,10 @@ public class API_Interface {
         for (int i = 0; i < local.version_path_list_natives.size(); i++) {
             System.out.println(local.version_path_list_natives.get(i).toString());
         }
+        for (int i = 0; i < local.version_name_list_natives.size(); i++) {
+            System.out.println(local.version_name_list_natives.get(i).toString());
+        }
+        
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
             //extract them here..
             System.out.println("Extracting... " + local.version_path_list_natives.get(i).toString());
