@@ -48,7 +48,7 @@ public class API_Interface {
             System.out.println("Modded Minecraft found!");
             local.MOD_readJson_libraries_name_PLUS_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
-            System.out.println("Fixing url using name.");
+            /*System.out.println("Fixing url using name.");*/
             for (int i = 0; i < local.version_name_list.size(); i++) {
                 local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
 
@@ -93,19 +93,19 @@ public class API_Interface {
             local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println("Unable to get libraries_downloads_artifact_url " + ex);
         }
         try {
             local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println("Unable to get libraries_downloads_artifact_path " + ex);
         }
         try {
             local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println("Unable to get libraries_name " + ex);
         }
         ///************************************************************
         for (int i = 0; i < local.version_name_list.size(); i++) {
@@ -113,7 +113,7 @@ public class API_Interface {
                 local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
 
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println("Something went wrong! " + ex);
             }
         }
 
@@ -123,10 +123,12 @@ public class API_Interface {
         local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
         System.out.println("Getting NATIVES NAME");
         local.readJson_libraries_downloads_classifiers_natives_Z(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-        //
-        //
-        //ERROR HERE!
-        //WE NEED TO FIX THE NATIVES!
+        
+        for (int i = 0; i < local.version_name_list_natives.size(); i++) {
+            local.version_path_list_natives.add(local.generateNativesPath(OperatingSystemToUse, local.version_name_list_natives.get(i).toString()));
+
+        }
+        /*
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
             System.out.println(local.version_url_list_natives.get(i).toString());
         }
@@ -136,12 +138,18 @@ public class API_Interface {
         for (int i = 0; i < local.version_name_list_natives.size(); i++) {
             System.out.println(local.version_name_list_natives.get(i).toString());
         }
+        */
         
-        for (int i = 0; i < local.version_url_list_natives.size(); i++) {
+        for (int i = 0; i < local.version_name_list_natives.size(); i++) {
             //extract them here..
-            System.out.println("Extracting... " + local.version_path_list_natives.get(i).toString());
-            System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
-            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            try {
+                System.out.println("Extracting... " + local.version_path_list_natives.get(i).toString());
+                System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+                utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
 
         }
 
