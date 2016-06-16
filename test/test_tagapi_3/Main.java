@@ -17,9 +17,10 @@ public class Main {
             System.out.println(installedVersionsList);
             
         }
-        String[] Args = {"Ammar_Ahmad","1.8.9"};
-        API.runMinecraft(Args);
-        
+
+        String UsernameToUse = "Ammar_Ahmad";
+        String VersionToUse = "1.7.2";
+        API.runMinecraft(UsernameToUse, VersionToUse);
     }
 
 }
