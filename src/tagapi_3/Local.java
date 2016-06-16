@@ -45,7 +45,8 @@ class Local {
 
     List version_url_list_natives = new ArrayList();    //gets url of all the natives
     List version_path_list_natives = new ArrayList();    //%gets url of all the natives
-
+    List version_name_list_natives = new ArrayList(); //EXP CODE!
+    
     List libraries_path = new ArrayList();          //gets path to all the libraries
     //List natives_path = new ArrayList();            //_NOT NEEDED_ gets path to all the natives
 
@@ -232,6 +233,27 @@ class Local {
         }
     }
 
+    public void readJson_libraries_downloads_classifiers_natives_Z(String path) {
+
+        try {
+          
+            String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
+            //System.out.println(content);
+            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+            engine.eval(new FileReader("script.js"));
+
+            Invocable invocable = (Invocable) engine;
+
+            Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesZ", content);
+
+            for (String retval : result.toString().split("\n")) {
+                version_name_list_natives.add(retval);
+            }
+        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
     public void readJson_objects_KEY(String path) {
 
         //ammars old code | THIS DOES WORK!
