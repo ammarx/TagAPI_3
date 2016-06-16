@@ -505,7 +505,6 @@ class Local {
 
     public String generateLibrariesPath(String _OS, String _name) {
         try {
-            Utils utils = new Utils();
             String fileName = _name;
             String[] colonSplit = fileName.split("\\:", 3);
             String[] folderSplit = colonSplit[0].split("\\.");
@@ -525,6 +524,40 @@ class Local {
                 
              */
             //compileSplit = utils.getMineCraftLibrariesLocation(_OS) + "/" + compileSplit;
+            return (compileSplit);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return "N/A";
+    }
+    
+    public String generateNativesPath(String natives_OS, String _name) {
+        try {
+            if (natives_OS.equals("Linux")) {
+                natives_OS = natives_OS.replace("Linux", "natives-linux");
+            } else if (natives_OS.equals("Windows")) {
+                natives_OS = natives_OS.replace("Windows", "natives-windows");
+            } else if (natives_OS.equals("Mac")) {
+                natives_OS = natives_OS.replace("Mac", "natives-osx");
+            } else {
+                System.out.print("N/A");
+                //I DON'T KNOW THIS OS!
+            }
+            String fileName = _name;
+            String[] colonSplit = fileName.split("\\:", 3);
+            String[] folderSplit = colonSplit[0].split("\\.");
+
+            String compileSplit = "";
+
+            String compileFolder = "";
+
+            for (int i = 0; i < folderSplit.length; i++) {
+                compileFolder += folderSplit[i] + "/";
+            }
+            
+            compileSplit = compileFolder + "/" + colonSplit[1] + "/" + colonSplit[2] + "/" + colonSplit[1] + "-" + colonSplit[2] + "-" + natives_OS + ".jar";
+            compileSplit = compileSplit.replace("//", "/");
             return (compileSplit);
 
         } catch (Exception e) {
