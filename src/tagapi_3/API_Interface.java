@@ -237,5 +237,167 @@ public class API_Interface {
         network.downloadProfile(OperatingSystemToUse, UsernameToUse);
 
     }
+    
+    public void downloadMinecraft(String VersionToUse){
+        String OperatingSystemToUse = utils.getOS();
+        System.out.println("Downlaoding: " + VersionToUse);
+        //get list of all 
+        local.readJson_versions_id(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
+        local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
+        local.readJson_versions_url(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
+
+        //declaration for mods
+        String MOD_inheritsFrom = null;
+        String MOD_jar = null;
+        String MOD_assets = null;
+        String MOD_minecraftArguments;
+        String MOD_mainClass = null;
+        String MOD_id = null;
+        //check if it is vanilla or not
+        if (local.checkIfVanillaMC(VersionToUse).equals(true)) {
+            System.out.println("Vanilla Minecraft found!");
+
+        } else {
+            System.out.println("Modded Minecraft found!");
+            local.MOD_readJson_libraries_name_PLUS_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            for (int i = 0; i < local.version_name_list.size(); i++) {
+                System.out.println(local.version_name_list.get(i));
+                System.out.println(local.HALF_URL_version_url_list.get(i));
+            }
+
+            System.out.println("Fixing url using name.");
+            for (int i = 0; i < local.version_name_list.size(); i++) {
+                local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+
+            }
+
+            for (int i = 0; i < local.version_name_list.size(); i++) {
+                local.version_url_list.add(local.HALF_URL_version_url_list.get(i) + "/" + local.version_path_list.get(i));
+            }
+            for (int i = 0; i < local.version_name_list.size(); i++) {
+                System.out.println("Downloading: " + local.version_url_list.get(i));
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+
+            }
+            
+            MOD_inheritsFrom = local.readJson_inheritsFrom(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            System.out.println("inheritsFrom: " + MOD_inheritsFrom);
+
+            MOD_jar = local.readJson_jar(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            System.out.println("jar: " + MOD_jar);
+
+            MOD_assets = local.readJson_assets(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            System.out.println("assets: " + MOD_assets);
+
+            MOD_minecraftArguments = local.readJson_minecraftArguments(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            System.out.println("minecraftArguments: " + MOD_minecraftArguments);
+
+            MOD_mainClass = local.readJson_mainClass(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            System.out.println("mainClass: " + MOD_mainClass);
+
+            MOD_id = local.readJson_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            System.out.println("id: " + MOD_id);
+        }
+
+        if (MOD_inheritsFrom == null) {
+            System.out.println("Using: " + VersionToUse);
+
+        } else {
+            VersionToUse = MOD_inheritsFrom;
+            System.out.println("Using: " + VersionToUse);
+
+        }
+        
+        //incase the url is empty.. we have to assume that the user has old path system.
+        for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
+            System.out.println(local.version_manifest_versions_id.get(i));
+            System.out.println(local.version_manifest_versions_type.get(i));
+            System.out.println(local.version_manifest_versions_url.get(i));
+        }
+
+        //download 1.7.10.json_libs
+        for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
+            if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
+                network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
+                break;
+            } else {
+                //do nothing...
+            }
+        }
+
+        System.out.println(utils.getMineCraftLocation(OperatingSystemToUse));
+
+        local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
+        local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
+
+
+        local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        ///************************************************************
+        for (int i = 0; i < local.version_url_list.size(); i++) {
+            System.out.println("Downloading: " + local.version_url_list.get(i));
+            try {
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+
+            } catch (Exception ex) {
+                System.out.println("Due to: " + ex + " " + local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+
+            }
+        }
+
+        //this may need to be edited!*************//
+        System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        //get assets index id!
+        network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+
+        System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
+
+        local.readJson_objects_KEY(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
+        local.readJson_objects_KEY_hash(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
+
+        for (int i = 0; i < local.objects_hash.size(); i++) {
+            System.out.println("HASH: " + local.objects_hash.get(i));
+            System.out.println("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
+            System.out.println("KEY: " + local.objects_KEY.get(i));
+
+            System.out.println("DOWNLOADING...");
+            network.downloadAssetsObjects(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString());
+            utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
+            //generate virtual folder as well.
+
+        }
+
+        System.out.println("DOWNLOADING MINECRAFT JAR");
+        if (MOD_jar == null) {
+            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse);
+
+        } else {
+            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar);
+
+        }
+
+        //would have tp edit this line as we also need natives paths!
+        System.out.println("Getting NATIVES URL");
+        local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
+        System.out.println("Getting NATIVES PATH");
+        local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
+
+        for (int i = 0; i < local.version_url_list_natives.size(); i++) {
+            System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
+            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString());
+            //extract them here..
+            System.out.println("Extracting...");
+            System.out.println(local.version_url_list_natives.get(i).toString());
+            System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+
+            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+
+        }
+
+    }
 
 }
