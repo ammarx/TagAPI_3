@@ -153,6 +153,16 @@ public class API_Interface {
 
         }
 
+        //this is where i need to define the memory that will be used.
+        
+        String Xmx;
+        Xmx = utils.getMemory();
+        if (Xmx == null) {
+            //set memory to 1G
+            Xmx = "1G";
+            
+        }
+        
         String mainClass;
         if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -212,11 +222,11 @@ public class API_Interface {
         System.out.println("assets root directory: " + AssetsRoot);
         System.out.println("assets Index Id: " + assetsIdexId);
         System.out.println("assets legacy directory: " + GameAssets);
-        System.out.println("full arguments: " + local.generateRunnableArguments(NativesDir, FullLibraryArgument, mainClass, HalfArgument));
+        System.out.println("full arguments: " + local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
 
-            String ArgsX = local.generateRunnableArguments(NativesDir, FullLibraryArgument, mainClass, HalfArgument);
+            String ArgsX = local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument);
             Runtime.getRuntime().exec("java " + ArgsX);
 
         } catch (Exception e) {
@@ -224,6 +234,7 @@ public class API_Interface {
         }
     }
 
+    
     public void downloadVersionManifest() {
         System.out.println("Downloading: version_manifest.json");
         String OperatingSystemToUse = utils.getOS();
@@ -238,6 +249,12 @@ public class API_Interface {
 
     }
     
+    public void setMemory(String MemoryToUse){
+        utils.setMemory(MemoryToUse);
+    }
+    
+    
+    //this function needs to be rechecked - I don't remember this.
     public void downloadMinecraft(String VersionToUse){
         String OperatingSystemToUse = utils.getOS();
         System.out.println("Downlaoding: " + VersionToUse);
