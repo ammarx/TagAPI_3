@@ -249,6 +249,8 @@ class TagAPI_3 {
 
         String VersionType = "ammarbless";
         String AuthSession = "OFFLINE";
+        String Xmx;
+        Xmx = "1G";
         String GameAssets = utils.getMineCraftAssetsVirtualLegacyLocation(OperatingSystemToUse);
         System.out.println("NativesPath: " + NativesDir);
 
@@ -272,11 +274,11 @@ class TagAPI_3 {
         System.out.println("assets root directory: " + AssetsRoot);
         System.out.println("assets Index Id: " + assetsIdexId);
         System.out.println("assets legacy directory: " + GameAssets);
-        System.out.println(local.generateRunnableArguments(NativesDir, FullLibraryArgument, mainClass, HalfArgument));
+        System.out.println(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
 
-            String ArgsX = local.generateRunnableArguments(NativesDir, FullLibraryArgument, mainClass, HalfArgument);
+            String ArgsX = local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument);
             Runtime.getRuntime().exec("java " + ArgsX);
 
         } catch (Exception e) {
