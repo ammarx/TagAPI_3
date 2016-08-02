@@ -18,8 +18,11 @@ public class Main {
             
         }
 
+        
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.7.2";
+        String VersionToUse = "1.8.9";
+        //String MemoryToUse = "2G";
+        //API.setMemory(MemoryToUse);
         API.runMinecraft(UsernameToUse, VersionToUse);
     }
 
