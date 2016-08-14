@@ -17,13 +17,14 @@ public class Main {
             System.out.println(installedVersionsList);
             
         }
-
-        
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.8.9";
+        String VersionToUse = "1.10.2";
         //String MemoryToUse = "2G";
         //API.setMemory(MemoryToUse);
         API.runMinecraft(UsernameToUse, VersionToUse);
+       
+        //API.downloadVersionManifest();
+        //API.downloadMinecraft("1.10.2");
     }
 
 }
