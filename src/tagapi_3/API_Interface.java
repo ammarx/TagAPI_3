@@ -258,6 +258,10 @@ public class API_Interface {
     public void downloadMinecraft(String VersionToUse){
         String OperatingSystemToUse = utils.getOS();
         System.out.println("Downlaoding: " + VersionToUse);
+        //add version in launcher_profiles.json
+        local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + VersionToUse, VersionToUse);
+    
+
         //get list of all 
         local.readJson_versions_id(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
