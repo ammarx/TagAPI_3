@@ -12,6 +12,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import org.apache.commons.io.FileUtils;
+import java.security.SecureRandom;
+import java.math.BigInteger;
 
 /**
  *
@@ -46,6 +48,10 @@ class Utils {
     public String getMineCraft_Version_Manifest_json(String OS) {
         return (getMineCraftLocation(OS) + "/version_manifest.json");
 
+    }
+
+    public String getMineCraft_Launcher_Profiles_json(String OS) {
+        return (getMineCraftLocation(OS) + "/launcher_profiles.json");
     }
 
     public String getMineCraft_Version_Json(String OS, String VersionNumber) {
@@ -211,7 +217,7 @@ class Utils {
 
     public String getOS() {
         String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-        
+
         if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
             return ("Mac");
         } else if (OS.indexOf("win") >= 0) {
@@ -224,15 +230,21 @@ class Utils {
             return ("Linux");
         }
     }
-    
+
     public String memory = null;
-    
+
     public void setMemory(String memory_) {
         memory = memory_;
     }
 
-    public String getMemory()
-    {
+    public String getMemory() {
         return memory;
     }
+
+    private SecureRandom random = new SecureRandom();
+
+    public String nextSessionId() {
+        return new BigInteger(130, random).toString(32);
+    }
+
 }
