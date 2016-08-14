@@ -8,6 +8,7 @@ package tagapi_3;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,8 +36,7 @@ class Local {
     List versions_list = new ArrayList();           //just gets the versions available on the system
     List version_url_list = new ArrayList();        //gets url of all the libraries
     List HALF_URL_version_url_list = new ArrayList();// this is the half url. it needs to be fixed first in order to be used
-    
-    
+
     List version_path_list = new ArrayList();       //%new added... This is for direct paths
     List version_name_list = new ArrayList();       //%new added... This is for direct names
 
@@ -46,13 +46,52 @@ class Local {
     List version_url_list_natives = new ArrayList();    //gets url of all the natives
     List version_path_list_natives = new ArrayList();    //%gets url of all the natives
     List version_name_list_natives = new ArrayList(); //EXP CODE!
-    
+
     List libraries_path = new ArrayList();          //gets path to all the libraries
     //List natives_path = new ArrayList();            //_NOT NEEDED_ gets path to all the natives
 
     List version_manifest_versions_id = new ArrayList();
     List version_manifest_versions_type = new ArrayList();
     List version_manifest_versions_url = new ArrayList();
+
+    public void writeJson_launcher_profiles_Sync() {
+        //step 1 would be to populate the version list.
+    }
+    
+    public void writeJson_launcher_profiles(String OS, String profile, String version) {
+        try {
+            Utils utils = new Utils();
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(new FileReader(utils.getMineCraft_Launcher_Profiles_json(OS)));
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONObject profiles = (JSONObject) jsonObject.get("profiles");
+            String selectedProfile = profile;
+            String clientToken = (String) jsonObject.get("clientToken");
+            JSONObject authenticationDatabase = (JSONObject) jsonObject
+                    .get("authenticationDatabase");
+
+            JSONObject params = new JSONObject();
+
+            params.put("lastVersionId", version);
+            params.put("name", profile);
+            profiles.put(profile, params);
+
+            JSONObject lp_json = new JSONObject();
+            lp_json.put("profiles", profiles);
+            lp_json.put("selectedProfile", selectedProfile);
+            lp_json.put("clientToken", clientToken);
+            lp_json.put("authenticationDatabase", authenticationDatabase);
+
+            FileWriter file = new FileWriter(utils.getMineCraft_Launcher_Profiles_json(OS));
+            file.write(lp_json.toJSONString());
+            file.flush();
+            file.close();
+
+            //System.out.println(test);
+        } catch (Exception e) {
+               //ermagard we have a problem... its k if we do.. it simply means user is not premium
+        }
+    }
 
     public void readJson_versions_id(String path) {
         JSONParser readMCJSONFiles = new JSONParser();
@@ -236,7 +275,7 @@ class Local {
     public void readJson_libraries_downloads_classifiers_natives_Z(String path) {
 
         try {
-          
+
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
             //System.out.println(content);
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
@@ -253,7 +292,7 @@ class Local {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     public void readJson_objects_KEY(String path) {
 
         //ammars old code | THIS DOES WORK!
@@ -499,7 +538,7 @@ class Local {
     }
 
     public String generateRunnableArguments(String Memory, String NativesDir, String FullLibraryArgument, String mainClass, String HalfArgument) {
-        return ("-Xmx" + Memory  + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=" + NativesDir + " -cp " + FullLibraryArgument + " " + mainClass + " " + HalfArgument);
+        return ("-Xmx" + Memory + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=" + NativesDir + " -cp " + FullLibraryArgument + " " + mainClass + " " + HalfArgument);
 
     }
 
@@ -531,7 +570,7 @@ class Local {
         }
         return "N/A";
     }
-    
+
     public String generateNativesPath(String natives_OS, String _name) {
         try {
             if (natives_OS.equals("Linux")) {
@@ -555,7 +594,7 @@ class Local {
             for (int i = 0; i < folderSplit.length; i++) {
                 compileFolder += folderSplit[i] + "/";
             }
-            
+
             compileSplit = compileFolder + "/" + colonSplit[1] + "/" + colonSplit[2] + "/" + colonSplit[1] + "-" + colonSplit[2] + "-" + natives_OS + ".jar";
             compileSplit = compileSplit.replace("//", "/");
             return (compileSplit);
@@ -599,7 +638,7 @@ class Local {
             //System.out.print(e);
         }
     }
-    
+
     public String readJson_inheritsFrom(String path) {
         try {
             FileReader reader = new FileReader(path);
@@ -612,7 +651,7 @@ class Local {
         }
         return "N/A";
     }
-    
+
     public String readJson_jar(String path) {
         try {
             FileReader reader = new FileReader(path);
