@@ -5,6 +5,8 @@
  */
 package tagapi_3;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,12 +19,49 @@ public class API_Interface {
     Local local = new Local();
     Network network = new Network();
 
+    public List getProfileInstalledVersionsList() {
+        String OperatingSystemToUse = utils.getOS();
+        local.readJson_profiles_KEY(utils.getMineCraft_Launcher_Profiles_json(OperatingSystemToUse));
+        local.readJson_profiles_KEY_lastVersionId(utils.getMineCraft_Launcher_Profiles_json(OperatingSystemToUse));
+        return local.profiles_lastVersionId;
+    }
+
     public List getInstalledVersionsList() {
         String OperatingSystemToUse = utils.getOS();
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
         local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
 
         return local.versions_list;
+    }
+
+    public void syncVersions() {
+        String OperatingSystemToUse = utils.getOS();
+        //this function is used to sync json and file system versions together.
+        API_Interface api_Interface = new API_Interface();
+
+        List ProfileInstalledVersionsList = new ArrayList();    //json
+        List InstalledVersionsList = new ArrayList();           //filesys
+
+        ProfileInstalledVersionsList = api_Interface.getInstalledVersionsList();    //get json
+        InstalledVersionsList = api_Interface.getProfileInstalledVersionsList();    //get filesys
+
+        List union = new ArrayList(ProfileInstalledVersionsList);
+        union.addAll(InstalledVersionsList);
+        // Prepare an intersection
+        List intersection = new ArrayList(ProfileInstalledVersionsList);
+        intersection.retainAll(InstalledVersionsList);
+        // Subtract the intersection from the union
+        union.removeAll(intersection);
+        // Print the result
+        if (!union.isEmpty()) {
+            for (Object n : union) {
+                System.out.println(n);
+                //add these versions to the system.
+                local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + n.toString(), n.toString());
+            }
+        }else{
+            System.out.print("No sync required!");
+        }
     }
 
     //runMinecraft - should only run minecraft (no verification of libraries... no downloads. just get args and run)
@@ -123,7 +162,7 @@ public class API_Interface {
         local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
         System.out.println("Getting NATIVES NAME");
         local.readJson_libraries_downloads_classifiers_natives_Z(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-        
+
         for (int i = 0; i < local.version_name_list_natives.size(); i++) {
             local.version_path_list_natives.add(local.generateNativesPath(OperatingSystemToUse, local.version_name_list_natives.get(i).toString()));
 
@@ -138,8 +177,8 @@ public class API_Interface {
         for (int i = 0; i < local.version_name_list_natives.size(); i++) {
             System.out.println(local.version_name_list_natives.get(i).toString());
         }
-        */
-        
+         */
+
         for (int i = 0; i < local.version_name_list_natives.size(); i++) {
             //extract them here..
             try {
@@ -154,15 +193,14 @@ public class API_Interface {
         }
 
         //this is where i need to define the memory that will be used.
-        
         String Xmx;
         Xmx = utils.getMemory();
         if (Xmx == null) {
             //set memory to 1G
             Xmx = "1G";
-            
+
         }
-        
+
         String mainClass;
         if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -234,7 +272,6 @@ public class API_Interface {
         }
     }
 
-    
     public void downloadVersionManifest() {
         System.out.println("Downloading: version_manifest.json");
         String OperatingSystemToUse = utils.getOS();
@@ -248,19 +285,17 @@ public class API_Interface {
         network.downloadProfile(OperatingSystemToUse, UsernameToUse);
 
     }
-    
-    public void setMemory(String MemoryToUse){
+
+    public void setMemory(String MemoryToUse) {
         utils.setMemory(MemoryToUse);
     }
-    
-    
+
     //this function needs to be rechecked - I don't remember this.
-    public void downloadMinecraft(String VersionToUse){
+    public void downloadMinecraft(String VersionToUse) {
         String OperatingSystemToUse = utils.getOS();
         System.out.println("Downlaoding: " + VersionToUse);
         //add version in launcher_profiles.json
         local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + VersionToUse, VersionToUse);
-    
 
         //get list of all 
         local.readJson_versions_id(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
@@ -300,7 +335,7 @@ public class API_Interface {
                 network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
 
             }
-            
+
             MOD_inheritsFrom = local.readJson_inheritsFrom(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
             System.out.println("inheritsFrom: " + MOD_inheritsFrom);
 
@@ -328,7 +363,7 @@ public class API_Interface {
             System.out.println("Using: " + VersionToUse);
 
         }
-        
+
         //incase the url is empty.. we have to assume that the user has old path system.
         for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
             System.out.println(local.version_manifest_versions_id.get(i));
@@ -350,7 +385,6 @@ public class API_Interface {
 
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
         local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
-
 
         local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
         local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
