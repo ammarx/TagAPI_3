@@ -24,12 +24,14 @@ public class Main {
             
         }
         
+        /*
         System.out.println("\n\nReading json for versions installed:");
         for(Object installedVersionsList : API.getProfileInstalledVersionsList()) {
             //read json for versions inalled.
             System.out.println(installedVersionsList);
         
         }
+        */
         
         System.out.println("\n\nSynicing file system with json...");
         API.syncVersions();
