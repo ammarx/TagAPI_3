@@ -14,7 +14,8 @@ import java.util.Locale;
 import org.apache.commons.io.FileUtils;
 import java.security.SecureRandom;
 import java.math.BigInteger;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 /**
  *
  * @author ammar
@@ -247,4 +248,23 @@ class Utils {
         return new BigInteger(130, random).toString(32);
     }
 
+    public ArrayList removeDuplicates(ArrayList list) {
+
+        // Store unique items in result.
+        ArrayList result = new ArrayList();
+
+        // Record encountered Strings in HashSet.
+        HashSet set = new HashSet();
+
+        // Loop over argument list.
+        for (Object item : list) {
+
+            // If String is not in set, add it to the list and the set.
+            if (!set.contains(item)) {
+                result.add(item);
+                set.add(item);
+            }
+        }
+        return result;
+    }
 }
