@@ -122,11 +122,12 @@ class Local {
             Object obj = parser.parse(new FileReader(utils.getMineCraft_Launcher_Profiles_json(OS)));
             JSONObject jsonObject = (JSONObject) obj;
             JSONObject profiles = (JSONObject) jsonObject.get("profiles");
-            String selectedProfile = profile;
+            String selectedProfile = (String) jsonObject.get("selectedProfile");
             String clientToken = (String) jsonObject.get("clientToken");
-            JSONObject authenticationDatabase = (JSONObject) jsonObject
-                    .get("authenticationDatabase");
-
+            JSONObject authenticationDatabase = (JSONObject) jsonObject.get("authenticationDatabase");
+            String selectedUser =  (String) jsonObject.get("selectedUser");
+            JSONObject launcherVersion =  (JSONObject) jsonObject.get("launcherVersion");
+            
             JSONObject params = new JSONObject();
 
             params.put("lastVersionId", version);
@@ -138,15 +139,15 @@ class Local {
             lp_json.put("selectedProfile", selectedProfile);
             lp_json.put("clientToken", clientToken);
             lp_json.put("authenticationDatabase", authenticationDatabase);
-
+            lp_json.put("selectedUser", selectedUser);
+            lp_json.put("launcherVersion", launcherVersion);
             FileWriter file = new FileWriter(utils.getMineCraft_Launcher_Profiles_json(OS));
             file.write(lp_json.toJSONString());
             file.flush();
             file.close();
 
-            //System.out.println(test);
         } catch (Exception e) {
-               //ermagard we have a problem... its k if we do.. it simply means user is not premium
+            //e.printStackTrace();
         }
     }
 
