@@ -55,13 +55,13 @@ public class API_Interface {
         // Print the result
         if (!union.isEmpty()) {
             for (Object n : union) {
-                System.out.println(n);
                 //add these versions to the system.
-                local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + n.toString(), n.toString());
+                if (n != null) {
+                    System.out.println(n);
+                    local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + n.toString(), n.toString());
+                }
             }
-        }else{
-            System.out.print("No sync required!");
-        }
+        } 
     }
 
     //runMinecraft - should only run minecraft (no verification of libraries... no downloads. just get args and run)
