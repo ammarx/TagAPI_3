@@ -37,10 +37,10 @@ public class Main {
         API.syncVersions();
         
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.10.2";
-        //String MemoryToUse = "2G";
-        //API.setMemory(MemoryToUse);
-        //API.runMinecraft(UsernameToUse, VersionToUse);
+        String VersionToUse = "1.8.9";
+        String MemoryToUse = "2G";
+        API.setMemory(MemoryToUse);
+        API.runMinecraft(UsernameToUse, VersionToUse);
        
         
         
