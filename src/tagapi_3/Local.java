@@ -43,6 +43,9 @@ class Local {
     List objects_hash = new ArrayList();            //gets objects hash
     List objects_KEY = new ArrayList();             //gets objects keys
 
+    List profiles_lastVersionId = new ArrayList();   //gets profiles lastVersionId
+    List profiles_KEY = new ArrayList();             //gets profiles keys
+    
     List version_url_list_natives = new ArrayList();    //gets url of all the natives
     List version_path_list_natives = new ArrayList();    //%gets url of all the natives
     List version_name_list_natives = new ArrayList(); //EXP CODE!
@@ -54,9 +57,63 @@ class Local {
     List version_manifest_versions_type = new ArrayList();
     List version_manifest_versions_url = new ArrayList();
 
+    
+     public void readJson_profiles_KEY(String path) {
+        JSONParser readMCJSONFiles = new JSONParser();
+        try {
+            Object jsonfile;
+
+            jsonfile = readMCJSONFiles.parse(new FileReader(path));
+
+            JSONObject jsonObject = (JSONObject) jsonfile;
+            JSONObject profiles = (JSONObject) jsonObject.get("profiles");
+
+            Set fileCheckObjects = profiles.keySet();
+            Iterator a = fileCheckObjects.iterator();
+            while (a.hasNext()) {
+                String fileName = (String) a.next();
+                profiles_KEY.add(fileName);
+            }
+        } catch (FileNotFoundException exception) {
+            System.out.println(exception);
+        } catch (IOException | ParseException ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public void readJson_profiles_KEY_lastVersionId(String path) {
+        JSONParser readMCJSONFiles = new JSONParser();
+        try {
+            Object jsonfile;
+
+            jsonfile = readMCJSONFiles.parse(new FileReader(path));
+
+            JSONObject jsonObject = (JSONObject) jsonfile;
+            JSONObject profiles = (JSONObject) jsonObject.get("profiles");
+
+            Set fileCheckObjects = profiles.keySet();
+            Iterator a = fileCheckObjects.iterator();
+            while (a.hasNext()) {
+                String fileName = (String) a.next();
+
+                JSONObject fileNameObject = (JSONObject) profiles.get(fileName);
+                String lastVersionId = (String) fileNameObject.get("lastVersionId");
+                profiles_lastVersionId.add(lastVersionId);
+            }
+        } catch (FileNotFoundException exception) {
+            System.out.println(exception);
+        } catch (IOException | ParseException ex) {
+            System.out.println(ex);
+        }
+
+    }
+    /*
     public void writeJson_launcher_profiles_Sync() {
         //step 1 would be to populate the version list.
+        //step 2 would be to load json and read profiles{ {val} { lastVersionId } }
     }
+    */
     
     public void writeJson_launcher_profiles(String OS, String profile, String version) {
         try {
@@ -185,7 +242,6 @@ class Local {
 
     }
 
-    //EXP CODE! 
     public void readJson_libraries_downloads_artifact_path(String path) {
 
         JSONParser readMCJSONFiles = new JSONParser();
@@ -294,26 +350,6 @@ class Local {
     }
 
     public void readJson_objects_KEY(String path) {
-
-        //ammars old code | THIS DOES WORK!
-        /*
-        try {
-
-            String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
-            //System.out.println(content);
-            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-            engine.eval(new FileReader("script.js"));
-
-            Invocable invocable = (Invocable) engine;
-            Object result = invocable.invokeFunction("getJsonObjectsKEY", content);
-            //System.out.println(result);
-            //split here with /n
-            for (String retval : result.toString().split("\n")) {
-                objects_KEY.add(retval);
-            }
-        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
-            System.out.println(ex.getMessage());
-        }*/
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object jsonfile;
@@ -338,28 +374,6 @@ class Local {
     }
 
     public void readJson_objects_KEY_hash(String path) {
-        //ammars old code | THIS DOES WORK!
-        /*
-        try {
-
-            String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
-            //System.out.println(content);
-            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-            engine.eval(new FileReader("script.js"));
-
-            Invocable invocable = (Invocable) engine;
-
-            int n = 0;
-            Object result = invocable.invokeFunction("getJsonObjectsHash", content);
-            //System.out.println(result);
-            //split here with /n
-            for (String retval : result.toString().split("\n")) {
-                objects_hash.add(retval);
-            }
-        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
-            System.out.println(ex.getMessage());
-        }*/
-
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object jsonfile;
