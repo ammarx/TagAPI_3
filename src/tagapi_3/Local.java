@@ -5,6 +5,7 @@
  */
 package tagapi_3;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -57,6 +58,34 @@ class Local {
     List version_manifest_versions_type = new ArrayList();
     List version_manifest_versions_url = new ArrayList();
 
+    
+    public void fixLauncherProfiles(String OS) {
+        //this is where we will check if file is available or not. 
+        //if the file is available, we do not need to fix anything...
+        //else we need to fix it using the new version.
+        Utils utils = new Utils();
+        try {
+
+            String content = "{\"profiles\":{\"TagCraftMC\":{\"name\":\"TagCraftMC\"}},\"selectedProfile\":\"TagCraftMC\",\"clientToken\":\"dc291e47-a41f-4bc8-8ec2-563195188db2\",\"authenticationDatabase\":{\"4db2fbf560f355492dea6962e103f1d2\":{\"displayName\":\"TagCraftMC\",\"userProperties\":[{\"name\":\"twitch_access_token\",\"value\":\"e4u4updugw2h7pn7psy3u4u4u7p8raq\"}],\"accessToken\":\"c8c8358cac8a43c896ec85ee3c807c8e\",\"userid\":\"793addf9682c8e04c8cc823db79c8c85\",\"uuid\":\"4db2fbf5-60f3-5549-2dea-6962e103f1d2\",\"username\":\"support@tagcraftmc.com\"}},\"selectedUser\":\"4db2fbf560f355492dea6962e103f1d2\",\"launcherVersion\":{\"name\":\"1.6.61\",\"format\":18}}";
+
+            File file = new File(utils.getMineCraft_Launcher_Profiles_json(OS));
+
+            // if file doesnt exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(content);
+                bw.close();
+                System.out.println("LauncherProfiles.json Created!");
+            } else {
+                System.out.println("LauncherProfiles.json not created! File exists!");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
      public void readJson_profiles_KEY(String path) {
         JSONParser readMCJSONFiles = new JSONParser();
