@@ -19,7 +19,7 @@ public class API_Interface {
     Local local = new Local();
     Network network = new Network();
 
-    public List getProfileInstalledVersionsList() {
+    private List getProfileInstalledVersionsList() {
         String OperatingSystemToUse = utils.getOS();
         local.readJson_profiles_KEY(utils.getMineCraft_Launcher_Profiles_json(OperatingSystemToUse));
         local.readJson_profiles_KEY_lastVersionId(utils.getMineCraft_Launcher_Profiles_json(OperatingSystemToUse));
@@ -37,21 +37,23 @@ public class API_Interface {
     public void syncVersions() {
         String OperatingSystemToUse = utils.getOS();
         //this function is used to sync json and file system versions together.
+        local.fixLauncherProfiles(OperatingSystemToUse); //<-- just fix it!
         API_Interface api_Interface = new API_Interface();
 
         List ProfileInstalledVersionsList = new ArrayList();    //json
         List InstalledVersionsList = new ArrayList();           //filesys
 
-        ProfileInstalledVersionsList = api_Interface.getInstalledVersionsList();    //get json
-        InstalledVersionsList = api_Interface.getProfileInstalledVersionsList();    //get filesys
+        InstalledVersionsList = api_Interface.getInstalledVersionsList();    //get json
+        ProfileInstalledVersionsList = api_Interface.getProfileInstalledVersionsList();    //get filesys
 
-        List union = new ArrayList(ProfileInstalledVersionsList);
-        union.addAll(InstalledVersionsList);
+        List union = new ArrayList(InstalledVersionsList);
+        union.addAll(ProfileInstalledVersionsList);
         // Prepare an intersection
-        List intersection = new ArrayList(ProfileInstalledVersionsList);
-        intersection.retainAll(InstalledVersionsList);
+        List intersection = new ArrayList(InstalledVersionsList);
+        intersection.retainAll(ProfileInstalledVersionsList);
         // Subtract the intersection from the union
         union.removeAll(intersection);
+        union.removeAll(ProfileInstalledVersionsList); //this is required so that we can get rid of redundant versions
         // Print the result
         if (!union.isEmpty()) {
             for (Object n : union) {
