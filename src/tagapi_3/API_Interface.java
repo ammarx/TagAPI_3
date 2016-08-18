@@ -6,7 +6,6 @@
 package tagapi_3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,7 +65,6 @@ public class API_Interface {
         } 
     }
 
-    //runMinecraft - should only run minecraft (no verification of libraries... no downloads. just get args and run)
     public void runMinecraft(String UsernameToUse, String VersionToUse) {
         String OperatingSystemToUse = utils.getOS();
         //get list of all 
@@ -88,8 +86,12 @@ public class API_Interface {
         } else {
             System.out.println("Modded Minecraft found!");
             local.MOD_readJson_libraries_name_PLUS_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+            for (int i = 0; i < local.version_name_list.size(); i++) {
+                System.out.println(local.version_name_list.get(i));
+                System.out.println(local.HALF_URL_version_url_list.get(i));
+            }
 
-            /*System.out.println("Fixing url using name.");*/
+            System.out.println("Fixing url using name.");
             for (int i = 0; i < local.version_name_list.size(); i++) {
                 local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
 
@@ -127,8 +129,39 @@ public class API_Interface {
 
         }
 
+        //incase the url is empty.. we have to assume that the user has old path system.
+        for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
+            System.out.println(local.version_manifest_versions_id.get(i));
+            System.out.println(local.version_manifest_versions_type.get(i));
+            System.out.println(local.version_manifest_versions_url.get(i));
+        }
+        
+        //download 1.7.10.json_libs
+        for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
+            if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
+                //we will download versionjson everytime.
+                network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
+                break;
+            } else {
+                //do nothing...
+            }
+        }
+        
+        System.out.println(utils.getMineCraftLocation(OperatingSystemToUse));
+
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
         local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
+
+        for (int i = 0; i < local.versions_json_path_list.size(); i++) {
+            System.out.println(local.versions_json_path_list.get(i));
+        }
+
+        for (int i = 0; i < local.versions_list.size(); i++) {
+            System.out.println(local.versions_list.get(i));
+        }
+
+        System.out.print(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        System.out.print("\n\n");
 
         try {
             local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
@@ -148,53 +181,52 @@ public class API_Interface {
         } catch (Exception ex) {
             System.out.println("Unable to get libraries_name " + ex);
         }
-        ///************************************************************
-        for (int i = 0; i < local.version_name_list.size(); i++) {
-            try {
-                local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
 
-            } catch (Exception ex) {
-                System.out.println("Something went wrong! " + ex);
-            }
+        try {
+            System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+
+        } catch (Exception ex) {
+            System.out.println("Unable to get assetIndex_url" + ex);
+        }
+        try {
+            System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        } catch (Exception ex) {
+            System.out.println("Unable to get assetIndex_id" + ex);
+        }
+        
+        System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
+
+        local.readJson_objects_KEY(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
+        local.readJson_objects_KEY_hash(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
+
+        for (int i = 0; i < local.objects_hash.size(); i++) {
+            System.out.println("HASH: " + local.objects_hash.get(i));
+            System.out.println("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
+            System.out.println("KEY: " + local.objects_KEY.get(i));
+            utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
+            //generate virtual folder as well.
+
         }
 
         System.out.println("Getting NATIVES URL");
         local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
         System.out.println("Getting NATIVES PATH");
         local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
-        System.out.println("Getting NATIVES NAME");
-        local.readJson_libraries_downloads_classifiers_natives_Z(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
 
-        for (int i = 0; i < local.version_name_list_natives.size(); i++) {
-            local.version_path_list_natives.add(local.generateNativesPath(OperatingSystemToUse, local.version_name_list_natives.get(i).toString()));
-
-        }
-        /*
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
-            System.out.println(local.version_url_list_natives.get(i).toString());
-        }
-        for (int i = 0; i < local.version_path_list_natives.size(); i++) {
-            System.out.println(local.version_path_list_natives.get(i).toString());
-        }
-        for (int i = 0; i < local.version_name_list_natives.size(); i++) {
-            System.out.println(local.version_name_list_natives.get(i).toString());
-        }
-         */
-
-        for (int i = 0; i < local.version_name_list_natives.size(); i++) {
+            System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
             //extract them here..
-            try {
-                System.out.println("Extracting... " + local.version_path_list_natives.get(i).toString());
-                System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
-                utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            System.out.println("Extracting...");
+            System.out.println(local.version_url_list_natives.get(i).toString());
+            System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
 
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
+            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
 
         }
 
-        //this is where i need to define the memory that will be used.
+        System.out.println("\n\n");
+
+        //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
         String Xmx;
         Xmx = utils.getMemory();
         if (Xmx == null) {
@@ -245,24 +277,31 @@ public class API_Interface {
 
         String VersionType = "ammarbless";
         String AuthSession = "OFFLINE";
+
         String GameAssets = utils.getMineCraftAssetsVirtualLegacyLocation(OperatingSystemToUse);
         System.out.println("NativesPath: " + NativesDir);
 
         for (int i = 0; i < local.version_path_list.size(); i++) {
             local.libraries_path.add(utils.setMineCraft_librariesLocation(OperatingSystemToUse, local.version_path_list.get(i).toString()));
+            System.out.println(local.libraries_path.get(i));
         }
 
+        String HalfLibraryArgument = local.generateLibrariesArguments(OperatingSystemToUse);
         String FullLibraryArgument = local.generateLibrariesArguments(OperatingSystemToUse) + utils.getArgsDiv(OperatingSystemToUse) + MinecraftJar;
+        System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
+        System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
         String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets, AuthSession);
+        System.out.println("HalfArgument: " + HalfArgument);
         System.out.println("Minecraft.jar: " + MinecraftJar);
+
         System.out.println("username: " + Username);
         System.out.println("version number: " + versionName);
         System.out.println("game directory: " + gameDirectory);
         System.out.println("assets root directory: " + AssetsRoot);
         System.out.println("assets Index Id: " + assetsIdexId);
         System.out.println("assets legacy directory: " + GameAssets);
-        System.out.println("full arguments: " + local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
+        System.out.println(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
 
@@ -292,7 +331,6 @@ public class API_Interface {
         utils.setMemory(MemoryToUse);
     }
 
-    //this function needs to be rechecked - I don't remember this.
     public void downloadMinecraft(String VersionToUse) {
         String OperatingSystemToUse = utils.getOS();
         System.out.println("Downlaoding: " + VersionToUse);
