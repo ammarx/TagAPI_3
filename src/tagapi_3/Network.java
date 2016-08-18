@@ -118,12 +118,14 @@ class Network {
             Utils utils = new Utils();
             URL url = new URL(_url);
             File file = new File(utils.getMineCraft_Versions_X_X_json(OS,versionnumber));
-            if (file.exists()){
+            /*if (file.exists()){
                 //do not download..
                 System.out.println("File Exists!");
             } else {
                 FileUtils.copyURLToFile(url, file);
-            }
+            }*/
+            FileUtils.copyURLToFile(url, file);
+            
         } catch (Exception e) {
             System.out.print(e);
         }
