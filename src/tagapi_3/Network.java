@@ -44,12 +44,14 @@ class Network {
             Utils utils = new Utils();
             URL url = new URL(_url);
             File file = new File(utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
+            /*
             if (file.exists()){
                 //do not download..
                 System.out.println("File Exists!");
             } else {
                 FileUtils.copyURLToFile(url, file);
-            }
+            }*/
+            FileUtils.copyURLToFile(url, file);
         } catch (Exception e) {
             System.out.print(e);
         }
@@ -85,19 +87,18 @@ class Network {
         }
     }
     
-    
-    //modify this
     public void downloadMinecraftJar(String OS, String version){
         try {
             Utils utils = new Utils();
             URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
             File file = new File(utils.getMineCraft_Versions_X_X_jar(OS, version));
-            if (file.exists()){
+            /*if (file.exists()){
                 //do not download..
                 System.out.println("File Exists!");
             } else {
                 FileUtils.copyURLToFile(url, file);
-            }
+            }*/
+            FileUtils.copyURLToFile(url, file);
         } catch (Exception e) {
             System.out.print(e);
         }
