@@ -23,8 +23,8 @@ class TagAPI_3 {
         Local local = new Local();
         Network network = new Network();
 
-        String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.7.2";
+        String UsernameToUse = args[0];
+        String VersionToUse = args[1];
         String OperatingSystemToUse = utils.getOS();
         System.out.println("OS: " + OperatingSystemToUse);
 
