@@ -62,7 +62,7 @@ public class API_Interface {
                     local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + n.toString(), n.toString());
                 }
             }
-        } 
+        }
     }
 
     public void runMinecraft(String UsernameToUse, String VersionToUse) {
@@ -135,7 +135,7 @@ public class API_Interface {
             System.out.println(local.version_manifest_versions_type.get(i));
             System.out.println(local.version_manifest_versions_url.get(i));
         }
-        
+
         //download 1.7.10.json_libs
         for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
             if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
@@ -146,7 +146,7 @@ public class API_Interface {
                 //do nothing...
             }
         }
-        
+
         System.out.println(utils.getMineCraftLocation(OperatingSystemToUse));
 
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
@@ -193,18 +193,35 @@ public class API_Interface {
         } catch (Exception ex) {
             System.out.println("Unable to get assetIndex_id" + ex);
         }
-        
+
         System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
 
-        local.readJson_objects_KEY(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
-        local.readJson_objects_KEY_hash(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
+        try {
+            local.readJson_objects_KEY(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
 
-        for (int i = 0; i < local.objects_hash.size(); i++) {
-            System.out.println("HASH: " + local.objects_hash.get(i));
-            System.out.println("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
-            System.out.println("KEY: " + local.objects_KEY.get(i));
-            utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
-            //generate virtual folder as well.
+        } catch (Exception e) {
+            System.out.println("Error reading objects KEY" + e);
+        }
+        try {
+            local.readJson_objects_KEY_hash(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
+
+        } catch (Exception e) {
+            System.out.println("Error reading objects KEY_hash" + e);
+
+        }
+
+        try {
+            for (int i = 0; i < local.objects_hash.size(); i++) {
+                System.out.println("HASH: " + local.objects_hash.get(i));
+                System.out.println("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
+                System.out.println("KEY: " + local.objects_KEY.get(i));
+                utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
+                //generate virtual folder as well.
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error reading objects KEY + KEY_hash" + e);
 
         }
 
@@ -426,9 +443,27 @@ public class API_Interface {
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
         local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
 
-        local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        try {
+            local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+
+        }
+        try {
+            local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+
+        }
+        try {
+            local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+
+        }
         ///************************************************************
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
