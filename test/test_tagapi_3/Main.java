@@ -37,15 +37,15 @@ public class Main {
         API.syncVersions();
         
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.8.9";
+        String VersionToUse = "1.7.2";
         String MemoryToUse = "2G";
         API.setMemory(MemoryToUse);
         API.runMinecraft(UsernameToUse, VersionToUse);
        
         
-        
+        //so the downloads is fine... that means running has issies..
         //API.downloadVersionManifest();
-        //API.downloadMinecraft("1.10.2");
+        //API.downloadMinecraft("1.10.2-forge1.10.2-12.18.1.2011");
     }
 
 }
