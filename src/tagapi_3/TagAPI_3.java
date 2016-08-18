@@ -22,9 +22,9 @@ class TagAPI_3 {
         Utils utils = new Utils();
         Local local = new Local();
         Network network = new Network();
-        
-        String UsernameToUse = args[0];
-        String VersionToUse = args[1];
+
+        String UsernameToUse = "Ammar_Ahmad";
+        String VersionToUse = "1.7.2";
         String OperatingSystemToUse = utils.getOS();
         System.out.println("OS: " + OperatingSystemToUse);
 
@@ -32,7 +32,6 @@ class TagAPI_3 {
         //String VersionToUse = "1.8.9";
         //String OperatingSystemToUse = "Linux";
         //String UsernameToUse = "Ammar_Ahmad";
-       
         //get profile
         System.out.println("Getting profile details");
         network.downloadProfile(OperatingSystemToUse, UsernameToUse);
@@ -76,7 +75,7 @@ class TagAPI_3 {
                 network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
 
             }
-            
+
             MOD_inheritsFrom = local.readJson_inheritsFrom(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
             System.out.println("inheritsFrom: " + MOD_inheritsFrom);
 
@@ -104,7 +103,7 @@ class TagAPI_3 {
             System.out.println("Using: " + VersionToUse);
 
         }
-        
+
         //incase the url is empty.. we have to assume that the user has old path system.
         for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
             System.out.println(local.version_manifest_versions_id.get(i));
@@ -138,9 +137,24 @@ class TagAPI_3 {
         System.out.print(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
         System.out.print("\n\n");
 
-        local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+        try {
+            local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+
+        } catch (Exception ex) {
+            System.out.println("Unable to get libraries_downloads_artifact_url " + ex);
+        }
+        try {
+            local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+
+        } catch (Exception ex) {
+            System.out.println("Unable to get libraries_downloads_artifact_path " + ex);
+        }
+        try {
+            local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+
+        } catch (Exception ex) {
+            System.out.println("Unable to get libraries_name " + ex);
+        }
         ///************************************************************
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
@@ -156,8 +170,19 @@ class TagAPI_3 {
         }
 
         //this may need to be edited!*************//
-        System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
-        System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        try {
+            System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+        
+        try {
+            System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+        
         //get assets index id!
         network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
 
@@ -208,49 +233,57 @@ class TagAPI_3 {
         System.out.println("\n\n");
 
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
+        String Xmx;
+        Xmx = utils.getMemory();
+        if (Xmx == null) {
+            //set memory to 1G
+            Xmx = "1G";
+
+        }
+
         String mainClass;
-        if (MOD_mainClass == null){
+        if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-            
+
         } else {
-            mainClass =  MOD_mainClass;
+            mainClass = MOD_mainClass;
         }
 
         String NativesDir = utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse);
         String assetsIdexId;
-        if (MOD_assets == null){
+        if (MOD_assets == null) {
             assetsIdexId = local.readJson_assets(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-        
+
         } else {
             assetsIdexId = MOD_assets;
+        }
+        if (assetsIdexId == null) {
+            assetsIdexId = "NULL";
         }
 
         String gameDirectory = utils.getMineCraftLocation(OperatingSystemToUse);
         String AssetsRoot = utils.getMineCraftAssetsLocation(OperatingSystemToUse);
-       
+
         String versionName;
-        if (MOD_id == null){
+        if (MOD_id == null) {
             versionName = local.readJson_id(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
         } else {
             versionName = MOD_id;
         }
-        
-        
+
         String authuuid = local.readJson_id(utils.getMineCraft_X_json(OperatingSystemToUse, UsernameToUse));
         String Username = UsernameToUse;
         String MinecraftJar;
-        if (MOD_jar == null){
+        if (MOD_jar == null) {
             MinecraftJar = utils.getMineCraft_Versions_X_X_jar(OperatingSystemToUse, VersionToUse);
- 
+
         } else {
             MinecraftJar = utils.getMineCraft_Versions_X_X_jar(OperatingSystemToUse, MOD_jar);
         }
-         
 
         String VersionType = "ammarbless";
         String AuthSession = "OFFLINE";
-        String Xmx;
-        Xmx = "1G";
+
         String GameAssets = utils.getMineCraftAssetsVirtualLegacyLocation(OperatingSystemToUse);
         System.out.println("NativesPath: " + NativesDir);
 
