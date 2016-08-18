@@ -14,11 +14,9 @@ import java.util.List;
  */
 public class API_Interface {
 
-    Utils utils = new Utils();
-    Local local = new Local();
-    Network network = new Network();
-
     private List getProfileInstalledVersionsList() {
+        Utils utils = new Utils();
+        Local local = new Local();
         String OperatingSystemToUse = utils.getOS();
         local.readJson_profiles_KEY(utils.getMineCraft_Launcher_Profiles_json(OperatingSystemToUse));
         local.readJson_profiles_KEY_lastVersionId(utils.getMineCraft_Launcher_Profiles_json(OperatingSystemToUse));
@@ -26,6 +24,8 @@ public class API_Interface {
     }
 
     public List getInstalledVersionsList() {
+        Utils utils = new Utils();
+        Local local = new Local();
         String OperatingSystemToUse = utils.getOS();
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
         local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
@@ -34,6 +34,8 @@ public class API_Interface {
     }
 
     public void syncVersions() {
+        Utils utils = new Utils();
+        Local local = new Local();
         String OperatingSystemToUse = utils.getOS();
         //this function is used to sync json and file system versions together.
         local.fixLauncherProfiles(OperatingSystemToUse); //<-- just fix it!
@@ -66,6 +68,9 @@ public class API_Interface {
     }
 
     public void runMinecraft(String UsernameToUse, String VersionToUse) {
+        Utils utils = new Utils();
+        Local local = new Local();
+        Network network = new Network();
         String OperatingSystemToUse = utils.getOS();
         //get list of all 
         local.readJson_versions_id(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
@@ -331,6 +336,8 @@ public class API_Interface {
     }
 
     public void downloadVersionManifest() {
+        Utils utils = new Utils();
+        Network network = new Network();
         System.out.println("Downloading: version_manifest.json");
         String OperatingSystemToUse = utils.getOS();
         network.downloadVersionManifest(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
@@ -338,6 +345,8 @@ public class API_Interface {
     }
 
     public void downloadProfile(String UsernameToUse) {
+        Utils utils = new Utils();
+        Network network = new Network();
         String OperatingSystemToUse = utils.getOS();
         System.out.println("Downloading: " + UsernameToUse + ".json");
         network.downloadProfile(OperatingSystemToUse, UsernameToUse);
@@ -345,10 +354,14 @@ public class API_Interface {
     }
 
     public void setMemory(String MemoryToUse) {
+        Utils utils = new Utils();
         utils.setMemory(MemoryToUse);
     }
 
     public void downloadMinecraft(String VersionToUse) {
+        Utils utils = new Utils();
+        Local local = new Local();
+        Network network = new Network();
         String OperatingSystemToUse = utils.getOS();
         System.out.println("Downlaoding: " + VersionToUse);
         //add version in launcher_profiles.json
