@@ -7,6 +7,7 @@ package tagapi_3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -14,6 +15,34 @@ import java.util.List;
  */
 public class API_Interface {
 
+    public List getInstallableVersionsList()
+    {
+        Local local = new Local();
+        Utils utils = new Utils();
+        String OperatingSystemToUse = utils.getOS();
+        local.readJson_versions_id(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
+        local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
+        //local.version_manifest_versions_id;
+        List InstallableVersionsList = new ArrayList();
+    
+        if (local.version_manifest_versions_id.size() == local.version_manifest_versions_type.size())
+        {
+            //we can merge them..
+            for(int i = 0; i<local.version_manifest_versions_id.size();i++)
+            {
+                InstallableVersionsList.add(local.version_manifest_versions_id.get(i) + " % " + local.version_manifest_versions_type.get(i));
+            }
+        } else {
+            //don't merge them..
+
+            for(int i = 0; i<local.version_manifest_versions_id.size();i++)
+            {
+                InstallableVersionsList.add(local.version_manifest_versions_id.get(i));
+            }
+        }
+        return InstallableVersionsList;
+    }
+    
     private List getProfileInstalledVersionsList() {
         Utils utils = new Utils();
         Local local = new Local();
@@ -328,8 +357,19 @@ public class API_Interface {
         try {
 
             String ArgsX = local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument);
-            Runtime.getRuntime().exec("java " + ArgsX);
+            Process process = Runtime.getRuntime().exec("java " + ArgsX);
 
+            try {
+                process.waitFor(10, TimeUnit.SECONDS);
+                //process.waitFor();
+                if (process.exitValue() != 0) {
+                    //something went wrong.
+                    System.out.println("Minecraft Corruption found!");
+                }
+
+            } catch (Exception ex) {
+                //nothing to print.. everythimg went fine.
+            }
         } catch (Exception e) {
             System.out.print(e);
         }
@@ -358,7 +398,7 @@ public class API_Interface {
         utils.setMemory(MemoryToUse);
     }
 
-    public void downloadMinecraft(String VersionToUse) {
+    public void downloadMinecraft(String VersionToUse, Boolean ForceDownload) {
         Utils utils = new Utils();
         Local local = new Local();
         Network network = new Network();
@@ -402,7 +442,7 @@ public class API_Interface {
             }
             for (int i = 0; i < local.version_name_list.size(); i++) {
                 System.out.println("Downloading: " + local.version_url_list.get(i));
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString(), ForceDownload);
 
             }
 
@@ -481,12 +521,12 @@ public class API_Interface {
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
             try {
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString(), ForceDownload);
 
             } catch (Exception ex) {
                 System.out.println("Due to: " + ex + " " + local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
                 local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()), ForceDownload);
 
             }
         }
@@ -495,7 +535,7 @@ public class API_Interface {
         System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
         System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
         //get assets index id!
-        network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)),ForceDownload);
 
         System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
 
@@ -516,10 +556,10 @@ public class API_Interface {
 
         System.out.println("DOWNLOADING MINECRAFT JAR");
         if (MOD_jar == null) {
-            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse);
+            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse, ForceDownload);
 
         } else {
-            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar);
+            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar, ForceDownload);
 
         }
 
@@ -531,7 +571,7 @@ public class API_Interface {
 
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
             System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
-            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString());
+            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString(), ForceDownload);
             //extract them here..
             System.out.println("Extracting...");
             System.out.println(local.version_url_list_natives.get(i).toString());
