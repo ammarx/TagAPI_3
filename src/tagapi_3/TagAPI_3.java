@@ -25,6 +25,14 @@ class TagAPI_3 {
 
         String UsernameToUse = args[0];
         String VersionToUse = args[1];
+        String ForceDownload_ = args[2];
+        
+        Boolean ForceDownload = false;
+        if (ForceDownload_ == "" || ForceDownload_ == null || ForceDownload_.toLowerCase().equals("false")){
+            ForceDownload = false;
+        } else {
+            ForceDownload = true;
+        }
         String OperatingSystemToUse = utils.getOS();
         System.out.println("OS: " + OperatingSystemToUse);
 
@@ -72,7 +80,7 @@ class TagAPI_3 {
             }
             for (int i = 0; i < local.version_name_list.size(); i++) {
                 System.out.println("Downloading: " + local.version_url_list.get(i));
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString(), ForceDownload);
 
             }
 
@@ -159,12 +167,12 @@ class TagAPI_3 {
         for (int i = 0; i < local.version_url_list.size(); i++) {
             System.out.println("Downloading: " + local.version_url_list.get(i));
             try {
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString());
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString(), ForceDownload);
 
             } catch (Exception ex) {
                 System.out.println("Due to: " + ex + " " + local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
                 local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
-                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()), ForceDownload);
 
             }
         }
@@ -205,10 +213,10 @@ class TagAPI_3 {
 
         System.out.println("DOWNLOADING MINECRAFT JAR");
         if (MOD_jar == null) {
-            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse);
+            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse, ForceDownload);
 
         } else {
-            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar);
+            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar, ForceDownload);
 
         }
 
@@ -220,7 +228,7 @@ class TagAPI_3 {
 
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
             System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
-            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString());
+            network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString(), ForceDownload);
             //extract them here..
             System.out.println("Extracting...");
             System.out.println(local.version_url_list_natives.get(i).toString());
