@@ -77,12 +77,21 @@ class Network {
         }
     }
     
-    public void downloadLaunchermeta(String OS, String _url, String version){
+    public void downloadLaunchermeta(String OS, String _url, String version, Boolean ForceDownload){
         try {
             Utils utils = new Utils();
             URL url = new URL(_url);
             File file = new File(utils.getMineCraftAssetsIndexes_X_json(OS, version));
-            FileUtils.copyURLToFile(url, file);
+            if (ForceDownload ==  true) {
+                FileUtils.copyURLToFile(url, file);
+            } else {
+                if (file.exists()){
+                    //do not download..
+                    System.out.println("File Exists! - Skipping download");
+                } else {
+                    FileUtils.copyURLToFile(url, file);
+                }    
+            }
         } catch (Exception e) {
             System.out.print(e);
         }
