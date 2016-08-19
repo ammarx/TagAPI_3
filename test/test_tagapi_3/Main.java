@@ -24,11 +24,11 @@ public class Main {
         API.syncVersions();
         
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.9.4-LiteLoader1.9.4";
+        String VersionToUse = "1.8.9";
         String MemoryToUse = "2G";
         API.setMemory(MemoryToUse);
         API.downloadVersionManifest();
-        API.downloadMinecraft(VersionToUse);
+        API.downloadMinecraft(VersionToUse, false); //force download flag
         API.runMinecraft(UsernameToUse, VersionToUse);
        
 
