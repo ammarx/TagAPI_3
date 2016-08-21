@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         tagapi_3.API_Interface API = new tagapi_3.API_Interface();
-
+        
         System.out.println("Reading file system for versions installed:");
         for (Object installedVersionsList : API.getInstalledVersionsList()) {
             //read file system for versions installed.
@@ -29,13 +29,13 @@ public class Main {
         API.syncVersions();
 
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.10.2-OptiFine_HD_U_C2";
+        String VersionToUse = "1.8.9";
         String MemoryToUse = "2G";
         API.setMemory(MemoryToUse);
         API.downloadVersionManifest();
         API.downloadMinecraft(VersionToUse, false); //force download flag
         API.runMinecraft(UsernameToUse, VersionToUse);
-
+        
     }
 
 }
