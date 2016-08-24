@@ -39,16 +39,19 @@ class Network {
         }
     }
     
-    public void downloadLibraries(String OS ,String _url, String _path) {
+    public void downloadLibraries(String OS ,String _url, String _path, Boolean ForceDownload) {
         try {
             Utils utils = new Utils();
             URL url = new URL(_url);
             File file = new File(utils.getMineCraftLibrariesLocation(OS) + "/" + _path);
-            if (file.exists()){
-                //do not download..
-                System.out.println("File Exists!");
-            } else {
+            if (ForceDownload ==  true) {
                 FileUtils.copyURLToFile(url, file);
+            } else {
+                if (file.exists()){
+                    System.out.println("File Exists! - Skipping download");
+                } else {
+                    FileUtils.copyURLToFile(url, file);
+                }    
             }
         } catch (Exception e) {
             System.out.print(e);
@@ -74,29 +77,40 @@ class Network {
         }
     }
     
-    public void downloadLaunchermeta(String OS, String _url, String version){
+    public void downloadLaunchermeta(String OS, String _url, String version, Boolean ForceDownload){
         try {
             Utils utils = new Utils();
             URL url = new URL(_url);
             File file = new File(utils.getMineCraftAssetsIndexes_X_json(OS, version));
-            FileUtils.copyURLToFile(url, file);
+            if (ForceDownload ==  true) {
+                FileUtils.copyURLToFile(url, file);
+            } else {
+                if (file.exists()){
+                    //do not download..
+                    System.out.println("File Exists! - Skipping download");
+                } else {
+                    FileUtils.copyURLToFile(url, file);
+                }    
+            }
         } catch (Exception e) {
             System.out.print(e);
         }
     }
     
-    
-    //modify this
-    public void downloadMinecraftJar(String OS, String version){
+    public void downloadMinecraftJar(String OS, String version, Boolean ForceDownload){
         try {
             Utils utils = new Utils();
             URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
             File file = new File(utils.getMineCraft_Versions_X_X_jar(OS, version));
-            if (file.exists()){
-                //do not download..
-                System.out.println("File Exists!");
-            } else {
+            if (ForceDownload ==  true) {
                 FileUtils.copyURLToFile(url, file);
+            } else {
+                if (file.exists()){
+                    //do not download..
+                    System.out.println("File Exists! - Skipping download");
+                } else {
+                    FileUtils.copyURLToFile(url, file);
+                }    
             }
         } catch (Exception e) {
             System.out.print(e);
@@ -118,12 +132,14 @@ class Network {
             Utils utils = new Utils();
             URL url = new URL(_url);
             File file = new File(utils.getMineCraft_Versions_X_X_json(OS,versionnumber));
-            if (file.exists()){
+            /*if (file.exists()){
                 //do not download..
                 System.out.println("File Exists!");
             } else {
                 FileUtils.copyURLToFile(url, file);
-            }
+            }*/
+            FileUtils.copyURLToFile(url, file);
+            
         } catch (Exception e) {
             System.out.print(e);
         }

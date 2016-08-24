@@ -46,7 +46,7 @@ class Local {
 
     List profiles_lastVersionId = new ArrayList();   //gets profiles lastVersionId
     List profiles_KEY = new ArrayList();             //gets profiles keys
-    
+
     List version_url_list_natives = new ArrayList();    //gets url of all the natives
     List version_path_list_natives = new ArrayList();    //%gets url of all the natives
     List version_name_list_natives = new ArrayList(); //EXP CODE!
@@ -58,7 +58,6 @@ class Local {
     List version_manifest_versions_type = new ArrayList();
     List version_manifest_versions_url = new ArrayList();
 
-    
     public void fixLauncherProfiles(String OS) {
         //this is where we will check if file is available or not. 
         //if the file is available, we do not need to fix anything...
@@ -86,8 +85,8 @@ class Local {
             e.printStackTrace();
         }
     }
-    
-     public void readJson_profiles_KEY(String path) {
+
+    public void readJson_profiles_KEY(String path) {
         JSONParser readMCJSONFiles = new JSONParser();
         try {
             Object jsonfile;
@@ -137,13 +136,13 @@ class Local {
         }
 
     }
+
     /*
     public void writeJson_launcher_profiles_Sync() {
         //step 1 would be to populate the version list.
         //step 2 would be to load json and read profiles{ {val} { lastVersionId } }
     }
-    */
-    
+     */
     public void writeJson_launcher_profiles(String OS, String profile, String version) {
         try {
             Utils utils = new Utils();
@@ -154,9 +153,9 @@ class Local {
             String selectedProfile = (String) jsonObject.get("selectedProfile");
             String clientToken = (String) jsonObject.get("clientToken");
             JSONObject authenticationDatabase = (JSONObject) jsonObject.get("authenticationDatabase");
-            String selectedUser =  (String) jsonObject.get("selectedUser");
-            JSONObject launcherVersion =  (JSONObject) jsonObject.get("launcherVersion");
-            
+            String selectedUser = (String) jsonObject.get("selectedUser");
+            JSONObject launcherVersion = (JSONObject) jsonObject.get("launcherVersion");
+
             JSONObject params = new JSONObject();
 
             params.put("lastVersionId", version);
@@ -314,7 +313,21 @@ class Local {
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
             //System.out.println(content);
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-            engine.eval(new FileReader("script.js"));
+            try {
+
+                String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].path+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].name+\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
+
+                File file = new File("./.script.js");
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(script_js);
+                bw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            engine.eval(new FileReader("./.script.js"));
 
             Invocable invocable = (Invocable) engine;
 
@@ -344,7 +357,21 @@ class Local {
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
             //System.out.println(content);
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-            engine.eval(new FileReader("script.js"));
+            try {
+
+                String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].path+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].name+\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
+
+                File file = new File("./.script.js");
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(script_js);
+                bw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            engine.eval(new FileReader("./.script.js"));
 
             Invocable invocable = (Invocable) engine;
 
@@ -365,7 +392,21 @@ class Local {
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
             //System.out.println(content);
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-            engine.eval(new FileReader("script.js"));
+            try {
+
+                String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].path+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].name+\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
+
+                File file = new File("./.script.js");
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(script_js);
+                bw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            engine.eval(new FileReader("./.script.js"));
 
             Invocable invocable = (Invocable) engine;
 
