@@ -1,3 +1,4 @@
+# Open-source Minecraft API
 The purpose of the API is to provide developers the ability to download / run Minecraft.
 
 The accessible class which is the API_Interface, consists of the following functions:
