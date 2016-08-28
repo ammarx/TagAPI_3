@@ -4,9 +4,11 @@ The purpose of the API is to provide developers the ability to download / run Mi
 The accessible class which is the API_Interface, consists of the following functions:
 
 - Logs:
-  - ```String getRunLogs()``` - *Returns logs (Should be used when running the game);* _**Denoted by [rl]**_
-  - ```String getDownloadLogs()``` - *Returns logs (Should be used when downloading a new version of the game);* _**Denoted by [dl]**_
-  - ```String getLastErrorLogs()``` - *Returns logs (Should be used when there is an error in downloading or launching the game);* _**Denoted by [el]**_
+  - ~~```String getRunLogs()``` - *Returns logs (Should be used when running the game);* _**Denoted by [rl]**_~~
+  - ~~```String getDownloadLogs()``` - *Returns logs (Should be used when downloading a new version of the game);* _**Denoted by [dl]**_~~
+  - ~~```String getLastErrorLogs()``` - *Returns logs (Should be used when there is an error in downloading or launching the game);* _**Denoted by [el]**_~~
+  - ```String getLog()``` - *Returns last logged log*
+  - ```List getLogs()``` - *Returns a list of all logged logs*
 
 - Local Data:
   - ```List getInstallableVersionsList()``` - *Returns list of all versions available to download*
@@ -23,6 +25,15 @@ The accessible class which is the API_Interface, consists of the following funct
 
 - Launch:
   - ```void runMinecraft(String UsernameToUse, String VersionToUse)``` - *Accepts (Username, Version to run) and launches Minecraft*
+
+| Key                             | Log Type      | Purpose                                           |
+| :-----------------------------: |:-------------:| :------------------------------------------------:|
+| [rl] ```{prefix}```             | run logs      | tells when local file processing is being done    |
+| [dl] ```{prefix}```             | download logs | tells when API is downloading files               |
+| [el] ```{prefix}```             | error logs    | tells when an error has occured in the API        |
+| [rl] Minecraft Corruption found!| run logs      | tells when the API failed to run minecraft        |
+| [rl] Minecraft Initialized!     | run logs      | tells when the API has successfully run minecraft |
+| [dl] Download Complete!         | download logs | tells when the API has completed downloading files|
 
 # Example Code
 - Download Minecraft (Force Download: False):
