@@ -13,59 +13,79 @@ import java.util.concurrent.TimeUnit;
  *
  * @author ammar
  */
-public class API_Interface{
+public class API_Interface {
 
     private String runLogs;
+
     //run logs getter/setter
-    public String getRunLogs() 
-    {
-        return "[rl] " + runLogs; //run logs
+    private String getRunLogs() {
+        return runLogs; //run logs
     }
-    public void setRunLogs(String runLogs_) 
-    {
+
+    private void setRunLogs(String runLogs_) {
         System.out.println(runLogs_);
-        runLogs = runLogs_;
+        this.setLog("[rl] " + runLogs_);
+        runLogs = "[rl] " + runLogs_;
     }
-    private void resetRunLogs()
-    {
-        runLogs = "";
-    }
-    
+
     private String downloadLogs;
+
     //download logs getter/setter
-    public String getDownloadLogs()
-    {
-        return "[dl] " + downloadLogs; //download logs
+    private String getDownloadLogs() {
+        return downloadLogs; //download logs
     }
-    public void setDownloadLogs(String downloadLogs_)
-    {
+
+    private void setDownloadLogs(String downloadLogs_) {
         System.out.println(downloadLogs_);
-        downloadLogs = downloadLogs_;
+        this.setLog("[dl] " + downloadLogs_);
+        downloadLogs = "[dl] " + downloadLogs_;
     }
-    private void resetDownloadLogs()
-    {
-        downloadLogs = "";
-    }
-    
+
     private String lastErrorLogs;
+
     //last error logs getter/setter
-    public String getLastErrorLogs()
-    {
-        return "[el] " + lastErrorLogs;
+    private String getLastErrorLogs() {
+        return lastErrorLogs;
     }
-    public void setLastErrorLogs(String lastErrorLogs_)
-    {
+
+    private void setLastErrorLogs(String lastErrorLogs_) {
         System.out.println(lastErrorLogs_);
-        lastErrorLogs = lastErrorLogs_;
+        this.setLog("[el] " + lastErrorLogs_);
+        lastErrorLogs = "[el] " + lastErrorLogs_;
     }
-    private void resetLastErrorLogs()
-    {
-        lastErrorLogs = "";
+
+    private String log;
+    
+    //interface for log
+    public String getLog() {
+        return log;
+    }
+
+    private void setLog(String log_) {
+        this.setLogs(log_);
+        log = log_;
     }
     
-    
-    public List getInstallableVersionsList()
+    //interface for full logs
+    private List logs = new ArrayList();
+    public List getLogs()
     {
+        return logs;
+    }
+    
+    private void setLogs(String logs_)
+    {
+        logs.add(logs_);
+    }
+    
+    public void dumpLogs()
+    {
+        Utils utils = new Utils();
+        String OperatingSystemToUse = utils.getOS();
+        utils.writeLogs(OperatingSystemToUse, (ArrayList) logs);
+    }
+    
+    public List getInstallableVersionsList() {
         Local local = new Local();
         Utils utils = new Utils();
         String OperatingSystemToUse = utils.getOS();
@@ -73,25 +93,22 @@ public class API_Interface{
         local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         //local.version_manifest_versions_id;
         List InstallableVersionsList = new ArrayList();
-    
-        if (local.version_manifest_versions_id.size() == local.version_manifest_versions_type.size())
-        {
+
+        if (local.version_manifest_versions_id.size() == local.version_manifest_versions_type.size()) {
             //we can merge them..
-            for(int i = 0; i<local.version_manifest_versions_id.size();i++)
-            {
+            for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
                 InstallableVersionsList.add(local.version_manifest_versions_id.get(i) + " % " + local.version_manifest_versions_type.get(i));
             }
         } else {
             //don't merge them..
 
-            for(int i = 0; i<local.version_manifest_versions_id.size();i++)
-            {
+            for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
                 InstallableVersionsList.add(local.version_manifest_versions_id.get(i));
             }
         }
         return InstallableVersionsList;
     }
-    
+
     private List getProfileInstalledVersionsList() {
         Utils utils = new Utils();
         Local local = new Local();
@@ -451,7 +468,7 @@ public class API_Interface{
         Network network = new Network();
         String OperatingSystemToUse = utils.getOS();
         this.setDownloadLogs("Downlaoding: " + VersionToUse);
-        
+
         //add version in launcher_profiles.json
         local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + VersionToUse, VersionToUse);
 
@@ -583,7 +600,7 @@ public class API_Interface{
         System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
         System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
         //get assets index id!
-        network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)),ForceDownload);
+        network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), ForceDownload);
 
         System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
 
