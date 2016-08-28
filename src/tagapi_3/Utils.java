@@ -5,8 +5,10 @@
  */
 package tagapi_3;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,6 +18,7 @@ import java.security.SecureRandom;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 /**
  *
  * @author ammar
@@ -39,6 +42,10 @@ class Utils {
     public String getMineCraftVersionsLocation(String OS) {
         return (getMineCraftLocation(OS) + "/versions");
 
+    }
+
+    public String getMineCraft_Launcherlogs_txt(String OS) {
+        return (getMineCraftLocation(OS) + "/Launcherlogs.txt");
     }
 
     public String getMineCraftLibrariesLocation(String OS) {
@@ -266,5 +273,33 @@ class Utils {
             }
         }
         return result;
+    }
+
+    public void writeLogs(String OS, ArrayList list) {
+        try {
+            Utils utils = new Utils();
+            //get the entire list and append it to string
+
+            File file = new File(utils.getMineCraft_Launcherlogs_txt(OS));
+
+            //recreate the file no matter what
+            file.createNewFile();
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            String content = "Logs: \n";
+            for (Object item : list) 
+            {
+                content = content + item;
+            }
+
+            bw.write(content);
+            bw.close();
+
+            System.out.println("Done");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
