@@ -1,0 +1,22 @@
+{
+    "libraries": [
+        {
+            "name": "v0.2-alpha",
+            "downloads": {
+                "artifact": {
+                    "url": "https://github.com/ammarx/TagAPI_3/releases/download/v0.2-alpha/TagAPI.-.v0.2-alpha-binary.jar",
+                    "notes": "Bug fixes and implementation of new logging functions"
+                }
+            }
+        },
+        {
+            "name": "v0.1-alpha",
+            "downloads": {
+                "artifact": {
+                    "url": "https://github.com/ammarx/TagAPI_3/releases/download/v0.2-alpha/TagAPI.-.v0.2-alpha-binary.zip",
+                    "notes": "This is the initial release"
+                }
+            }
+        }
+    ]
+}
