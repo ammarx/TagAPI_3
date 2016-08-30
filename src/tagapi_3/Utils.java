@@ -290,7 +290,7 @@ class Utils {
             String content = "Logs: \n";
             for (Object item : list) 
             {
-                content = content + item;
+                content = content + item + "\n";
             }
 
             bw.write(content);
