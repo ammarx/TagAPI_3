@@ -15,6 +15,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class API_Interface {
 
+    public String getAPIVersion()
+    {
+        return "v0.1-alpha";
+    }
+    
     private String runLogs;
 
     //run logs getter/setter
