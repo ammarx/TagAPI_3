@@ -41,21 +41,21 @@ public class API_Interface {
         downloadLogs = "[dl] " + downloadLogs_;
     }
 
-    private String lastErrorLogs;
+    private String errorLogs;
 
     //last error logs getter/setter
-    private String getLastErrorLogs() {
-        return lastErrorLogs;
+    private String getErrorLogs() {
+        return errorLogs;
     }
 
-    private void setLastErrorLogs(String lastErrorLogs_) {
-        System.out.println(lastErrorLogs_);
-        this.setLog("[el] " + lastErrorLogs_);
-        lastErrorLogs = "[el] " + lastErrorLogs_;
+    private void setErrorLogs(String errorLogs_) {
+        System.out.println(errorLogs_);
+        this.setLog("[el] " + errorLogs_);
+        errorLogs = "[el] " + errorLogs_;
     }
 
     private String log;
-    
+
     //interface for log
     public String getLog() {
         return log;
@@ -65,26 +65,24 @@ public class API_Interface {
         this.setLogs(log_);
         log = log_;
     }
-    
+
     //interface for full logs
     private List logs = new ArrayList();
-    public List getLogs()
-    {
+
+    public List getLogs() {
         return logs;
     }
-    
-    private void setLogs(String logs_)
-    {
+
+    private void setLogs(String logs_) {
         logs.add(logs_);
     }
-    
-    public void dumpLogs()
-    {
+
+    public void dumpLogs() {
         Utils utils = new Utils();
         String OperatingSystemToUse = utils.getOS();
         utils.writeLogs(OperatingSystemToUse, (ArrayList) logs);
     }
-    
+
     public List getInstallableVersionsList() {
         Local local = new Local();
         Utils utils = new Utils();
@@ -186,8 +184,8 @@ public class API_Interface {
             this.setRunLogs("Modded Minecraft found!");
             local.MOD_readJson_libraries_name_PLUS_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
             for (int i = 0; i < local.version_name_list.size(); i++) {
-                System.out.println(local.version_name_list.get(i));
-                System.out.println(local.HALF_URL_version_url_list.get(i));
+                this.setRunLogs((String) local.version_name_list.get(i));
+                this.setRunLogs((String) local.HALF_URL_version_url_list.get(i));
             }
 
             this.setRunLogs("Fixing url using name.");
@@ -230,20 +228,25 @@ public class API_Interface {
 
         //incase the url is empty.. we have to assume that the user has old path system.
         for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
-            System.out.println(local.version_manifest_versions_id.get(i));
-            System.out.println(local.version_manifest_versions_type.get(i));
-            System.out.println(local.version_manifest_versions_url.get(i));
+            this.setRunLogs((String) local.version_manifest_versions_id.get(i));
+            this.setRunLogs((String) local.version_manifest_versions_type.get(i));
+            this.setRunLogs((String) local.version_manifest_versions_url.get(i));
         }
 
         //download 1.7.10.json_libs
-        for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
-            if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
-                //we will download versionjson everytime.
-                network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
-                break;
-            } else {
-                //do nothing...
+        try {
+            for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
+                if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
+                    //we will download versionjson everytime.
+                    network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
+                    break;
+                } else {
+                    //do nothing...
+                }
             }
+
+        } catch (Exception e) {
+            this.setErrorLogs("Something went wrong downloadVersionJson" + e);
         }
 
         this.setRunLogs(utils.getMineCraftLocation(OperatingSystemToUse));
@@ -260,52 +263,51 @@ public class API_Interface {
         }
 
         this.setRunLogs(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
-        System.out.print("\n\n");
 
         try {
             local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            this.setRunLogs("Unable to get libraries_downloads_artifact_url " + ex);
+            this.setErrorLogs("Unable to get libraries_downloads_artifact_url " + ex);
         }
         try {
             local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            this.setRunLogs("Unable to get libraries_downloads_artifact_path " + ex);
+            this.setErrorLogs("Unable to get libraries_downloads_artifact_path " + ex);
         }
         try {
             local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            this.setRunLogs("Unable to get libraries_name " + ex);
+            this.setErrorLogs("Unable to get libraries_name " + ex);
         }
 
         try {
-            System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+            this.setRunLogs(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
 
         } catch (Exception ex) {
-            this.setRunLogs("Unable to get assetIndex_url" + ex);
+            this.setErrorLogs("Unable to get assetIndex_url" + ex);
         }
         try {
-            System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+            this.setRunLogs(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
         } catch (Exception ex) {
-            this.setRunLogs("Unable to get assetIndex_id" + ex);
+            this.setErrorLogs("Unable to get assetIndex_id" + ex);
         }
 
-        System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
+        this.setRunLogs(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
 
         try {
             local.readJson_objects_KEY(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
 
         } catch (Exception e) {
-            this.setRunLogs("Error reading objects KEY" + e);
+            this.setErrorLogs("Error reading objects KEY" + e);
         }
         try {
             local.readJson_objects_KEY_hash(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
 
         } catch (Exception e) {
-            this.setRunLogs("Error reading objects KEY_hash" + e);
+            this.setErrorLogs("Error reading objects KEY_hash" + e);
 
         }
 
@@ -320,7 +322,7 @@ public class API_Interface {
             }
 
         } catch (Exception e) {
-            this.setRunLogs("Error reading objects KEY + KEY_hash" + e);
+            this.setErrorLogs("Error reading objects KEY + KEY_hash" + e);
 
         }
 
@@ -330,11 +332,11 @@ public class API_Interface {
         local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
 
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
-            System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
+            this.setRunLogs("NATIVE URL: " + local.version_url_list_natives.get(i));
             //extract them here..
             this.setRunLogs("Extracting...");
-            System.out.println(local.version_url_list_natives.get(i).toString());
-            System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            this.setRunLogs(local.version_url_list_natives.get(i).toString());
+            this.setRunLogs(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
 
             utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
 
@@ -427,7 +429,7 @@ public class API_Interface {
                 //process.waitFor();
                 if (process.exitValue() != 0) {
                     //something went wrong.
-                    this.setRunLogs("Minecraft Corruption found!");
+                    this.setErrorLogs("Minecraft Corruption found!");
                 }
 
             } catch (Exception ex) {
@@ -486,10 +488,10 @@ public class API_Interface {
         String MOD_id = null;
         //check if it is vanilla or not
         if (local.checkIfVanillaMC(VersionToUse).equals(true)) {
-            System.out.println("Vanilla Minecraft found!");
+            this.setRunLogs("Vanilla Minecraft found!");
 
         } else {
-            System.out.println("Modded Minecraft found!");
+            this.setRunLogs("Modded Minecraft found!");
             local.MOD_readJson_libraries_name_PLUS_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
             for (int i = 0; i < local.version_name_list.size(); i++) {
                 System.out.println(local.version_name_list.get(i));
@@ -541,22 +543,27 @@ public class API_Interface {
 
         //incase the url is empty.. we have to assume that the user has old path system.
         for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
-            System.out.println(local.version_manifest_versions_id.get(i));
-            System.out.println(local.version_manifest_versions_type.get(i));
-            System.out.println(local.version_manifest_versions_url.get(i));
+            this.setDownloadLogs("ID: " + local.version_manifest_versions_id.get(i));
+            this.setDownloadLogs("TYPE: " + local.version_manifest_versions_type.get(i));
+            this.setDownloadLogs("URL: " + local.version_manifest_versions_url.get(i));
         }
 
         //download 1.7.10.json_libs
-        for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
-            if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
-                network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
-                break;
-            } else {
-                //do nothing...
+        try {
+            for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
+                if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
+                    network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
+                    break;
+                } else {
+                    //do nothing...
+                }
             }
+
+        } catch (Exception e) {
+            this.setErrorLogs("Something went wrong getting version json" + e);
         }
 
-        System.out.println(utils.getMineCraftLocation(OperatingSystemToUse));
+        this.setRunLogs(utils.getMineCraftLocation(OperatingSystemToUse));
 
         local.generateVersionJsonPathList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
         local.generateVersionList(utils.getMineCraftVersionsLocation(OperatingSystemToUse));
@@ -565,21 +572,21 @@ public class API_Interface {
             local.readJson_libraries_downloads_artifact_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            this.setDownloadLogs("Exception" + ex);
+            this.setErrorLogs("Exception" + ex);
 
         }
         try {
             local.readJson_libraries_downloads_artifact_path(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            this.setDownloadLogs("Exception" + ex);
+            this.setErrorLogs("Exception" + ex);
 
         }
         try {
             local.readJson_libraries_name(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
 
         } catch (Exception ex) {
-            this.setDownloadLogs("Exception" + ex);
+            this.setErrorLogs("Exception" + ex);
 
         }
         ///************************************************************
@@ -589,7 +596,7 @@ public class API_Interface {
                 network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.version_path_list.get(i).toString(), ForceDownload);
 
             } catch (Exception ex) {
-                this.setDownloadLogs("Due to: " + ex + " " + local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
+                this.setErrorLogs("Due to: " + ex + " " + local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
                 local.version_path_list.add(local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()));
                 network.downloadLibraries(OperatingSystemToUse, local.version_url_list.get(i).toString(), local.generateLibrariesPath(OperatingSystemToUse, local.version_name_list.get(i).toString()), ForceDownload);
 
@@ -597,12 +604,12 @@ public class API_Interface {
         }
 
         //this may need to be edited!*************//
-        System.out.println(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
-        System.out.println(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        this.setRunLogs(local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
+        this.setRunLogs(local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)));
         //get assets index id!
         network.downloadLaunchermeta(OperatingSystemToUse, local.readJson_assetIndex_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), ForceDownload);
 
-        System.out.println(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
+        this.setRunLogs(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, VersionToUse));
 
         local.readJson_objects_KEY(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
         local.readJson_objects_KEY_hash(utils.getMineCraftAssetsIndexes_X_json(OperatingSystemToUse, local.readJson_assetIndex_id(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse))));
@@ -612,7 +619,7 @@ public class API_Interface {
             this.setDownloadLogs("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
             this.setDownloadLogs("KEY: " + local.objects_KEY.get(i));
 
-            System.out.println("DOWNLOADING...");
+            this.setDownloadLogs("DOWNLOADING..." + "HASH: " + local.objects_hash.get(i));
             network.downloadAssetsObjects(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString());
             utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
             //generate virtual folder as well.
@@ -635,12 +642,12 @@ public class API_Interface {
         local.readJson_libraries_downloads_classifiers_natives_Y(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);
 
         for (int i = 0; i < local.version_url_list_natives.size(); i++) {
-            System.out.println("NATIVE URL: " + local.version_url_list_natives.get(i));
+            this.setDownloadLogs("NATIVE URL: " + local.version_url_list_natives.get(i));
             network.downloadLibraries(OperatingSystemToUse, local.version_url_list_natives.get(i).toString(), local.version_path_list_natives.get(i).toString(), ForceDownload);
             //extract them here..
-            this.setDownloadLogs("Extracting...");
-            System.out.println(local.version_url_list_natives.get(i).toString());
-            System.out.println(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            this.setRunLogs("Extracting...");
+            this.setRunLogs(local.version_url_list_natives.get(i).toString());
+            this.setRunLogs(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
 
             utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
 
