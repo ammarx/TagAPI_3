@@ -1,3 +1,4 @@
+cd /home/ammar/NetBeansProjects/TagAPI_3/
 cd dist/
 cd lib/
 jar xf commons-io-2.5.jar
