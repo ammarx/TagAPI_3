@@ -19,6 +19,9 @@ The accessible class which is the API_Interface, consists of the following funct
 - Launch:
   - ```void runMinecraft(String UsernameToUse, String VersionToUse)``` - *Accepts (Username, Version to run) and launches Minecraft*
 
+- Version Info:
+ -  ```String getAPIVersion()``` - *Returns the version number of the API library*
+
 - Logs:
   - ```String getLog()``` - *Returns last logged log*
   - ```List getLogs()``` - *Returns a list of all logged logs*
