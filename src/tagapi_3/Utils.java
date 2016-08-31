@@ -97,6 +97,11 @@ class Utils {
         }
     }
 
+    public String getMineCraft_Versions_X_X_jar_Location(String OS, String VersionNumber) {
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar");
+    
+    }
+
     public String getMineCraftAssetsRootLocation(String OS) {
         if (OS.equals("Linux") || OS.equals("Mac")) {
             return (getMineCraftLocation(OS) + "/assets").replace(" ", "%20");
@@ -109,6 +114,11 @@ class Utils {
 
     }
 
+    public String getMineCraft_Versions_X_Natives_Location(String OS, String VersionNumber) {
+          return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
+
+    }
+    
     public String getMineCraft_Versions_X_Natives(String OS, String VersionNumber) {
         if (OS.equals("Linux") || OS.equals("Mac")) {
 
