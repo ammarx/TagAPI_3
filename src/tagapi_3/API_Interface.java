@@ -341,9 +341,9 @@ public class API_Interface {
             //extract them here..
             this.setRunLogs("Extracting...");
             this.setRunLogs(local.version_url_list_natives.get(i).toString());
-            this.setRunLogs(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            this.setRunLogs(utils.getMineCraft_Versions_X_Natives_Location(OperatingSystemToUse, VersionToUse));
 
-            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives_Location(OperatingSystemToUse, VersionToUse));
 
         }
 
@@ -652,9 +652,9 @@ public class API_Interface {
             //extract them here..
             this.setRunLogs("Extracting...");
             this.setRunLogs(local.version_url_list_natives.get(i).toString());
-            this.setRunLogs(utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            this.setRunLogs(utils.getMineCraft_Versions_X_Natives_Location(OperatingSystemToUse, VersionToUse));
 
-            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives(OperatingSystemToUse, VersionToUse));
+            utils.jarExtract(OperatingSystemToUse, local.version_path_list_natives.get(i).toString(), utils.getMineCraft_Versions_X_Natives_Location(OperatingSystemToUse, VersionToUse));
 
         }
         this.setDownloadLogs("Download Complete!");
