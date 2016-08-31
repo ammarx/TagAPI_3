@@ -101,7 +101,7 @@ class Network {
         try {
             Utils utils = new Utils();
             URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
-            File file = new File(utils.getMineCraft_Versions_X_X_jar(OS, version));
+            File file = new File(utils.getMineCraft_Versions_X_X_jar_Location(OS, version));
             if (ForceDownload ==  true) {
                 FileUtils.copyURLToFile(url, file);
             } else {
