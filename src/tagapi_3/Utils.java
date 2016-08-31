@@ -52,6 +52,11 @@ class Utils {
         return "N/A";
     }
 
+    public String getMineCraft_APIMeta(String OS)
+    {
+        return (getMineCraftLocation(OS) + "/api_meta");
+    }
+    
     public String getMineCraftVersionsLocation(String OS) {
         return (getMineCraftLocation(OS) + "/versions");
 
