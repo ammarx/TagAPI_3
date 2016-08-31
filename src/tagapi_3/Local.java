@@ -11,12 +11,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -57,6 +61,21 @@ class Local {
     List version_manifest_versions_id = new ArrayList();
     List version_manifest_versions_type = new ArrayList();
     List version_manifest_versions_url = new ArrayList();
+
+    public List getAPIMetaList(String OS) {
+        List meta = new ArrayList();
+        Utils utils = new Utils();
+        try {
+            for (String line : Files.readAllLines(Paths.get(utils.getMineCraft_APIMeta(OS)))) {
+                for (String part : line.split(":")) {
+                    meta.add(part);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("API Meta does not exist!");
+        }
+        return meta;
+    }
 
     public void fixLauncherProfiles(String OS) {
         //this is where we will check if file is available or not. 
