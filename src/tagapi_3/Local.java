@@ -614,9 +614,19 @@ class Local {
         Utils utils = new Utils();
         for (int i = 0; i < libraries_path.size(); i++) {
             if (i == libraries_path.size() - 1) {
-                cp = cp + libraries_path.get(i).toString();
+                if (OS.equals("Linux") || OS.equals("Mac")) {
+                    cp = cp + libraries_path.get(i).toString().replace(" ", "%20");
+
+                } else {
+                    //for dirty windows
+                    cp = cp + "\"" + libraries_path.get(i).toString() + "\"";
+                }
+            } else if (OS.equals("Linux") || OS.equals("Mac")) {
+                cp = cp + libraries_path.get(i).toString().replace(" ", "%20") + utils.getArgsDiv(OS);
+
             } else {
-                cp = cp + libraries_path.get(i).toString() + utils.getArgsDiv(OS);
+                //for dirty windows
+                cp = cp + "\"" + libraries_path.get(i).toString() + "\"" + utils.getArgsDiv(OS);
             }
         }
         return cp;
