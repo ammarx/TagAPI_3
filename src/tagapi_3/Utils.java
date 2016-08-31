@@ -39,6 +39,19 @@ class Utils {
         return "N/A";
     }
 
+    public String getMineCraftGameDirectoryLocation(String OS) {
+        if (OS.equals("Windows")) {
+            return ("\"" + System.getenv("APPDATA") + "/.minecraft" + "\"");
+        }
+        if (OS.equals("Linux")) {
+            return (System.getProperty("user.home") + "/.minecraft").replace(" ", "%20");
+        }
+        if (OS.equals("Mac")) {
+            return (System.getProperty("user.home") + "/Library/Application Support/minecraft").replace(" ", "%20");
+        }
+        return "N/A";
+    }
+
     public String getMineCraftVersionsLocation(String OS) {
         return (getMineCraftLocation(OS) + "/versions");
 
@@ -73,13 +86,39 @@ class Utils {
     }
 
     public String getMineCraft_Versions_X_X_jar(String OS, String VersionNumber) {
-        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar");
+        if (OS.equals("Linux") || OS.equals("Mac")) {
+
+            return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar").replace(" ", "%20");
+
+        } else {
+            //dirty windows OS
+            return ("\"" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar" + "\"");
+
+        }
+    }
+
+    public String getMineCraftAssetsRootLocation(String OS) {
+        if (OS.equals("Linux") || OS.equals("Mac")) {
+            return (getMineCraftLocation(OS) + "/assets").replace(" ", "%20");
+
+        } else {
+            //dirty windows OS
+            return ("\"" + getMineCraftLocation(OS) + "/assets" + "\"");
+
+        }
 
     }
 
     public String getMineCraft_Versions_X_Natives(String OS, String VersionNumber) {
-        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
+        if (OS.equals("Linux") || OS.equals("Mac")) {
 
+            return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives").replace(" ", "%20");
+
+        } else {
+            //dirty windows OS
+            return ("\"" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives" + "\"");
+
+        }
     }
 
     public String getMineCraftAssetsIndexes_X_json(String OS, String VersionNumber) {
@@ -288,8 +327,7 @@ class Utils {
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             String content = "Logs: \n";
-            for (Object item : list) 
-            {
+            for (Object item : list) {
                 content = content + item + "\n";
             }
 
