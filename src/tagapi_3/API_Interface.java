@@ -17,7 +17,7 @@ public class API_Interface {
 
     public String getAPIVersion()
     {
-        return "v0.1-alpha";
+        return "v0.2-alpha";
     }
     
     private String runLogs;
@@ -376,8 +376,8 @@ public class API_Interface {
             assetsIdexId = "NULL";
         }
 
-        String gameDirectory = utils.getMineCraftLocation(OperatingSystemToUse);
-        String AssetsRoot = utils.getMineCraftAssetsLocation(OperatingSystemToUse);
+        String gameDirectory = utils.getMineCraftGameDirectoryLocation(OperatingSystemToUse); 
+        String AssetsRoot = utils.getMineCraftAssetsRootLocation(OperatingSystemToUse);
 
         String versionName;
         if (MOD_id == null) {
