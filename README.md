@@ -50,6 +50,8 @@ The accessible class which is the API_Interface, consists of the following funct
 ```
 
 # Release
+TagAPI - v0.3-alpha - https://github.com/ammarx/TagAPI_3/releases/tag/v0.3-alpha
+
 TagAPI - v0.2-alpha - https://github.com/ammarx/TagAPI_3/releases/tag/v0.2-alpha
 
 TagAPI - v0.1-alpha - https://github.com/ammarx/TagAPI_3/releases/tag/v0.1-alpha
