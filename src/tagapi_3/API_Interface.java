@@ -17,7 +17,7 @@ public class API_Interface {
 
     public String getAPIVersion()
     {
-        return "v0.2-alpha";
+        return "v0.3-alpha";
     }
     
     private String runLogs;
