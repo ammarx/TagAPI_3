@@ -15,11 +15,32 @@ import java.util.concurrent.TimeUnit;
  */
 public class API_Interface {
 
-    public String getAPIVersion()
-    {
+    public String getAPIVersion() {
         return "v0.3-alpha";
     }
-    
+
+    public String getUpdateStatus() {
+        //download the file..
+        Network network = new Network();
+        Utils utils = new Utils();
+        Local local = new Local();
+        String OperatingSystemToUse = utils.getOS();
+        network.downloadAPIMeta(OperatingSystemToUse);
+        int versionBehind = 0;
+        if (!local.getAPIMetaList(OperatingSystemToUse).contains(getAPIVersion())) {
+            return "Unknown";
+        } else {
+            for (Object val : local.getAPIMetaList(OperatingSystemToUse)) {
+                if (!getAPIVersion().equals(val)) {
+                    versionBehind = versionBehind + 1;
+                } else if (getAPIVersion().equals(val)) {
+                    break;
+                }
+            }
+        }
+        return String.valueOf(versionBehind);
+    }
+
     private String runLogs;
 
     //run logs getter/setter
@@ -376,7 +397,7 @@ public class API_Interface {
             assetsIdexId = "NULL";
         }
 
-        String gameDirectory = utils.getMineCraftGameDirectoryLocation(OperatingSystemToUse); 
+        String gameDirectory = utils.getMineCraftGameDirectoryLocation(OperatingSystemToUse);
         String AssetsRoot = utils.getMineCraftAssetsRootLocation(OperatingSystemToUse);
 
         String versionName;
