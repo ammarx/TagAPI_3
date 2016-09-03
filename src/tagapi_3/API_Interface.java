@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class API_Interface {
 
     public String getAPIVersion() {
-        return "v0.3-alpha";
+        return "v0.4-alpha";
     }
 
     public String getUpdateStatus() {
