@@ -47,16 +47,15 @@ class Utils {
             return (System.getProperty("user.home") + "/.minecraft").replace(" ", "%20");
         }
         if (OS.equals("Mac")) {
-            return (System.getProperty("user.home") + "/Library/Application Support/minecraft").replace(" ", "%20");
+            return ("\'" + System.getProperty("user.home") + "/Library/Application Support/minecraft" + "\'");
         }
         return "N/A";
     }
 
-    public String getMineCraft_APIMeta(String OS)
-    {
+    public String getMineCraft_APIMeta(String OS) {
         return (getMineCraftLocation(OS) + "/api_meta");
     }
-    
+
     public String getMineCraftVersionsLocation(String OS) {
         return (getMineCraftLocation(OS) + "/versions");
 
@@ -91,9 +90,12 @@ class Utils {
     }
 
     public String getMineCraft_Versions_X_X_jar(String OS, String VersionNumber) {
-        if (OS.equals("Linux") || OS.equals("Mac")) {
+        if (OS.equals("Linux")) {
 
             return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar").replace(" ", "%20");
+
+        } else if (OS.equals("Mac")) {
+            return ("\'" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar" + "\'");
 
         } else {
             //dirty windows OS
@@ -104,30 +106,35 @@ class Utils {
 
     public String getMineCraft_Versions_X_X_jar_Location(String OS, String VersionNumber) {
         return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar");
-    
+
     }
 
     public String getMineCraftAssetsRootLocation(String OS) {
-        if (OS.equals("Linux") || OS.equals("Mac")) {
+        if (OS.equals("Linux")) {
             return (getMineCraftLocation(OS) + "/assets").replace(" ", "%20");
+
+        } else if (OS.equals("Mac")) {
+            return ("\'" + getMineCraftLocation(OS) + "/assets" + "\'");
 
         } else {
             //dirty windows OS
             return ("\"" + getMineCraftLocation(OS) + "/assets" + "\"");
-
         }
 
     }
 
     public String getMineCraft_Versions_X_Natives_Location(String OS, String VersionNumber) {
-          return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
 
     }
-    
+
     public String getMineCraft_Versions_X_Natives(String OS, String VersionNumber) {
-        if (OS.equals("Linux") || OS.equals("Mac")) {
+        if (OS.equals("Linux")) {
 
             return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives").replace(" ", "%20");
+
+        } else if (OS.equals("Mac")) {
+            return ("\'" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives" + "\'");
 
         } else {
             //dirty windows OS
