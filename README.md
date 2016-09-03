@@ -48,10 +48,3 @@ The accessible class which is the API_Interface, consists of the following funct
     tagapi_3.API_Interface API = new tagapi_3.API_Interface();
     API.runMinecraft("Ammar_Ahmad", "1.8.9"); //run minecraft with username: Ammar_Ahmad, and version: 1.8.9
 ```
-
-# Release
-TagAPI - v0.3-alpha - https://github.com/ammarx/TagAPI_3/releases/tag/v0.3-alpha
-
-TagAPI - v0.2-alpha - https://github.com/ammarx/TagAPI_3/releases/tag/v0.2-alpha
-
-TagAPI - v0.1-alpha - https://github.com/ammarx/TagAPI_3/releases/tag/v0.1-alpha
