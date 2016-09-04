@@ -47,7 +47,7 @@ class Utils {
             return (System.getProperty("user.home") + "/.minecraft").replace(" ", "%20");
         }
         if (OS.equals("Mac")) {
-            return ("\'" + System.getProperty("user.home") + "/Library/Application Support/minecraft" + "\'");
+            return ("\"" + System.getProperty("user.home") + "/Library/Application Support/minecraft" + "\"");
         }
         return "N/A";
     }
@@ -95,7 +95,7 @@ class Utils {
             return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar").replace(" ", "%20");
 
         } else if (OS.equals("Mac")) {
-            return ("\'" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar" + "\'");
+            return ("\"" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar" + "\"");
 
         } else {
             //dirty windows OS
@@ -114,7 +114,7 @@ class Utils {
             return (getMineCraftLocation(OS) + "/assets").replace(" ", "%20");
 
         } else if (OS.equals("Mac")) {
-            return ("\'" + getMineCraftLocation(OS) + "/assets" + "\'");
+            return ("\"" + getMineCraftLocation(OS) + "/assets" + "\"");
 
         } else {
             //dirty windows OS
@@ -134,7 +134,7 @@ class Utils {
             return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives").replace(" ", "%20");
 
         } else if (OS.equals("Mac")) {
-            return ("\'" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives" + "\'");
+            return ("\"" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives" + "\"");
 
         } else {
             //dirty windows OS
