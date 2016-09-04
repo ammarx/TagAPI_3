@@ -41,10 +41,10 @@ class Utils {
 
     public String getMineCraftGameDirectoryLocation(String OS) {
         if (OS.equals("Windows")) {
-            return ("\"" + System.getenv("APPDATA") + "/.minecraft" + "\"");
+            return (System.getenv("APPDATA") + "/.minecraft");
         }
         if (OS.equals("Linux")) {
-            return (System.getProperty("user.home") + "/.minecraft").replace(" ", "%20");
+            return (System.getProperty("user.home") + "/.minecraft");
         }
         if (OS.equals("Mac")) {
             return (System.getProperty("user.home") + "/Library/Application Support/minecraft");
@@ -90,18 +90,8 @@ class Utils {
     }
 
     public String getMineCraft_Versions_X_X_jar(String OS, String VersionNumber) {
-        if (OS.equals("Linux")) {
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar");
 
-            return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar").replace(" ", "%20");
-
-        } else if (OS.equals("Mac")) {
-            return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar");
-
-        } else {
-            //dirty windows OS
-            return ("\"" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/" + VersionNumber + ".jar" + "\"");
-
-        }
     }
 
     public String getMineCraft_Versions_X_X_jar_Location(String OS, String VersionNumber) {
@@ -110,16 +100,7 @@ class Utils {
     }
 
     public String getMineCraftAssetsRootLocation(String OS) {
-        if (OS.equals("Linux")) {
-            return (getMineCraftLocation(OS) + "/assets").replace(" ", "%20");
-
-        } else if (OS.equals("Mac")) {
-            return (getMineCraftLocation(OS) + "/assets");
-
-        } else {
-            //dirty windows OS
-            return ("\"" + getMineCraftLocation(OS) + "/assets" + "\"");
-        }
+        return (getMineCraftLocation(OS) + "/assets");
 
     }
 
@@ -129,18 +110,8 @@ class Utils {
     }
 
     public String getMineCraft_Versions_X_Natives(String OS, String VersionNumber) {
-        if (OS.equals("Linux")) {
+        return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
 
-            return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives").replace(" ", "%20");
-
-        } else if (OS.equals("Mac")) {
-            return (getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives");
-
-        } else {
-            //dirty windows OS
-            return ("\"" + getMineCraftVersionsLocation(OS) + "/" + VersionNumber + "/natives" + "\"");
-
-        }
     }
 
     public String getMineCraftAssetsIndexes_X_json(String OS, String VersionNumber) {
