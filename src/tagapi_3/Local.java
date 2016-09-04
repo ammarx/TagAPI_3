@@ -635,9 +635,9 @@ class Local {
             if (i == libraries_path.size() - 1) {
                 if (OS.equals("Linux")) {
                     cp = cp + libraries_path.get(i).toString().replace(" ", "%20");
-
+                    
                 } else if (OS.equals("Mac")) {
-                    cp = cp + "\"" + libraries_path.get(i).toString() + "\"";
+                    cp = cp + libraries_path.get(i).toString();
 
                 } else {
                     //for dirty windows
@@ -645,9 +645,9 @@ class Local {
                 }
             } else if (OS.equals("Linux")) {
                 cp = cp + libraries_path.get(i).toString().replace(" ", "%20") + utils.getArgsDiv(OS);
-
+                
             } else if (OS.equals("Mac")) {
-                cp = cp + "\"" + libraries_path.get(i).toString() + "\"" + utils.getArgsDiv(OS);
+                cp = cp + libraries_path.get(i).toString() + utils.getArgsDiv(OS);
 
             } else {
                 //for dirty windows
