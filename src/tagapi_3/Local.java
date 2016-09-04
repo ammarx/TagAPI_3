@@ -19,8 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -608,24 +606,69 @@ class Local {
         return "N/A";
     }
 
-    public String generateMinecraftArguments(String OS, String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type, String game_assets, String auth_session) {
+    public String[] generateMinecraftArguments(String OS, String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type, String game_assets, String auth_session) {
 
         Local local = new Local();
         Utils utils = new Utils();
         String cmdArgs = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OS, version_name));
-        cmdArgs = cmdArgs.replace("${auth_player_name}", auth_player_name);
-        cmdArgs = cmdArgs.replace("${version_name}", version_name);
-        cmdArgs = cmdArgs.replace("${game_directory}", game_directory);
-        cmdArgs = cmdArgs.replace("${assets_root}", assets_root);
-        cmdArgs = cmdArgs.replace("${assets_index_name}", assets_index_name);
-        cmdArgs = cmdArgs.replace("${auth_uuid}", auth_uuid);
-        cmdArgs = cmdArgs.replace("${auth_access_token}", auth_access_token);
-        cmdArgs = cmdArgs.replace("${user_properties}", user_properties);
-        cmdArgs = cmdArgs.replace("${user_type}", user_type);
-        cmdArgs = cmdArgs.replace("${version_type}", version_type);
-        cmdArgs = cmdArgs.replace("${game_assets}", game_assets);
-        cmdArgs = cmdArgs.replace("${auth_session}", auth_session);
-        return cmdArgs;
+        //the arguments can start with -- or $
+        cmdArgs = cmdArgs.replaceAll(" +", " ");
+        //the above will change it to single space.
+        //split it to String and move it to ArrayList
+        String[] tempArgsSplit = cmdArgs.split(" ");
+        for (int i =0; i<tempArgsSplit.length;i++)
+        {
+            if (tempArgsSplit[i].equals("${auth_player_name}"))
+            {
+                tempArgsSplit[i] = auth_player_name;
+            }
+            if (tempArgsSplit[i].equals("${version_name}"))
+            {
+                tempArgsSplit[i] = version_name;
+            }
+            if (tempArgsSplit[i].equals("${game_directory}"))
+            {
+                tempArgsSplit[i] = game_directory;
+            }
+            if (tempArgsSplit[i].equals("${assets_root}"))
+            {
+                tempArgsSplit[i] = assets_root;
+            }
+            if (tempArgsSplit[i].equals("${assets_index_name}"))
+            {
+                tempArgsSplit[i] = assets_index_name;
+            }
+            if (tempArgsSplit[i].equals("${auth_uuid}"))
+            {
+                tempArgsSplit[i] = auth_uuid;
+            }
+            if (tempArgsSplit[i].equals("${auth_access_token}"))
+            {
+                tempArgsSplit[i] = auth_access_token;
+            }
+            if (tempArgsSplit[i].equals("${user_properties}"))
+            {
+                tempArgsSplit[i] = user_properties;
+            }
+            if (tempArgsSplit[i].equals("${user_type}"))
+            {
+                tempArgsSplit[i] = user_type;
+            }
+            if (tempArgsSplit[i].equals("${version_type}"))
+            {
+                tempArgsSplit[i] = version_type;
+            }
+            if (tempArgsSplit[i].equals("${game_assets}"))
+            {
+                tempArgsSplit[i] = game_assets;
+            }
+            if (tempArgsSplit[i].equals("${auth_session}"))
+            {
+                tempArgsSplit[i] = auth_session;
+            }
+        }
+        
+        return tempArgsSplit;
     }
 
     public String generateLibrariesArguments(String OS) {
@@ -635,7 +678,7 @@ class Local {
             if (i == libraries_path.size() - 1) {
                 if (OS.equals("Linux")) {
                     cp = cp + libraries_path.get(i).toString().replace(" ", "%20");
-                    
+
                 } else if (OS.equals("Mac")) {
                     cp = cp + libraries_path.get(i).toString();
 
@@ -645,7 +688,7 @@ class Local {
                 }
             } else if (OS.equals("Linux")) {
                 cp = cp + libraries_path.get(i).toString().replace(" ", "%20") + utils.getArgsDiv(OS);
-                
+
             } else if (OS.equals("Mac")) {
                 cp = cp + libraries_path.get(i).toString() + utils.getArgsDiv(OS);
 
@@ -658,6 +701,7 @@ class Local {
     }
 
     public String generateRunnableArguments(String Memory, String NativesDir, String FullLibraryArgument, String mainClass, String HalfArgument) {
+        //unused function. Will be removed
         return ("-Xmx" + Memory + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=" + NativesDir + " -cp " + FullLibraryArgument + " " + mainClass + " " + HalfArgument);
 
     }
