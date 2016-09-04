@@ -6,8 +6,10 @@
 package tagapi_3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 /**
  *
@@ -433,8 +435,11 @@ public class API_Interface {
         System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
-        String HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets, AuthSession);
-        System.out.println("HalfArgument: " + HalfArgument);
+        String[] HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets, AuthSession);
+        //System.out.println("HalfArgument: " + HalfArgument);
+        for (String HalfArgsVal : HalfArgument) {
+            System.out.println("HalfArg: " + HalfArgsVal);
+        }
         System.out.println("Minecraft.jar: " + MinecraftJar);
 
         this.setRunLogs("username: " + Username);
@@ -443,50 +448,29 @@ public class API_Interface {
         this.setRunLogs("assets root directory: " + AssetsRoot);
         this.setRunLogs("assets Index Id: " + assetsIdexId);
         this.setRunLogs("assets legacy directory: " + GameAssets);
-        this.setRunLogs(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
+        //won't be using this
+        //this.setRunLogs(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
-            if (OperatingSystemToUse.equals("Mac")) {
-                //for mac...
-                 String cmds[] = {"java", "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass, "--username", Username, "--version", versionName, "--gameDir", gameDirectory, "--assetsDir", AssetsRoot, "--assetIndex", assetsIdexId, "--uuid", authuuid, "--accessToken", "aeef7bc935f9420eb6314dea7ad7e1e5", "--userType", "mojang", "--versionType", "ammarbless"};
-                System.out.println("\n\n\n\n");
-                for(String cmdx : cmds)
-                {
-                    System.out.println(cmdx);
-                }
-                Process process = Runtime.getRuntime().exec(cmds);
-                
-                try {
-                    process.waitFor(10, TimeUnit.SECONDS);
-                    //process.waitFor();
-                    if (process.exitValue() != 0) {
-                        //something went wrong.
-                        this.setErrorLogs("Minecraft Corruption found!");
-                    }
+            String cmds[] = {"java", "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+            String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
+            for (String finalArgs_ : finalArgs) {
+                this.setRunLogs(finalArgs_);
+            }
+            this.setRunLogs("Starting game... Please wait....");
+            Process process = Runtime.getRuntime().exec(finalArgs);
 
-                } catch (Exception ex) {
-                    this.setRunLogs("Minecraft Initialized!");
-                    //nothing to print.. everythimg went fine.
+            try {
+                process.waitFor(10, TimeUnit.SECONDS);
+                //process.waitFor();
+                if (process.exitValue() != 0) {
+                    //something went wrong.
+                    this.setErrorLogs("Minecraft Corruption found!");
                 }
-                
-            } else {
-               
-                String ArgsX = local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument);
-                Process process = Runtime.getRuntime().exec("java " + ArgsX);
 
-                try {
-                    process.waitFor(10, TimeUnit.SECONDS);
-                    //process.waitFor();
-                    if (process.exitValue() != 0) {
-                        //something went wrong.
-                        this.setErrorLogs("Minecraft Corruption found!");
-                    }
-
-                } catch (Exception ex) {
-                    this.setRunLogs("Minecraft Initialized!");
-                    //nothing to print.. everythimg went fine.
-                }
-               
+            } catch (Exception ex) {
+                this.setRunLogs("Minecraft Initialized!");
+                //nothing to print.. everythimg went fine.
             }
 
         } catch (Exception e) {
