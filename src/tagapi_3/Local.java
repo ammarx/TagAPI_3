@@ -616,58 +616,45 @@ class Local {
         //the above will change it to single space.
         //split it to String and move it to ArrayList
         String[] tempArgsSplit = cmdArgs.split(" ");
-        for (int i =0; i<tempArgsSplit.length;i++)
-        {
-            if (tempArgsSplit[i].equals("${auth_player_name}"))
-            {
+        for (int i = 0; i < tempArgsSplit.length; i++) {
+            if (tempArgsSplit[i].equals("${auth_player_name}")) {
                 tempArgsSplit[i] = auth_player_name;
             }
-            if (tempArgsSplit[i].equals("${version_name}"))
-            {
+            if (tempArgsSplit[i].equals("${version_name}")) {
                 tempArgsSplit[i] = version_name;
             }
-            if (tempArgsSplit[i].equals("${game_directory}"))
-            {
+            if (tempArgsSplit[i].equals("${game_directory}")) {
                 tempArgsSplit[i] = game_directory;
             }
-            if (tempArgsSplit[i].equals("${assets_root}"))
-            {
+            if (tempArgsSplit[i].equals("${assets_root}")) {
                 tempArgsSplit[i] = assets_root;
             }
-            if (tempArgsSplit[i].equals("${assets_index_name}"))
-            {
+            if (tempArgsSplit[i].equals("${assets_index_name}")) {
                 tempArgsSplit[i] = assets_index_name;
             }
-            if (tempArgsSplit[i].equals("${auth_uuid}"))
-            {
+            if (tempArgsSplit[i].equals("${auth_uuid}")) {
                 tempArgsSplit[i] = auth_uuid;
             }
-            if (tempArgsSplit[i].equals("${auth_access_token}"))
-            {
+            if (tempArgsSplit[i].equals("${auth_access_token}")) {
                 tempArgsSplit[i] = auth_access_token;
             }
-            if (tempArgsSplit[i].equals("${user_properties}"))
-            {
+            if (tempArgsSplit[i].equals("${user_properties}")) {
                 tempArgsSplit[i] = user_properties;
             }
-            if (tempArgsSplit[i].equals("${user_type}"))
-            {
+            if (tempArgsSplit[i].equals("${user_type}")) {
                 tempArgsSplit[i] = user_type;
             }
-            if (tempArgsSplit[i].equals("${version_type}"))
-            {
+            if (tempArgsSplit[i].equals("${version_type}")) {
                 tempArgsSplit[i] = version_type;
             }
-            if (tempArgsSplit[i].equals("${game_assets}"))
-            {
+            if (tempArgsSplit[i].equals("${game_assets}")) {
                 tempArgsSplit[i] = game_assets;
             }
-            if (tempArgsSplit[i].equals("${auth_session}"))
-            {
+            if (tempArgsSplit[i].equals("${auth_session}")) {
                 tempArgsSplit[i] = auth_session;
             }
         }
-        
+
         return tempArgsSplit;
     }
 
@@ -676,25 +663,12 @@ class Local {
         Utils utils = new Utils();
         for (int i = 0; i < libraries_path.size(); i++) {
             if (i == libraries_path.size() - 1) {
-                if (OS.equals("Linux")) {
-                    cp = cp + libraries_path.get(i).toString().replace(" ", "%20");
 
-                } else if (OS.equals("Mac")) {
-                    cp = cp + libraries_path.get(i).toString();
-
-                } else {
-                    //for dirty windows
-                    cp = cp + "\"" + libraries_path.get(i).toString() + "\"";
-                }
-            } else if (OS.equals("Linux")) {
-                cp = cp + libraries_path.get(i).toString().replace(" ", "%20") + utils.getArgsDiv(OS);
-
-            } else if (OS.equals("Mac")) {
-                cp = cp + libraries_path.get(i).toString() + utils.getArgsDiv(OS);
+                cp = cp + libraries_path.get(i).toString();
 
             } else {
-                //for dirty windows
-                cp = cp + "\"" + libraries_path.get(i).toString() + "\"" + utils.getArgsDiv(OS);
+                cp = cp + libraries_path.get(i).toString() + utils.getArgsDiv(OS);
+
             }
         }
         return cp;
