@@ -371,14 +371,8 @@ public class API_Interface {
         }
 
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-        String Xmx;
-        Xmx = utils.getMemory();
-        if (Xmx == null) {
-            //set memory to 1G
-            Xmx = "1G";
-
-        }
-
+        String Xmx = this.getMemory();
+        
         String mainClass;
         if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -419,7 +413,7 @@ public class API_Interface {
             MinecraftJar = utils.getMineCraft_Versions_X_X_jar(OperatingSystemToUse, MOD_jar);
         }
 
-        String VersionType = "ammarbless";
+        String VersionType = this.getVersionData();
         String AuthSession = "OFFLINE";
 
         String GameAssets = utils.getMineCraftAssetsVirtualLegacyLocation(OperatingSystemToUse);
@@ -478,6 +472,30 @@ public class API_Interface {
         }
     }
 
+    private String memory = "1G";
+    
+    public void setMemory(String memory_)
+    {
+        memory = memory_;
+    }
+    
+    private String getMemory()
+    {
+        return memory;
+    }
+    
+    private String versionData = "#ammarbless";
+    
+    public void setVersionData(String versionData_)
+    {
+        versionData = versionData_;
+    }
+    
+    private String getVersionData()
+    {
+        return versionData;
+    }
+    
     public void downloadVersionManifest() {
         Utils utils = new Utils();
         Network network = new Network();
@@ -494,11 +512,6 @@ public class API_Interface {
         System.out.println("Downloading: " + UsernameToUse + ".json");
         network.downloadProfile(OperatingSystemToUse, UsernameToUse);
 
-    }
-
-    public void setMemory(String MemoryToUse) {
-        Utils utils = new Utils();
-        utils.setMemory(MemoryToUse);
     }
 
     public void downloadMinecraft(String VersionToUse, Boolean ForceDownload) {
