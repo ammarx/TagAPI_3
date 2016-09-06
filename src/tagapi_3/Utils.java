@@ -271,16 +271,6 @@ class Utils {
         }
     }
 
-    public String memory = null;
-
-    public void setMemory(String memory_) {
-        memory = memory_;
-    }
-
-    public String getMemory() {
-        return memory;
-    }
-
     private SecureRandom random = new SecureRandom();
 
     public String nextSessionId() {
