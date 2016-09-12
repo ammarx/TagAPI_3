@@ -182,7 +182,7 @@ public class API_Interface {
                 //add these versions to the system.
                 if (n != null) {
                     System.out.println(n);
-                    local.writeJson_launcher_profiles(OperatingSystemToUse, "_Cracked_" + utils.nextSessionId() + "_" + n.toString(), n.toString());
+                    local.writeJson_launcher_profiles(OperatingSystemToUse, n.toString() + "_Cracked_" + utils.nextSessionId(), n.toString());
                 }
             }
         }
@@ -372,7 +372,7 @@ public class API_Interface {
 
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
         String Xmx = this.getMemory();
-        
+
         String mainClass;
         if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -473,29 +473,25 @@ public class API_Interface {
     }
 
     private String memory = "1G";
-    
-    public void setMemory(String memory_)
-    {
+
+    public void setMemory(String memory_) {
         memory = memory_;
     }
-    
-    private String getMemory()
-    {
+
+    private String getMemory() {
         return memory;
     }
-    
+
     private String versionData = "#ammarbless";
-    
-    public void setVersionData(String versionData_)
-    {
+
+    public void setVersionData(String versionData_) {
         versionData = versionData_;
     }
-    
-    private String getVersionData()
-    {
+
+    private String getVersionData() {
         return versionData;
     }
-    
+
     public void downloadVersionManifest() {
         Utils utils = new Utils();
         Network network = new Network();
