@@ -6,10 +6,8 @@
 package tagapi_3;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -18,6 +16,33 @@ import java.security.SecureRandom;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.Enumeration;
+import com.alemcode.HexEditor.HexEditor;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URI;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import org.apache.commons.io.FileUtils;
+import org.zeroturnaround.zip.ZipUtil;
+import static org.zeroturnaround.zip.commons.FileUtils.copy;
 
 /**
  *
@@ -61,6 +86,11 @@ class Utils {
 
     }
 
+    public String getMineCraftTmpLocation(String OS) {
+        return (getMineCraftLocation(OS) + "/tmp");
+
+    }
+
     public String getMineCraft_Launcherlogs_txt(String OS) {
         return (getMineCraftLocation(OS) + "/Launcherlogs.txt");
     }
@@ -68,6 +98,162 @@ class Utils {
     public String getMineCraftLibrariesLocation(String OS) {
         return (getMineCraftLocation(OS) + "/libraries");
 
+    }
+
+    public String getMineCraftLibrariesComMojangNettyLocation(String OS) {
+        return (getMineCraftLibrariesLocation(OS) + "/com/mojang/netty");
+    }
+
+    public String getMineCraftTmpIoNettyBootstrapLocation(String OS) {
+        return (getMineCraftTmpLocation(OS) + "/io/netty/bootstrap");
+    }
+
+    public String getMineCraftTmpIoNettyBootstrapBootstrap_class(String OS) {
+        return (getMineCraftTmpIoNettyBootstrapLocation(OS) + "/Bootstrap.class");
+    }
+
+    public Map getMineCraftLibrariesComMojangNetty_jar(String OS) {
+        Map<String, String> results = new HashMap<>();
+
+        Utils utils = new Utils();
+        File[] directories = new File(getMineCraftLibrariesComMojangNettyLocation(OS)).listFiles(File::isDirectory);
+        for (File en : directories) {
+            //check if file exists.
+            File[] files = new File(en.toString()).listFiles();
+            for (File file : files) {
+                if (file.isFile()) {
+                    if (file.toString().endsWith(".jar")) {
+                        results.put(file.getPath(), file.getName());
+                    }
+                }
+            }
+        }
+
+        return (results);
+    }
+
+    public void injectNetty(String OS) {
+        Utils utils = new Utils();
+        Map<String, String> map = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OS));
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println(entry.getKey());
+            //time to extract all files inside.
+            try {
+                utils.extractJarContent(utils.getMineCraftTmpLocation(OS), entry.getKey().toString());
+                System.out.println("Jar extracted!");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+            //file extracted! now to modify it...
+            try {
+                String Path = getMineCraftTmpIoNettyBootstrapBootstrap_class(OS);
+                HexEditor HexEditor = new HexEditor(Path);
+                System.out.println(HexEditor.file_hex_string);
+                HexEditor.replace("73657373696f6e7365727665722e6d6f6a616e672e636f6d", "73657373696f6e7365727665722e6d6f6b616e672e636f6d");
+                //sessionserver.mojang.com
+                //sessionserver.mokang.com    
+
+                HexEditor.save();
+                System.out.println("Class modified!");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+            //delete original file.
+            try {
+                File file_to_delete = new File(entry.getKey());
+                file_to_delete.delete();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+
+            //file modified. now we compress it again.
+            try {
+                System.out.println("1: " + getMineCraftTmpLocation(OS));
+                System.out.println("2: " + entry.getKey());
+                System.out.println("3: " + entry.getValue());
+                utils.compressJarContent(new File(getMineCraftTmpLocation(OS)), new File(entry.getKey()));
+                System.out.println("Compressed file to jar");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+
+            //cleanup. delete tmp folder
+            try {
+                FileUtils.deleteDirectory(new File(utils.getMineCraftTmpLocation(OS)));
+                System.out.println("Cleanup directory");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
+    public static void compressJarContent(File directory, File zipfile) throws IOException {
+        URI base = directory.toURI();
+        Deque<File> queue = new LinkedList<File>();
+        queue.push(directory);
+        OutputStream out = new FileOutputStream(zipfile);
+        Closeable res = out;
+        try {
+            ZipOutputStream zout = new ZipOutputStream(out);
+            res = zout;
+            while (!queue.isEmpty()) {
+                directory = queue.pop();
+                for (File kid : directory.listFiles()) {
+                    String name = base.relativize(kid.toURI()).getPath();
+                    if (kid.isDirectory()) {
+                        queue.push(kid);
+                        name = name.endsWith("/") ? name : name + "/";
+                        zout.putNextEntry(new ZipEntry(name));
+                    } else {
+                        zout.putNextEntry(new ZipEntry(name));
+                        copy(kid, zout);
+                        zout.closeEntry();
+                    }
+                }
+            }
+        } finally {
+            res.close();
+        }
+    }
+
+    public void extractJarContent(String destinationDir, String jarPath) throws IOException {
+        File file = new File(jarPath);
+        JarFile jar = new JarFile(file);
+
+        // fist get all directories,
+        // then make those directory on the destination Path
+        for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements();) {
+            JarEntry entry = (JarEntry) enums.nextElement();
+
+            String fileName = destinationDir + File.separator + entry.getName();
+            File f = new File(fileName);
+
+            if (fileName.endsWith("/")) {
+                f.mkdirs();
+            }
+
+        }
+
+        //now create all files
+        for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements();) {
+            JarEntry entry = (JarEntry) enums.nextElement();
+
+            String fileName = destinationDir + File.separator + entry.getName();
+            File f = new File(fileName);
+
+            if (!fileName.endsWith("/")) {
+                InputStream is = jar.getInputStream(entry);
+                FileOutputStream fos = new FileOutputStream(f);
+
+                // write contents of 'is' to 'fos'
+                while (is.available() > 0) {
+                    fos.write(is.read());
+                }
+
+                fos.close();
+                is.close();
+            }
+        }
     }
 
     public String getMineCraft_Version_Manifest_json(String OS) {

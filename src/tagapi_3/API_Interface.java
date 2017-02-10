@@ -188,6 +188,12 @@ public class API_Interface {
         }
     }
 
+    public void injectNetty(){
+        Utils utils = new Utils();
+        String OperatingSystemToUse = utils.getOS();
+        utils.injectNetty(OperatingSystemToUse);
+    }
+    
     public void runMinecraft(String UsernameToUse, String VersionToUse) {
         Utils utils = new Utils();
         Local local = new Local();
