@@ -10,6 +10,7 @@ The accessible class which is the API_Interface, consists of the following funct
 - Miscellaneous:
   - ```void syncVersions()``` - *Syncs game profiles with premium launcher*
   - ```void setMemory(String MemoryToUse)``` - *Set amount of memory allocated for the game;* _**default is 1G**_
+  - ```void injectNetty(String OperatingSystemToUse)``` - *Injects netty with invalid url. This can be used to bypass server blacklist*
 
 - Downloads:
   - ```void downloadMinecraft(String VersionToUse, Boolean ForceDownload)``` - *Accepts (Version to download, Force Download); if force download is True, it will re-download all the files, vice-versa if it is set to False, it will only download the missing files.*
