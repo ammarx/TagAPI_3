@@ -379,7 +379,12 @@ public class API_Interface {
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
         String Xmx = this.getMemory();
         String Xms = this.getMinMemory();
-                
+        String Width = this.getWidth();
+        String Height = this.getHeight();
+        String JavaPath = this.getJavaPath();
+        String JVMArgument = this.getJVMArgument();
+        
+        
         String mainClass;
         if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -453,7 +458,7 @@ public class API_Interface {
         //this.setRunLogs(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
-            String cmds[] = {"java", "-Xms" + Xms, "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+            String cmds[] = {JavaPath, JVMArgument, "-Xms" + Xms, "-Xmx" + Xmx, "--width" + Width, "--height" + Height, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
             for (String finalArgs_ : finalArgs) {
                 this.setRunLogs(finalArgs_);
@@ -479,6 +484,46 @@ public class API_Interface {
         }
     }
 
+    private String jvmArgument = "";
+     public void setJVMArgument(String jvmArgument_) {
+        jvmArgument = jvmArgument_;
+    }
+
+    private String getJVMArgument() {
+        return jvmArgument;
+    }
+    
+    private String javaPath = "java";
+     public void setJavaPath(String javaPath_) {
+        javaPath = javaPath_;
+    }
+
+    private String getJavaPath() {
+        return javaPath;
+    }
+    
+    
+    
+    private String width = "854";
+
+    public void setWidth(String width_) {
+        width = width_;
+    }
+
+    private String getWidth() {
+        return width;
+    }
+    
+    private String height = "480";
+
+    public void setHeight(String height_) {
+        height = height_;
+    }
+
+    private String getHeight() {
+        return height;
+    }
+    
     private String memory = "1G";
 
     public void setMemory(String memory_) {
