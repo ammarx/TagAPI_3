@@ -378,7 +378,8 @@ public class API_Interface {
 
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
         String Xmx = this.getMemory();
-
+        String Xms = this.getMinMemory();
+                
         String mainClass;
         if (MOD_mainClass == null) {
             mainClass = local.readJson_mainClass(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
@@ -452,7 +453,7 @@ public class API_Interface {
         //this.setRunLogs(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
-            String cmds[] = {"java", "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+            String cmds[] = {"java", "-Xms" + Xmx, "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
             for (String finalArgs_ : finalArgs) {
                 this.setRunLogs(finalArgs_);
@@ -488,6 +489,16 @@ public class API_Interface {
         return memory;
     }
 
+    private String minMemory = "1G";
+
+   public void setMinMemory(String memory_) {
+        minMemory = memory_;
+    }
+
+    private String getMinMemory() {
+        return minMemory;
+    }
+    
     private String versionData = "#ammarbless";
 
     public void setVersionData(String versionData_) {

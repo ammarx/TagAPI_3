@@ -680,6 +680,12 @@ class Local {
 
     }
 
+    public String generateRunnableArguments(String Memory, String MinMemory, String NativesDir, String FullLibraryArgument, String mainClass, String HalfArgument) {
+        //unused function. Will be removed
+        return ("-Xms" + Memory + " -Xmx" + Memory + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=" + NativesDir + " -cp " + FullLibraryArgument + " " + mainClass + " " + HalfArgument);
+
+    }
+    
     public String generateLibrariesPath(String _OS, String _name) {
         try {
             String fileName = _name;
