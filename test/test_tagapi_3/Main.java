@@ -30,7 +30,7 @@ public class Main {
 
         String UsernameToUse = "Ammar_Ahmad";
         String VersionToUse = "1.8.9";
-        String MemoryToUse = "2G";
+        int MemoryToUse = 1024;
         API.setMemory(MemoryToUse);
         API.downloadVersionManifest();
         API.downloadMinecraft(VersionToUse, false); //force download flag

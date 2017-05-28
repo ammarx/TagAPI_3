@@ -377,10 +377,10 @@ public class API_Interface {
         }
 
         //String HalfArgumentTemplate = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse));
-        String Xmx = this.getMemory();
-        String Xms = this.getMinMemory();
-        String Width = this.getWidth();
-        String Height = this.getHeight();
+        int Xmx = this.getMemory();
+        int Xms = this.getMinMemory();
+        int Width = this.getWidth();
+        int Height = this.getHeight();
         String JavaPath = this.getJavaPath();
         String JVMArgument = this.getJVMArgument();
         
@@ -458,7 +458,7 @@ public class API_Interface {
         //this.setRunLogs(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
-            String cmds[] = {JavaPath, "-Xms" + Xms, "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass, "--width " + Width, "--height " + Height};
+            String cmds[] = {JavaPath, "-Xms" + Xms + "M", "-Xmx" + Xmx + "M", "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass, "--width", String.valueOf(Width), "--height", String.valueOf(Height)};
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
             for (String finalArgs_ : finalArgs) {
                 this.setRunLogs(finalArgs_);
@@ -502,43 +502,43 @@ public class API_Interface {
         return javaPath;
     }
     
-    private String width = "854";
+    private int width = 854;
 
-    public void setWidth(String width_) {
+    public void setWidth(int width_) {
         width = width_;
     }
 
-    private String getWidth() {
+    private int getWidth() {
         return width;
     }
     
-    private String height = "480";
+    private int height = 480;
 
-    public void setHeight(String height_) {
+    public void setHeight(int height_) {
         height = height_;
     }
 
-    private String getHeight() {
+    private int getHeight() {
         return height;
     }
     
-    private String memory = "1G";
+    private int memory = 1024;
 
-    public void setMemory(String memory_) {
+    public void setMemory(int memory_) {
         memory = memory_;
     }
 
-    private String getMemory() {
+    private int getMemory() {
         return memory;
     }
 
-    private String minMemory = "1G";
+    private int minMemory = 1024;
 
-   public void setMinMemory(String memory_) {
+   public void setMinMemory(int memory_) {
         minMemory = memory_;
     }
 
-    private String getMinMemory() {
+    private int getMinMemory() {
         return minMemory;
     }
     
