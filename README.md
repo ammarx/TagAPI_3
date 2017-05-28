@@ -12,7 +12,6 @@ The accessible class which is the API_Interface, consists of the following funct
   - ```void setMinMemory(String MemoryToUse)``` - *Set amount of minimum memory allocated for the game;* _**default is 1G**_
   - ```void setMemory(String MemoryToUse)``` - *Set amount of maximum memory allocated for the game;* _**default is 1G**_
   - ```void setJavaPath(String JavaPathToUse)``` - *Set external Java path to use for the game;* _**default path is JAVA path on the system**_
-  - ```void setMemory(String MemoryToUse)``` - *Set amount of maximum memory allocated for the game;* _**default is 1G**_
   - ```void setWidth(String WidthToUse)``` - *Set screen size width for the game;* _**default is 854**_
   - ```void setHeight(String HeightToUse)``` - *Set screen size height for the game;* _**default is 480**_
   - ```void setJVMArgument(String JVMArgumentsToUse)``` - *Set extra JVM Arguments to use for the game;* _**default arguments are none**_
