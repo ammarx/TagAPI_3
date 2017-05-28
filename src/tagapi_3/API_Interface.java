@@ -458,7 +458,7 @@ public class API_Interface {
         //this.setRunLogs(local.generateRunnableArguments(Xmx, NativesDir, FullLibraryArgument, mainClass, HalfArgument));
 
         try {
-            String cmds[] = {JavaPath, JVMArgument, "-Xms" + Xms, "-Xmx" + Xmx, "--width" + Width, "--height" + Height, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+            String cmds[] = {JavaPath, "-Xms" + Xms, "-Xmx" + Xmx, "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass, "--width " + Width, "--height " + Height};
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
             for (String finalArgs_ : finalArgs) {
                 this.setRunLogs(finalArgs_);
@@ -501,8 +501,6 @@ public class API_Interface {
     private String getJavaPath() {
         return javaPath;
     }
-    
-    
     
     private String width = "854";
 
