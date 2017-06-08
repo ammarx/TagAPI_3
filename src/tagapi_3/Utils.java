@@ -256,6 +256,89 @@ class Utils {
         }
     }
 
+    public String getMineCraftLibrariesComMojangPatchyLocation(String OS) {
+        return (getMineCraftLibrariesLocation(OS) + "/com/mojang/patchy");
+    }
+
+    public String getMineCraftTmpIoPatchyBootstrapBootstrap_class(String OS) {
+        return (getMineCraftTmpIoNettyBootstrapLocation(OS) + "/Bootstrap.class");
+    }
+
+    public Map getMineCraftLibrariesComMojangPatchy_jar(String OS) {
+        Map<String, String> results = new HashMap<>();
+
+        Utils utils = new Utils();
+        File[] directories = new File(getMineCraftLibrariesComMojangPatchyLocation(OS)).listFiles(File::isDirectory);
+        for (File en : directories) {
+            //check if file exists.
+            File[] files = new File(en.toString()).listFiles();
+            for (File file : files) {
+                if (file.isFile()) {
+                    if (file.toString().endsWith(".jar")) {
+                        results.put(file.getPath(), file.getName());
+                    }
+                }
+            }
+        }
+
+        return (results);
+    }
+
+    public void injectPatchy(String OS) {
+        Utils utils = new Utils();
+        Map<String, String> map = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangPatchy_jar(OS));
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println(entry.getKey());
+            //time to extract all files inside.
+            try {
+                utils.extractJarContent(utils.getMineCraftTmpLocation(OS), entry.getKey().toString());
+                System.out.println("Jar extracted!");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+            //file extracted! now to modify it...
+            try {
+                String Path = getMineCraftTmpIoPatchyBootstrapBootstrap_class(OS);
+                HexEditor HexEditor = new HexEditor(Path);
+                System.out.println(HexEditor.file_hex_string);
+                HexEditor.replace("73657373696f6e7365727665722e6d6f6a616e672e636f6d", "73657373696f6e7365727665722e6d6f6b616e672e636f6d");
+                //sessionserver.mojang.com
+                //sessionserver.mokang.com    
+
+                HexEditor.save();
+                System.out.println("Class modified!");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+            //delete original file.
+            try {
+                File file_to_delete = new File(entry.getKey());
+                file_to_delete.delete();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+
+            //file modified. now we compress it again.
+            try {
+                System.out.println("1: " + getMineCraftTmpLocation(OS));
+                System.out.println("2: " + entry.getKey());
+                System.out.println("3: " + entry.getValue());
+                utils.compressJarContent(new File(getMineCraftTmpLocation(OS)), new File(entry.getKey()));
+                System.out.println("Compressed file to jar");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+
+            //cleanup. delete tmp folder
+            try {
+                FileUtils.deleteDirectory(new File(utils.getMineCraftTmpLocation(OS)));
+                System.out.println("Cleanup directory");
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+    
     public String getMineCraft_Version_Manifest_json(String OS) {
         return (getMineCraftLocation(OS) + "/version_manifest.json");
 

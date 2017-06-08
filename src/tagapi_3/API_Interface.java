@@ -191,7 +191,17 @@ public class API_Interface {
     public void injectNetty(){
         Utils utils = new Utils();
         String OperatingSystemToUse = utils.getOS();
-        utils.injectNetty(OperatingSystemToUse);
+        try {
+            utils.injectNetty(OperatingSystemToUse);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        try {
+            utils.injectPatchy(OperatingSystemToUse);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     
     public void runMinecraft(String UsernameToUse, String VersionToUse) {
