@@ -154,6 +154,12 @@ public class API_Interface {
         return local.versions_list;
     }
 
+    public List getServersIPList() {
+        Utils utils = new Utils();
+        String OperatingSystemToUse = utils.getOS();
+        return utils.getMineCraftServerDatNBTIP(OperatingSystemToUse);
+    }
+    
     public void syncVersions() {
         Utils utils = new Utils();
         Local local = new Local();

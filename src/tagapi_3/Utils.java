@@ -43,7 +43,11 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.zeroturnaround.zip.ZipUtil;
 import static org.zeroturnaround.zip.commons.FileUtils.copy;
-
+import com.minecraft.moonlake.nbt.NBTBase;
+import com.minecraft.moonlake.nbt.NBTTagCompound;
+import com.minecraft.moonlake.nbt.NBTTagList;
+import com.minecraft.moonlake.nbt.NBTTagString;
+import com.minecraft.moonlake.nbt.NBTUtil;
 /**
  *
  * @author ammar
@@ -81,14 +85,16 @@ class Utils {
         return (getMineCraftLocation(OS) + "/api_meta");
     }
 
+    public String getMineCraft_ServersDat(String OS) {
+        return (getMineCraftLocation(OS) + "/servers.dat");
+    }
+    
     public String getMineCraftVersionsLocation(String OS) {
         return (getMineCraftLocation(OS) + "/versions");
-
     }
 
     public String getMineCraftTmpLocation(String OS) {
         return (getMineCraftLocation(OS) + "/tmp");
-
     }
 
     public String getMineCraft_Launcherlogs_txt(String OS) {
@@ -97,7 +103,6 @@ class Utils {
 
     public String getMineCraftLibrariesLocation(String OS) {
         return (getMineCraftLocation(OS) + "/libraries");
-
     }
 
     public String getMineCraftLibrariesComMojangNettyLocation(String OS) {
@@ -111,7 +116,7 @@ class Utils {
     public String getMineCraftTmpIoNettyBootstrapBootstrap_class(String OS) {
         return (getMineCraftTmpIoNettyBootstrapLocation(OS) + "/Bootstrap.class");
     }
-
+    
     public Map getMineCraftLibrariesComMojangNetty_jar(String OS) {
         Map<String, String> results = new HashMap<>();
 
@@ -132,6 +137,26 @@ class Utils {
         return (results);
     }
 
+    public List getMineCraftServerDatNBTIP(String OS) {
+        Utils utils = new Utils();
+        List ip = new ArrayList();
+        try {
+            File file = new File(utils.getMineCraft_ServersDat(OS));
+            NBTTagCompound root = NBTUtil.readFile(file, false);
+            for (NBTBase server : root.getList("servers")) {
+                if (server instanceof NBTTagCompound) {
+                    NBTTagCompound serverNBT = (NBTTagCompound) server;
+                    //System.out.println(serverNBT.toString(true)); // to json
+                    //System.out.println("ip: " + serverNBT.getString("ip")); // get ip address
+                    ip.add(serverNBT.getString("ip"));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return ip;
+    }
+    
     public void injectNetty(String OS) {
         Utils utils = new Utils();
         Map<String, String> map = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OS));

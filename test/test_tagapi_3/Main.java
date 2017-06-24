@@ -5,6 +5,9 @@
  */
 package test_tagapi_3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author ammar
@@ -25,6 +28,9 @@ public class Main {
             System.out.println(installableVersionsList); // can be split using " % "
         }
         */
+        
+        
+        /*
         System.out.println("\n\nSynicing file system with json...");
         API.syncVersions();
 
@@ -35,7 +41,15 @@ public class Main {
         API.downloadVersionManifest();
         API.downloadMinecraft(VersionToUse, false); //force download flag
         API.runMinecraft(UsernameToUse, VersionToUse);
+        */
+        List ip = new ArrayList(API.getServersIPList());
         
+        if (ip.isEmpty()) {
+            //add server
+        }
+        for (Object obj : ip) {
+            System.out.println(obj);
+        }
     }
 
 }
