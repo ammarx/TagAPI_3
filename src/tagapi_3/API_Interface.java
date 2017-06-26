@@ -5,6 +5,11 @@
  */
 package tagapi_3;
 
+import com.minecraft.moonlake.nbt.NBTTagCompound;
+import com.minecraft.moonlake.nbt.NBTTagList;
+import com.minecraft.moonlake.nbt.NBTUtil;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -158,6 +163,43 @@ public class API_Interface {
         Utils utils = new Utils();
         String OperatingSystemToUse = utils.getOS();
         return utils.getMineCraftServerDatNBTIP(OperatingSystemToUse);
+    }
+    
+    public List getServersNameList() {
+        Utils utils = new Utils();
+        String OperatingSystemToUse = utils.getOS();
+        return utils.getMineCraftServerDatNBTName(OperatingSystemToUse);    
+    }
+    
+    public void addServerToServersDat(String Name, String IP) {
+        Utils utils = new Utils();
+        String OperatingSystemToUse = utils.getOS();
+        NBTTagCompound root = new NBTTagCompound();
+        NBTTagList<NBTTagCompound> server = new NBTTagList<>("servers");
+        NBTTagCompound data = new NBTTagCompound();
+        
+        List names = new ArrayList(utils.getMineCraftServerDatNBTName(OperatingSystemToUse));
+        List ips = new ArrayList(utils.getMineCraftServerDatNBTIP(OperatingSystemToUse));
+        data.setString("name", Name);
+        data.setString("ip", IP);
+        server.add(data);
+        try {
+            for (int i = 0; i < ips.size(); i++) {
+                data = new NBTTagCompound();
+                data.setString("name", names.get(i).toString());
+                data.setString("ip", ips.get(i).toString());
+                server.add(data);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        root.put(server);
+        //System.out.println(root.toString());
+        try {
+            NBTUtil.writeFile(root, new File(utils.getMineCraft_ServersDat(OperatingSystemToUse)), false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public void syncVersions() {

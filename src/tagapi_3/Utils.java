@@ -146,8 +146,6 @@ class Utils {
             for (NBTBase server : root.getList("servers")) {
                 if (server instanceof NBTTagCompound) {
                     NBTTagCompound serverNBT = (NBTTagCompound) server;
-                    //System.out.println(serverNBT.toString(true)); // to json
-                    //System.out.println("ip: " + serverNBT.getString("ip")); // get ip address
                     ip.add(serverNBT.getString("ip"));
                 }
             }
@@ -155,6 +153,24 @@ class Utils {
             System.out.println(e);
         }
         return ip;
+    }
+    
+    public List getMineCraftServerDatNBTName(String OS) {
+        Utils utils = new Utils();
+        List name = new ArrayList();
+        try {
+            File file = new File(utils.getMineCraft_ServersDat(OS));
+            NBTTagCompound root = NBTUtil.readFile(file, false);
+            for (NBTBase server : root.getList("servers")) {
+                if (server instanceof NBTTagCompound) {
+                    NBTTagCompound serverNBT = (NBTTagCompound) server;
+                    name.add(serverNBT.getString("name"));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return name;
     }
     
     public void injectNetty(String OS) {

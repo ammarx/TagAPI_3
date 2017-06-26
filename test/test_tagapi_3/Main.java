@@ -43,13 +43,19 @@ public class Main {
         API.runMinecraft(UsernameToUse, VersionToUse);
         */
         List ip = new ArrayList(API.getServersIPList());
-        
+        List name = new ArrayList(API.getServersNameList());
         if (ip.isEmpty()) {
             //add server
         }
         for (Object obj : ip) {
             System.out.println(obj);
         }
+        for (Object obj : name) {
+            System.out.println(obj);
+        }
+        
+        API.addServerToServersDat("ammar1", "ammarx.tagcraftmc.com");
+        
     }
 
 }
