@@ -28,12 +28,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -41,12 +35,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.FileUtils;
-import org.zeroturnaround.zip.ZipUtil;
 import static org.zeroturnaround.zip.commons.FileUtils.copy;
 import com.minecraft.moonlake.nbt.NBTBase;
 import com.minecraft.moonlake.nbt.NBTTagCompound;
-import com.minecraft.moonlake.nbt.NBTTagList;
-import com.minecraft.moonlake.nbt.NBTTagString;
 import com.minecraft.moonlake.nbt.NBTUtil;
 /**
  *

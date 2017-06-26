@@ -42,20 +42,11 @@ public class Main {
         API.downloadMinecraft(VersionToUse, false); //force download flag
         API.runMinecraft(UsernameToUse, VersionToUse);
         */
+        final String serverIP = "dev.tagcraftmc.com";
         List ip = new ArrayList(API.getServersIPList());
-        List name = new ArrayList(API.getServersNameList());
-        if (ip.isEmpty()) {
-            //add server
+        if (!ip.contains(serverIP) || ip.isEmpty()) {
+            API.addServerToServersDat("TagcraftMC", serverIP);
         }
-        for (Object obj : ip) {
-            System.out.println(obj);
-        }
-        for (Object obj : name) {
-            System.out.println(obj);
-        }
-        
-        API.addServerToServersDat("ammar1", "ammarx.tagcraftmc.com");
-        
     }
 
 }
