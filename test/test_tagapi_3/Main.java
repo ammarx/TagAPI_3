@@ -16,6 +16,12 @@ public class Main {
 
     public static void main(String[] args) {
         tagapi_3.API_Interface API = new tagapi_3.API_Interface();
+        final String serverIP = "dev.tagcraftmc.com";
+        List ip = new ArrayList(API.getServersIPList());
+        if (!ip.contains(serverIP) || ip.isEmpty()) {
+            API.addServerToServersDat("TagcraftMC", serverIP);
+        }
+        
         
         System.out.println("Reading file system for versions installed:");
         for (Object installedVersionsList : API.getInstalledVersionsList()) {
@@ -23,14 +29,11 @@ public class Main {
             System.out.println(installedVersionsList);
 
         }
-        /*
         for (Object installableVersionsList : API.getInstallableVersionsList()) {
             System.out.println(installableVersionsList); // can be split using " % "
         }
-        */
         
         
-        /*
         System.out.println("\n\nSynicing file system with json...");
         API.syncVersions();
 
@@ -41,12 +44,7 @@ public class Main {
         API.downloadVersionManifest();
         API.downloadMinecraft(VersionToUse, false); //force download flag
         API.runMinecraft(UsernameToUse, VersionToUse);
-        */
-        final String serverIP = "dev.tagcraftmc.com";
-        List ip = new ArrayList(API.getServersIPList());
-        if (!ip.contains(serverIP) || ip.isEmpty()) {
-            API.addServerToServersDat("TagcraftMC", serverIP);
-        }
+        
     }
 
 }
