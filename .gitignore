@@ -1,19 +1,6 @@
+nbproject/private/
+build/
+nbbuild/
 dist/
-build/classes/tagapi_3/Local.class
-build/classes/tagapi_3/Network.class
-build/classes/tagapi_3/TagAPI_3.class
-build/classes/tagapi_3/Utils.class
-logs/
-MANIFEST
-latest.log
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+nbdist/
+.nb-gradle/
