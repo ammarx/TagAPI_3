@@ -1,4 +1,4 @@
-# Open-source Minecraft API - TagAPI
+# Open-source Minecraft Launcher API - TagAPI
 The purpose of the API is to provide developers the ability to download / run Minecraft.
 
 The accessible class which is the API_Interface, consists of the following functions:
@@ -7,15 +7,24 @@ The accessible class which is the API_Interface, consists of the following funct
   - ```List getInstallableVersionsList()``` - *Returns list of all versions available to download*
   - ```List getInstalledVersionsList() ```- *Returns list of all versions installed on users machine*
 
-- Miscellaneous:
-  - ```void syncVersions()``` - *Syncs game profiles with premium launcher*
-  - ```void setMinMemory(int MemoryToUse)``` - *Set amount of minimum memory allocated for the game;* _**default is 1024**_
-  - ```void setMemory(int MemoryToUse)``` - *Set amount of maximum memory allocated for the game;* _**default is 1024**_
-  - ```void setJavaPath(String JavaPathToUse)``` - *Set external Java path to use for the game;* _**default path is JAVA path on the system**_
+- Screen Dimensions:
   - ```void setWidth(int WidthToUse)``` - *Set screen size width for the game;* _**default is 854**_
   - ```void setHeight(int HeightToUse)``` - *Set screen size height for the game;* _**default is 480**_
+
+- Memory Allocation:
+  - ```void setMinMemory(int MemoryToUse)``` - *Set amount of minimum memory allocated for the game;* _**default is 1024**_
+  - ```void setMemory(int MemoryToUse)``` - *Set amount of maximum memory allocated for the game;* _**default is 1024**_
+
+- Miscellaneous:
+  - ```void syncVersions()``` - *Syncs game profiles with premium launcher*
+  - ```void setJavaPath(String JavaPathToUse)``` - *Set external Java path to use for the game;* _**default path is JAVA path on the system**_
   - ```void setJVMArgument(String JVMArgumentsToUse)``` - *Set extra JVM Arguments to use for the game;* _**default arguments are none**_
   - ```void injectNetty(String OperatingSystemToUse)``` - *Injects netty with invalid url. This can be used to bypass server blacklist*
+
+- Server NBT:
+  - ```List getServersIPList()``` - *Returns the list of all IP addresses found in servers.dat*
+  - ```List getServersNameList()``` - *Returns the list of all server names found in servers.dat*
+  - ```void addServerToServersDat(String NameOfTheServer, String IPAddress)``` - *Adds the server name and IP to servers.dat using NBT uncompressed format*
 
 - Downloads:
   - ```void downloadMinecraft(String VersionToUse, Boolean ForceDownload)``` - *Accepts (Version to download, Force Download); if force download is True, it will re-download all the files, vice-versa if it is set to False, it will only download the missing files.*
@@ -26,7 +35,7 @@ The accessible class which is the API_Interface, consists of the following funct
   - ```void runMinecraft(String UsernameToUse, String VersionToUse)``` - *Accepts (Username, Version to run) and launches Minecraft*
 
 - Version Info:
- -  ```String getAPIVersion()``` - *Returns the version number of the API library*
+  -  ```String getAPIVersion()``` - *Returns the version number of the API library*
 
 - Logs:
   - ```String getLog()``` - *Returns last logged log*
