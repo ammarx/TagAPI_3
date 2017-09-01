@@ -252,7 +252,7 @@ public class API_Interface {
         }
     }
     
-    public void runMinecraft(String UsernameToUse, String VersionToUse) {
+    public void runMinecraft(String UsernameToUse, String VersionToUse, Boolean HashCheck) {
         Utils utils = new Utils();
         Local local = new Local();
         Network network = new Network();
@@ -330,7 +330,9 @@ public class API_Interface {
             for (int i = 0; i < local.version_manifest_versions_id.size(); i++) {
                 if (local.version_manifest_versions_id.get(i).equals(VersionToUse)) {
                     //we will download versionjson everytime.
-                    network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
+                    if (HashCheck) {
+                        network.downloadVersionJson(OperatingSystemToUse, local.version_manifest_versions_url.get(i).toString(), local.version_manifest_versions_id.get(i).toString());
+                    }
                     break;
                 } else {
                     //do nothing...
@@ -402,21 +404,24 @@ public class API_Interface {
             this.setErrorLogs("Error reading objects KEY_hash" + e);
 
         }
+        
+        if (HashCheck) {
+            try {
+                for (int i = 0; i < local.objects_hash.size(); i++) {
+                    this.setRunLogs("HASH: " + local.objects_hash.get(i));
+                    this.setRunLogs("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
+                    this.setRunLogs("KEY: " + local.objects_KEY.get(i));
+                    utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
+                    //generate virtual folder as well.
 
-        try {
-            for (int i = 0; i < local.objects_hash.size(); i++) {
-                this.setRunLogs("HASH: " + local.objects_hash.get(i));
-                this.setRunLogs("FOLDER: " + local.objects_hash.get(i).toString().substring(0, 2));
-                this.setRunLogs("KEY: " + local.objects_KEY.get(i));
-                utils.copyToVirtual(OperatingSystemToUse, local.objects_hash.get(i).toString().substring(0, 2), local.objects_hash.get(i).toString(), local.objects_KEY.get(i).toString());
-                //generate virtual folder as well.
+                }
+
+            } catch (Exception e) {
+                this.setErrorLogs("Error reading objects KEY + KEY_hash" + e);
 
             }
-
-        } catch (Exception e) {
-            this.setErrorLogs("Error reading objects KEY + KEY_hash" + e);
-
         }
+        
 
         this.setRunLogs("Getting NATIVES URL");
         local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);

@@ -38,12 +38,12 @@ public class Main {
         API.syncVersions();
 
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.8.9";
+        String VersionToUse = "1.12.1";
         int MemoryToUse = 1024;
         API.setMemory(MemoryToUse);
-        API.downloadVersionManifest();
-        API.downloadMinecraft(VersionToUse, false); //force download flag
-        API.runMinecraft(UsernameToUse, VersionToUse);
+        //API.downloadVersionManifest(); //disabled
+        //API.downloadMinecraft(VersionToUse, false); //force download flag //disabled
+        API.runMinecraft(UsernameToUse, VersionToUse, false);
         
     }
 
