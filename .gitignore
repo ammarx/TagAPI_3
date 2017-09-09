@@ -43,6 +43,11 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+# Logs
+logs/
+
+# script.js
+.script.js
 
 # OS
 .DS_Store
