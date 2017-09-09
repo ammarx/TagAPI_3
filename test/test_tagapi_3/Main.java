@@ -43,6 +43,7 @@ public class Main {
         API.setMemory(MemoryToUse);
         //API.downloadVersionManifest(); //disabled
         //API.downloadMinecraft(VersionToUse, false); //force download flag //disabled
+        API.injectNetty();
         API.runMinecraft(UsernameToUse, VersionToUse, false);
         
     }

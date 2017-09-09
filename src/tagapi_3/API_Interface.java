@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -504,6 +506,28 @@ public class API_Interface {
         System.out.println("HalfLibraryArgument: " + HalfLibraryArgument);
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
+        //argument patch for netty and patchy comes here
+        
+        Map<String, String> patchyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangPatchy_jar(OperatingSystemToUse));
+        Map<String, String> nettyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OperatingSystemToUse));
+        
+        
+        for (Map.Entry<String, String> entry : patchyMAP.entrySet()) {
+            
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println("KEY:::::" + key);
+            System.out.println("VALUE:::::" + value);
+        }
+        
+        for (Map.Entry<String, String> entry : nettyMAP.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println("KEY:::::" + key);
+            System.out.println("VALUE:::::" + value);  
+        }
+        //argument patch netty and patchy ends here
+        
         String[] HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets, AuthSession);
         //System.out.println("HalfArgument: " + HalfArgument);
         for (String HalfArgsVal : HalfArgument) {
