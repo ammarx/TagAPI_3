@@ -238,7 +238,7 @@ public class API_Interface {
         }
     }
 
-    public void injectNetty(){
+    private void injectNetty(){
         Utils utils = new Utils();
         String OperatingSystemToUse = utils.getOS();
         try {
@@ -254,7 +254,7 @@ public class API_Interface {
         }
     }
     
-    public void runMinecraft(String UsernameToUse, String VersionToUse, Boolean HashCheck) {
+    public void runMinecraft(String UsernameToUse, String VersionToUse, Boolean HashCheck, Boolean injectNetty) {
         Utils utils = new Utils();
         Local local = new Local();
         Network network = new Network();
@@ -264,6 +264,11 @@ public class API_Interface {
         local.readJson_versions_type(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
         local.readJson_versions_url(utils.getMineCraft_Version_Manifest_json(OperatingSystemToUse));
 
+        //inject netty
+        if (injectNetty) {
+            injectNetty();
+        }
+        
         //declaration for mods
         String MOD_inheritsFrom = null;
         String MOD_jar = null;
@@ -507,25 +512,55 @@ public class API_Interface {
         System.out.println("FullLibraryArgument: " + FullLibraryArgument);
 
         //argument patch for netty and patchy comes here
-        
-        Map<String, String> patchyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangPatchy_jar(OperatingSystemToUse));
-        Map<String, String> nettyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OperatingSystemToUse));
-        
-        
-        for (Map.Entry<String, String> entry : patchyMAP.entrySet()) {
+        if (injectNetty) {
+            System.out.println("Netty/Patchy Patch Detected!");
             
-            String key = entry.getKey();
-            String value = entry.getValue();
-            System.out.println("KEY:::::" + key);
-            System.out.println("VALUE:::::" + value);
+            Map<String, String> patchyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangPatchy_jar(OperatingSystemToUse));
+            Map<String, String> nettyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OperatingSystemToUse));
+
+            String patchy_mod = "";
+            String patchy = "";
+
+            String netty_mod = "";
+            String netty = "";
+
+            for (Map.Entry<String, String> entry : patchyMAP.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                if (value.startsWith("mod_")) {
+                    patchy_mod = value;
+                } else {
+                    patchy = value;
+                }
+
+                System.out.println("KEY:::::" + key);
+                System.out.println("VALUE:::::" + value);
+            }
+
+            for (Map.Entry<String, String> entry : nettyMAP.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                if (value.startsWith("mod_")) {
+                    netty_mod = value;
+                } else {
+                    netty = value;
+                }
+
+                System.out.println("KEY:::::" + key);
+                System.out.println("VALUE:::::" + value);  
+            }
+
+
+            HalfLibraryArgument = HalfLibraryArgument.replace(patchy, patchy_mod);
+            HalfLibraryArgument = HalfLibraryArgument.replace(netty, netty_mod);
+
+            FullLibraryArgument = FullLibraryArgument.replace(patchy, patchy_mod);
+            FullLibraryArgument = FullLibraryArgument.replace(netty, netty_mod);
+
         }
         
-        for (Map.Entry<String, String> entry : nettyMAP.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            System.out.println("KEY:::::" + key);
-            System.out.println("VALUE:::::" + value);  
-        }
         //argument patch netty and patchy ends here
         
         String[] HalfArgument = local.generateMinecraftArguments(OperatingSystemToUse, Username, versionName, gameDirectory, AssetsRoot, assetsIdexId, authuuid, "aeef7bc935f9420eb6314dea7ad7e1e5", "{\"twitch_access_token\":[\"emoitqdugw2h8un7psy3uo84uwb8raq\"]}", "mojang", VersionType, GameAssets, AuthSession);
