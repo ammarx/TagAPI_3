@@ -514,9 +514,6 @@ public class API_Interface {
         //argument patch for netty and patchy comes here
         if (injectNetty) {
             System.out.println("Netty/Patchy Patch Detected!");
-            
-            Map<String, String> patchyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangPatchy_jar(OperatingSystemToUse));
-            Map<String, String> nettyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OperatingSystemToUse));
 
             String patchy_mod = "";
             String patchy = "";
@@ -524,41 +521,50 @@ public class API_Interface {
             String netty_mod = "";
             String netty = "";
 
-            for (Map.Entry<String, String> entry : patchyMAP.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
+            
+            try {
+                 Map<String, String> patchyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangPatchy_jar(OperatingSystemToUse));
+                 for (Map.Entry<String, String> entry : patchyMAP.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
 
-                if (value.startsWith("mod_")) {
-                    patchy_mod = value;
-                } else {
-                    patchy = value;
+                    if (value.startsWith("mod_")) {
+                        patchy_mod = value;
+                    } else {
+                        patchy = value;
+                    }
+
+                    System.out.println("KEY:::::" + key);
+                    System.out.println("VALUE:::::" + value);
                 }
-
-                System.out.println("KEY:::::" + key);
-                System.out.println("VALUE:::::" + value);
+                HalfLibraryArgument = HalfLibraryArgument.replace(patchy, patchy_mod);
+                FullLibraryArgument = FullLibraryArgument.replace(patchy, patchy_mod);
+            } catch (Exception ex) {
+                System.out.print(ex);
             }
+            
+            try {
+                Map<String, String> nettyMAP = new HashMap<String, String>(utils.getMineCraftLibrariesComMojangNetty_jar(OperatingSystemToUse));
+                for (Map.Entry<String, String> entry : nettyMAP.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
 
-            for (Map.Entry<String, String> entry : nettyMAP.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
+                    if (value.startsWith("mod_")) {
+                        netty_mod = value;
+                    } else {
+                        netty = value;
+                    }
 
-                if (value.startsWith("mod_")) {
-                    netty_mod = value;
-                } else {
-                    netty = value;
+                    System.out.println("KEY:::::" + key);
+                    System.out.println("VALUE:::::" + value);  
                 }
+                HalfLibraryArgument = HalfLibraryArgument.replace(netty, netty_mod);
+                FullLibraryArgument = FullLibraryArgument.replace(netty, netty_mod);
 
-                System.out.println("KEY:::::" + key);
-                System.out.println("VALUE:::::" + value);  
+            } catch (Exception ex) {
+                System.out.print(ex);
             }
-
-
-            HalfLibraryArgument = HalfLibraryArgument.replace(patchy, patchy_mod);
-            HalfLibraryArgument = HalfLibraryArgument.replace(netty, netty_mod);
-
-            FullLibraryArgument = FullLibraryArgument.replace(patchy, patchy_mod);
-            FullLibraryArgument = FullLibraryArgument.replace(netty, netty_mod);
-
+            
         }
         
         //argument patch netty and patchy ends here
