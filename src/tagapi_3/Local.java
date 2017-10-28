@@ -554,6 +554,23 @@ class Local {
         }
     }
 
+    public String readJson_minecraftArguments_v2(String path) {
+        try {
+            FileReader reader = new FileReader(path);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+            JSONObject jsonArgs = (JSONObject) jsonObject.get("arguments");
+            String args = jsonArgs.get("game").toString();
+            args = args.replaceAll("\\[","").replaceAll("\\]","").re‌​placeAll(",", "").replaceAll("\"\"", " ").replaceAll("\"", "");
+            String[] argsF = args.split("\\{rules");
+            return (String)(argsF[0]);
+
+        } catch (IOException | ParseException e) {
+            System.out.print(e);
+        }
+        return "N/A";
+    }
+    
     public String readJson_minecraftArguments(String path) {
         try {
             FileReader reader = new FileReader(path);
@@ -611,6 +628,12 @@ class Local {
         Local local = new Local();
         Utils utils = new Utils();
         String cmdArgs = local.readJson_minecraftArguments(utils.getMineCraft_Versions_X_X_json(OS, version_name));
+        if (cmdArgs==null) 
+        {
+            //run v2
+            cmdArgs = local.readJson_minecraftArguments_v2(utils.getMineCraft_Versions_X_X_json(OS, version_name));
+        }
+        
         //the arguments can start with -- or $
         cmdArgs = cmdArgs.replaceAll(" +", " ");
         //the above will change it to single space.

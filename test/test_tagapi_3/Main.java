@@ -38,7 +38,7 @@ public class Main {
         API.syncVersions();
 
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "1.12.1";
+        String VersionToUse = "17w43b";
         int MemoryToUse = 1024;
         API.setMemory(MemoryToUse);
         //API.downloadVersionManifest(); //disabled
