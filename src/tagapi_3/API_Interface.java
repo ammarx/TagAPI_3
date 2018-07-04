@@ -873,13 +873,21 @@ public class API_Interface {
 
         this.setDownloadLogs("DOWNLOADING MINECRAFT JAR " + VersionToUse);
         if (MOD_jar == null) {
-            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse, ForceDownload);
-
+            
+            int downloadMinecraftJarStatus = network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse, ForceDownload) ;
+            if (downloadMinecraftJarStatus == 1)
+            {
+                network.downloadMinecraftJar_fallBack_v1(OperatingSystemToUse, local.readJson_downloads_client_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), VersionToUse, ForceDownload);
+            }
         } else {
-            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar, ForceDownload);
-
+            //local.readJson_downloads_client_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+           int downloadMinecraftJarStatus = network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar, ForceDownload);
+           if (downloadMinecraftJarStatus == 1)
+           {
+                network.downloadMinecraftJar_fallBack_v1(OperatingSystemToUse, local.readJson_downloads_client_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), MOD_jar, ForceDownload);
+           }
         }
-
+        
         //would have tp edit this line as we also need natives paths!
         this.setDownloadLogs("Getting NATIVES URL");
         local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);

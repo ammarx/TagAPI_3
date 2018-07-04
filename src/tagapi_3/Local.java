@@ -488,6 +488,25 @@ class Local {
 
     }
 
+    public String readJson_downloads_client_url(String path) {
+        try {
+           
+            FileReader reader = new FileReader(path);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+            JSONObject downloads = (JSONObject) jsonObject.get("downloads");
+            JSONObject client = (JSONObject) downloads.get("client");
+            return ((String) (client.get("url")));
+
+        } catch (FileNotFoundException exception) {
+            System.out.println(exception);
+        } catch (IOException | ParseException ex) {
+            System.out.println(ex);
+        }
+        return "N/A";
+    }
+
+    
     public String readJson_assetIndex_url(String path) {
         try {
             FileReader reader = new FileReader(path);

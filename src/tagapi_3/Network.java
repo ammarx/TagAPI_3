@@ -6,6 +6,7 @@
 package tagapi_3;
 
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.io.FileUtils;
 
@@ -104,11 +105,12 @@ class Network {
             System.out.print(e);
         }
     }
-
-    public void downloadMinecraftJar(String OS, String version, Boolean ForceDownload) {
+    
+    public void downloadMinecraftJar_fallBack_v1(String OS, String _url, String version, Boolean ForceDownload)
+    {
         try {
             Utils utils = new Utils();
-            URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
+            URL url = new URL(_url);
             File file = new File(utils.getMineCraft_Versions_X_X_jar_Location(OS, version));
             if (ForceDownload == true) {
                 FileUtils.copyURLToFile(url, file);
@@ -121,6 +123,32 @@ class Network {
         } catch (Exception e) {
             System.out.print(e);
         }
+    }
+
+    public int downloadMinecraftJar(String OS, String version, Boolean ForceDownload) {
+        try {
+            Utils utils = new Utils();
+            URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
+            HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+            if (httpCon.getResponseCode() == 403 || httpCon.getResponseCode() == 404)
+            {
+                //use client.jar scheme
+                return 1;
+            }
+            File file = new File(utils.getMineCraft_Versions_X_X_jar_Location(OS, version));
+            if (ForceDownload == true) {
+                FileUtils.copyURLToFile(url, file);
+            } else if (file.exists()) {
+                //do not download..
+                System.out.println("File Exists! - Skipping download");
+            } else {
+                FileUtils.copyURLToFile(url, file);
+            }
+        } catch (Exception e) {
+            System.out.print(e);
+            return 1;
+        }
+        return 0;
     }
 
     public void downloadVersionManifest(String _filepath) {

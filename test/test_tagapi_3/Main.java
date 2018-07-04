@@ -38,11 +38,12 @@ public class Main {
         API.syncVersions();
 
         String UsernameToUse = "Ammar_Ahmad";
-        String VersionToUse = "17w43b";
+        String VersionToUse = "1.13-pre3";
         int MemoryToUse = 1024;
         API.setMemory(MemoryToUse);
+        
         //API.downloadVersionManifest(); //disabled
-        //API.downloadMinecraft(VersionToUse, false); //force download flag //disabled
+        API.downloadMinecraft(VersionToUse, false); //force download flag //disabled
         //API.injectNetty();
         API.runMinecraft(UsernameToUse, VersionToUse, false, false);
         
