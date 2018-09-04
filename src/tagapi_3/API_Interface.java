@@ -1,8 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *    MIT License
+
+ *    Copyright (c) 2018 Ammar Ahmad
+
+ *    Permission is hereby granted, free of charge, to any person obtaining a copy
+ *    of this software and associated documentation files (the "Software"), to deal
+ *    in the Software without restriction, including without limitation the rights
+ *    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *    copies of the Software, and to permit persons to whom the Software is
+ *    furnished to do so, subject to the following conditions:
+
+ *    The above copyright notice and this permission notice shall be included in all
+ *    copies or substantial portions of the Software.
+
+ *    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *    SOFTWARE.
  */
+
 package tagapi_3;
 
 import com.minecraft.moonlake.nbt.NBTTagCompound;
@@ -20,12 +39,12 @@ import java.util.stream.Stream;
 
 /**
  *
- * @author ammar
+ * @author Ammar Ahmad
  */
 public class API_Interface {
 
     public String getAPIVersion() {
-        return "v0.10-alpha";
+        return "v0.11-alpha";
     }
 
     public String getUpdateStatus() {
@@ -873,13 +892,21 @@ public class API_Interface {
 
         this.setDownloadLogs("DOWNLOADING MINECRAFT JAR " + VersionToUse);
         if (MOD_jar == null) {
-            network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse, ForceDownload);
-
+            
+            int downloadMinecraftJarStatus = network.downloadMinecraftJar(OperatingSystemToUse, VersionToUse, ForceDownload) ;
+            if (downloadMinecraftJarStatus == 1)
+            {
+                network.downloadMinecraftJar_fallBack_v1(OperatingSystemToUse, local.readJson_downloads_client_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), VersionToUse, ForceDownload);
+            }
         } else {
-            network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar, ForceDownload);
-
+            //local.readJson_downloads_client_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse));
+           int downloadMinecraftJarStatus = network.downloadMinecraftJar(OperatingSystemToUse, MOD_jar, ForceDownload);
+           if (downloadMinecraftJarStatus == 1)
+           {
+                network.downloadMinecraftJar_fallBack_v1(OperatingSystemToUse, local.readJson_downloads_client_url(utils.getMineCraft_Version_Json(OperatingSystemToUse, VersionToUse)), MOD_jar, ForceDownload);
+           }
         }
-
+        
         //would have tp edit this line as we also need natives paths!
         this.setDownloadLogs("Getting NATIVES URL");
         local.readJson_libraries_downloads_classifiers_natives_X(utils.getMineCraft_Versions_X_X_json(OperatingSystemToUse, VersionToUse), OperatingSystemToUse);

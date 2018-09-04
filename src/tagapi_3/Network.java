@@ -1,17 +1,37 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *    MIT License
+
+ *    Copyright (c) 2018 Ammar Ahmad
+
+ *    Permission is hereby granted, free of charge, to any person obtaining a copy
+ *    of this software and associated documentation files (the "Software"), to deal
+ *    in the Software without restriction, including without limitation the rights
+ *    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *    copies of the Software, and to permit persons to whom the Software is
+ *    furnished to do so, subject to the following conditions:
+
+ *    The above copyright notice and this permission notice shall be included in all
+ *    copies or substantial portions of the Software.
+
+ *    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *    SOFTWARE.
  */
+
 package tagapi_3;
 
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.io.FileUtils;
 
 /**
  *
- * @author ammar
+ * @author Ammar Ahmad
  */
 class Network {
 
@@ -104,11 +124,12 @@ class Network {
             System.out.print(e);
         }
     }
-
-    public void downloadMinecraftJar(String OS, String version, Boolean ForceDownload) {
+    
+    public void downloadMinecraftJar_fallBack_v1(String OS, String _url, String version, Boolean ForceDownload)
+    {
         try {
             Utils utils = new Utils();
-            URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
+            URL url = new URL(_url);
             File file = new File(utils.getMineCraft_Versions_X_X_jar_Location(OS, version));
             if (ForceDownload == true) {
                 FileUtils.copyURLToFile(url, file);
@@ -121,6 +142,32 @@ class Network {
         } catch (Exception e) {
             System.out.print(e);
         }
+    }
+
+    public int downloadMinecraftJar(String OS, String version, Boolean ForceDownload) {
+        try {
+            Utils utils = new Utils();
+            URL url = new URL(https_s3_amazonaws_com_Minecraft_Download_versions + "/" + version + "/" + version + ".jar");
+            HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+            if (httpCon.getResponseCode() == 403 || httpCon.getResponseCode() == 404)
+            {
+                //use client.jar scheme
+                return 1;
+            }
+            File file = new File(utils.getMineCraft_Versions_X_X_jar_Location(OS, version));
+            if (ForceDownload == true) {
+                FileUtils.copyURLToFile(url, file);
+            } else if (file.exists()) {
+                //do not download..
+                System.out.println("File Exists! - Skipping download");
+            } else {
+                FileUtils.copyURLToFile(url, file);
+            }
+        } catch (Exception e) {
+            System.out.print(e);
+            return 1;
+        }
+        return 0;
     }
 
     public void downloadVersionManifest(String _filepath) {
