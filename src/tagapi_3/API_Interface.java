@@ -44,7 +44,7 @@ import java.util.stream.Stream;
 public class API_Interface {
 
     public String getAPIVersion() {
-        return "v0.10-alpha";
+        return "v0.11-alpha";
     }
 
     public String getUpdateStatus() {
