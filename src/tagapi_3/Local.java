@@ -332,6 +332,92 @@ class Local {
 
     }
 
+    
+    
+    
+        // Function to get URLs from libraries downloads classifiers
+    public static String getJsonLibrariesDownloadsClassifiersNativesX(String json, String classifier) {
+        StringBuilder result = new StringBuilder();
+        JSONParser parser = new JSONParser();
+        
+        try {
+            JSONObject jsonObject = (JSONObject) parser.parse(json);
+            JSONArray libraries = (JSONArray) jsonObject.get("libraries");
+
+            for (Object libObj : libraries) {
+                JSONObject library = (JSONObject) libObj;
+                try {
+                    JSONObject downloads = (JSONObject) library.get("downloads");
+                    JSONObject classifiers = (JSONObject) downloads.get("classifiers");
+                    JSONObject classifierObj = (JSONObject) classifiers.get(classifier);
+                    String url = (String) classifierObj.get("url");
+                    result.append(url).append("\n");
+                } catch (Exception e) {
+                    // Continue if the current library doesn't have the required structure
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+
+    // Function to get paths from libraries downloads classifiers
+    public static String getJsonLibrariesDownloadsClassifiersNativesY(String json, String classifier) {
+        StringBuilder result = new StringBuilder();
+        JSONParser parser = new JSONParser();
+        
+        try {
+            JSONObject jsonObject = (JSONObject) parser.parse(json);
+            JSONArray libraries = (JSONArray) jsonObject.get("libraries");
+
+            for (Object libObj : libraries) {
+                JSONObject library = (JSONObject) libObj;
+                try {
+                    JSONObject downloads = (JSONObject) library.get("downloads");
+                    JSONObject classifiers = (JSONObject) downloads.get("classifiers");
+                    JSONObject classifierObj = (JSONObject) classifiers.get(classifier);
+                    String path = (String) classifierObj.get("path");
+                    result.append(path).append("\n");
+                } catch (Exception e) {
+                    // Continue if the current library doesn't have the required structure
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+
+    // Function to get library names that have 'natives'
+    public static String getJsonLibrariesDownloadsClassifiersNativesZ(String json) {
+        StringBuilder result = new StringBuilder();
+        JSONParser parser = new JSONParser();
+        
+        try {
+            JSONObject jsonObject = (JSONObject) parser.parse(json);
+            JSONArray libraries = (JSONArray) jsonObject.get("libraries");
+
+            for (Object libObj : libraries) {
+                JSONObject library = (JSONObject) libObj;
+                try {
+                    if (library.containsKey("natives")) {
+                        String name = (String) library.get("name");
+                        result.append(name).append("\n");
+                    }
+                } catch (Exception e) {
+                    // Continue if the current library doesn't have the 'natives' key
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+    
     //edit this function to add more operating systems
     public void readJson_libraries_downloads_classifiers_natives_X(String path, String natives_OS) {
 
@@ -346,7 +432,10 @@ class Local {
                 System.out.print("N/A");
                 //I DON'T KNOW THIS OS!
             }
+            
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
+            System.out.println(content);
+            /*
             //System.out.println(content);
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
             try {
@@ -368,11 +457,12 @@ class Local {
             Invocable invocable = (Invocable) engine;
 
             Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesX", content, natives_OS);
-
-            for (String retval : result.toString().split("\n")) {
+            */
+            
+            for (String retval : getJsonLibrariesDownloadsClassifiersNativesX(content,natives_OS).toString().split("\n")) {
                 version_url_list_natives.add(retval);
             }
-        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -392,6 +482,7 @@ class Local {
             }
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
             //System.out.println(content);
+            /*
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
             try {
 
@@ -412,11 +503,12 @@ class Local {
             Invocable invocable = (Invocable) engine;
 
             Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesY", content, natives_OS);
-
-            for (String retval : result.toString().split("\n")) {
+            */
+            
+            for (String retval : getJsonLibrariesDownloadsClassifiersNativesY(content,natives_OS).toString().split("\n")) {
                 version_path_list_natives.add(retval);
             }
-        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -427,6 +519,7 @@ class Local {
 
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
             //System.out.println(content);
+            /*
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
             try {
 
@@ -447,11 +540,12 @@ class Local {
             Invocable invocable = (Invocable) engine;
 
             Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesZ", content);
-
-            for (String retval : result.toString().split("\n")) {
+            */
+            
+            for (String retval : getJsonLibrariesDownloadsClassifiersNativesZ(content).toString().split("\n")) {
                 version_name_list_natives.add(retval);
             }
-        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -694,7 +788,7 @@ class Local {
                 tempArgsSplit[i] = assets_index_name;
             }
             if (tempArgsSplit[i].equals("${auth_uuid}")) {
-                tempArgsSplit[i] = auth_uuid;
+                tempArgsSplit[i] = utils.getUUID();
             }
             if (tempArgsSplit[i].equals("${auth_access_token}")) {
                 tempArgsSplit[i] = auth_access_token;

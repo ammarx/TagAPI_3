@@ -617,11 +617,14 @@ public class API_Interface {
             //merge javapath back to cmds
             cmds = Stream.concat(Arrays.stream(javaPathArr), Arrays.stream(cmds)).toArray(String[]::new);
             
+            
+            this.setRunLogs("*-*-*-*-*-*-*-*");
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
             for (String finalArgs_ : finalArgs) {
                 this.setRunLogs(finalArgs_);
             }
             this.setRunLogs("Starting game... Please wait....");
+            
             Process process = Runtime.getRuntime().exec(finalArgs);
 
             try {

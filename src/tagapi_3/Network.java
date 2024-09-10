@@ -38,7 +38,7 @@ class Network {
     //this function needs to change in order to make it dynamic
     //all web urls come here...
     public final String https_libraries_minecraft_net = "https://libraries.minecraft.net";
-    public final String http_resources_download_minecraft_net = "http://resources.download.minecraft.net";
+    public final String http_resources_download_minecraft_net = "https://resources.download.minecraft.net";
     public final String https_s3_amazonaws_com_Minecraft_Download_versions = "https://s3.amazonaws.com/Minecraft.Download/versions";
     public final String https_api_mojang_com_users_profiles_minecraft = "https://api.mojang.com/users/profiles/minecraft";
     public final String https_raw_githubusercontent_com = "https://raw.githubusercontent.com/ammarx/TagAPI_3/master/api_meta?time=" + (Math.random() * 100);

@@ -60,6 +60,7 @@ import com.minecraft.moonlake.nbt.NBTTagCompound;
 import com.minecraft.moonlake.nbt.NBTUtil;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 /**
  *
  * @author Ammar Ahmad
@@ -652,6 +653,12 @@ class Utils {
         }
     }
 
+    public String getUUID()
+    {
+        // Generate UUID
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+    
     private SecureRandom random = new SecureRandom();
 
     public String nextSessionId() {
